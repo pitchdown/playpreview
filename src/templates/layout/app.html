@@ -1,0 +1,169 @@
+{% include "layout/base.html" %}
+
+<div class="small-header bg-base-500 pt-7 pb-3">
+	<div class="page-container flex items-center gap-9">
+		<div class="logo-area w-full">
+			<div class="flex w-full">
+        <div class="flex flex-1 items-start flex-col">
+          <a href="/" class="flex flex-col align-center justify-center w-48">
+            <svg
+              width="195"
+              height="34"
+              viewBox="0 0 195 34"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6.45601 9.67199C6.98934 8.83999 7.72534 8.16799 8.66401 7.65598C9.60268 7.14399 10.7013 6.88799 11.96 6.88799C13.432 6.88799 14.7653 7.26132 15.96 8.00799C17.1547 8.75465 18.0933 9.82132 18.776 11.208C19.48 12.5947 19.832 14.2053 19.832 16.04C19.832 17.8747 19.48 19.496 18.776 20.904C18.0933 22.2907 17.1547 23.368 15.96 24.136C14.7653 24.8827 13.432 25.256 11.96 25.256C10.7227 25.256 9.62401 25 8.66401 24.488C7.72534 23.976 6.98934 23.3147 6.45601 22.504V33.512H0.984009V7.14399H6.45601V9.67199ZM14.264 16.04C14.264 14.6747 13.88 13.608 13.112 12.84C12.3653 12.0507 11.4373 11.656 10.328 11.656C9.24001 11.656 8.31201 12.0507 7.54401 12.84C6.79734 13.6293 6.42401 14.7067 6.42401 16.072C6.42401 17.4373 6.79734 18.5147 7.54401 19.304C8.31201 20.0933 9.24001 20.488 10.328 20.488C11.416 20.488 12.344 20.0933 13.112 19.304C13.88 18.4933 14.264 17.4053 14.264 16.04Z"
+                fill="white"
+              />
+              <path
+                d="M26.5748 1.31999V25H21.1028V1.31999H26.5748Z"
+                fill="white"
+              />
+              <path
+                d="M27.8523 16.04C27.8523 14.2053 28.1936 12.5947 28.8763 11.208C29.5803 9.82132 30.5296 8.75465 31.7243 8.00799C32.9189 7.26132 34.2523 6.88799 35.7243 6.88799C36.9829 6.88799 38.0816 7.14399 39.0203 7.65598C39.9803 8.16799 40.7163 8.83999 41.2283 9.67199V7.14399H46.7003V25H41.2283V22.472C40.6949 23.304 39.9483 23.976 38.9883 24.488C38.0496 25 36.9509 25.256 35.6923 25.256C34.2416 25.256 32.9189 24.8827 31.7243 24.136C30.5296 23.368 29.5803 22.2907 28.8763 20.904C28.1936 19.496 27.8523 17.8747 27.8523 16.04ZM41.2283 16.072C41.2283 14.7067 40.8443 13.6293 40.0763 12.84C39.3296 12.0507 38.4123 11.656 37.3243 11.656C36.2363 11.656 35.3083 12.0507 34.5403 12.84C33.7936 13.608 33.4203 14.6747 33.4203 16.04C33.4203 17.4053 33.7936 18.4933 34.5403 19.304C35.3083 20.0933 36.2363 20.488 37.3243 20.488C38.4123 20.488 39.3296 20.0933 40.0763 19.304C40.8443 18.5147 41.2283 17.4373 41.2283 16.072Z"
+                fill="white"
+              />
+              <path
+                d="M67.299 7.14399L56.099 33.48H50.211L54.307 24.392L47.043 7.14399H53.155L57.283 18.312L61.379 7.14399H67.299Z"
+                fill="white"
+              />
+              <path
+                d="M71.7418 9.95999C72.3604 9.14932 73.2031 8.46665 74.2698 7.91199C75.3364 7.35732 76.5418 7.07999 77.8858 7.07999C79.4218 7.07999 80.8191 7.46399 82.0778 8.23199C83.3578 8.97865 84.3604 10.0347 85.0858 11.4C85.8111 12.7653 86.1738 14.3333 86.1738 16.104C86.1738 17.8747 85.8111 19.464 85.0858 20.872C84.3604 22.2587 83.3578 23.3467 82.0778 24.136C80.8191 24.904 79.4218 25.288 77.8858 25.288C76.5418 25.288 75.3471 25.0213 74.3018 24.488C73.2564 23.9333 72.4031 23.2507 71.7418 22.44V33.384H68.0938V7.36799H71.7418V9.95999ZM82.4618 16.104C82.4618 14.888 82.2058 13.8427 81.6938 12.968C81.2031 12.072 80.5418 11.4 79.7098 10.952C78.8991 10.4827 78.0244 10.248 77.0858 10.248C76.1684 10.248 75.2938 10.4827 74.4618 10.952C73.6511 11.4213 72.9898 12.104 72.4778 13C71.9871 13.896 71.7418 14.952 71.7418 16.168C71.7418 17.384 71.9871 18.4507 72.4778 19.368C72.9898 20.264 73.6511 20.9467 74.4618 21.416C75.2938 21.8853 76.1684 22.12 77.0858 22.12C78.0244 22.12 78.8991 21.8853 79.7098 21.416C80.5418 20.9253 81.2031 20.2213 81.6938 19.304C82.2058 18.3867 82.4618 17.32 82.4618 16.104Z"
+                fill="white"
+              />
+              <path
+                d="M93.7493 9.92799C94.2826 9.03199 94.9866 8.33865 95.8613 7.84799C96.7573 7.33599 97.8133 7.07999 99.0293 7.07999V10.856H98.1013C96.6719 10.856 95.5839 11.2187 94.8373 11.944C94.1119 12.6693 93.7493 13.928 93.7493 15.72V25H90.1013V7.36799H93.7493V9.92799Z"
+                fill="white"
+              />
+              <path
+                d="M118.863 15.752C118.863 16.4133 118.82 17.0107 118.735 17.544H105.263C105.369 18.952 105.892 20.0827 106.831 20.936C107.769 21.7893 108.921 22.216 110.287 22.216C112.249 22.216 113.636 21.3947 114.447 19.752H118.383C117.849 21.3733 116.879 22.7067 115.471 23.752C114.084 24.776 112.356 25.288 110.287 25.288C108.601 25.288 107.087 24.9147 105.743 24.168C104.42 23.4 103.375 22.3333 102.607 20.968C101.86 19.5813 101.487 17.9813 101.487 16.168C101.487 14.3547 101.849 12.7653 102.575 11.4C103.321 10.0133 104.356 8.94665 105.679 8.19999C107.023 7.45332 108.559 7.07999 110.287 7.07999C111.951 7.07999 113.433 7.44265 114.735 8.16799C116.036 8.89332 117.049 9.91732 117.775 11.24C118.5 12.5413 118.863 14.0453 118.863 15.752ZM115.055 14.6C115.033 13.256 114.553 12.1787 113.615 11.368C112.676 10.5573 111.513 10.152 110.127 10.152C108.868 10.152 107.791 10.5573 106.895 11.368C105.999 12.1573 105.465 13.2347 105.295 14.6H115.055Z"
+                fill="white"
+              />
+              <path
+                d="M129.589 21.736L134.581 7.36799H138.452L131.733 25H127.381L120.693 7.36799H124.597L129.589 21.736Z"
+                fill="white"
+              />
+              <path
+                d="M143.386 5.03199C142.725 5.03199 142.17 4.80799 141.722 4.35999C141.274 3.91199 141.05 3.35732 141.05 2.69599C141.05 2.03465 141.274 1.47999 141.722 1.03199C142.17 0.583986 142.725 0.359985 143.386 0.359985C144.026 0.359985 144.57 0.583986 145.018 1.03199C145.466 1.47999 145.69 2.03465 145.69 2.69599C145.69 3.35732 145.466 3.91199 145.018 4.35999C144.57 4.80799 144.026 5.03199 143.386 5.03199ZM145.178 7.36799V25H141.53V7.36799H145.178Z"
+                fill="white"
+              />
+              <path
+                d="M166.448 15.752C166.448 16.4133 166.405 17.0107 166.32 17.544H152.848C152.954 18.952 153.477 20.0827 154.416 20.936C155.354 21.7893 156.506 22.216 157.872 22.216C159.834 22.216 161.221 21.3947 162.032 19.752H165.967C165.434 21.3733 164.464 22.7067 163.056 23.752C161.669 24.776 159.941 25.288 157.872 25.288C156.186 25.288 154.671 24.9147 153.327 24.168C152.005 23.4 150.96 22.3333 150.192 20.968C149.445 19.5813 149.072 17.9813 149.072 16.168C149.072 14.3547 149.434 12.7653 150.16 11.4C150.906 10.0133 151.941 8.94665 153.264 8.19999C154.608 7.45332 156.144 7.07999 157.872 7.07999C159.536 7.07999 161.018 7.44265 162.32 8.16799C163.621 8.89332 164.634 9.91732 165.36 11.24C166.085 12.5413 166.448 14.0453 166.448 15.752ZM162.64 14.6C162.618 13.256 162.138 12.1787 161.2 11.368C160.261 10.5573 159.098 10.152 157.712 10.152C156.453 10.152 155.376 10.5573 154.48 11.368C153.584 12.1573 153.05 13.2347 152.88 14.6H162.64Z"
+                fill="white"
+              />
+              <path
+                d="M194.038 7.36799L188.566 25H184.726L181.174 11.976L177.622 25H173.782L168.278 7.36799H171.99L175.67 21.544L179.414 7.36799H183.222L186.806 21.48L190.454 7.36799H194.038Z"
+                fill="white"
+              />
+            </svg>
+          </a>
+          <!-- <div class="navigation relative">
+            <ul class="navigation-list  absolutex top-0 left-0 z-10  flex flex-row gap-3 pt-2 text-sm text-base-300">
+              <li><a class=" py-2 flex flex-col gap-1 hover:text-base-50 transition-all" href="#"><div class="icon text-xl"><i class="fa-solid fa-fire"></i></div><div class="label">Popular</div></a></li>
+              <li><a class=" py-2 flex flex-col gap-1 hover:text-base-50 transition-all" href="#"><div class="icon text-xl"><i class="fa-solid fa-music"></i></div><div class="label">Tracks</div></a></li>
+              <li><a class=" py-2 flex flex-col gap-1 hover:text-base-50 transition-all" href="#"><div class="icon text-xl"><i class="fa-solid fa-compact-disc"></i></div><div class="label">Albums</div></a></li>
+              <li><a class=" py-2 flex flex-col gap-1 hover:text-base-50 transition-all" href="#"><div class="icon text-xl"><i class="fa-solid fa-microphone"></i></div><div class="label">Artists</div></a></li>
+            </ul>
+          </div> -->
+        </div>
+        <form class="avatar-area m-0 p-0">
+          <div class="pr-2">
+            <div class="user-image size-11">
+              <div class="img w-full h-full bg-base-200 rounded-full"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+			<div class="flex w-full mt-3">
+        <div class="search-area flex-1">
+          <form action="{{ url_for('artist.search_artist') }}" class="w-full m-0">
+            <div class="search-control relative w-full">
+              <div
+                class="absolute text-sm text-base-900 left-3 top-1/2 -translate-y-1/2"
+              >
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+              <input
+                class="bg-base-100 text-base-900 bg-opacity-70 hover:bg-opacity-85 focus-within:bg-opacity-85 px-2 py-1 pl-8 max-w-md text-sm outline-none placeholder:text-base-900 placeholder:text-opacity-35"
+                type="text"
+                placeholder="search by genre, artist, album, track"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="block">
+          <a href="/settings" class="btn btn-white-text">Settings</a>
+        </div>
+        <div class="block">
+          <a href="/logout" class="btn btn-white-text">Log out</a>
+        </div>
+      </div>
+		</div>
+		<!-- <div class="flex gap-2 ml-auto">
+			<div class="block">
+				<a href="/settings" class="btn btn-white-text">Settings</a>
+			</div>
+			<div class="block">
+				<a href="/logout" class="btn btn-white-text">Log out</a>
+			</div>
+			<div class="avatar-area">
+				<div class="user-image size-12">
+					<div class="img w-full h-full bg-base-200 rounded-full"></div>
+				</div>
+			</div>
+		</div> -->
+	</div>
+</div>
+
+<div class="page-body">
+  <div class="page-container">
+    <div class="content py-8 flex gap-9 flex-col md:flex-row">
+      <div class="page-side w-56 mx-auto">
+        <div
+          class="avatar-area flex justify-center items-center size-40 md:size-56 rounded-full overflow-hidden bg-base-100 mx-auto"
+        >
+          <!-- <img _src="" alt="Username" /> -->
+        </div>
+        <div class="mt-4">
+          <div class="followers">
+            <a href="#" class="text-base-900 text-center block">followers</a>
+          </div>
+          <div class="flex justify-center gap-2 mt-2">
+            <button class="btn btn-primary">follow</button>
+            <!-- <button class="btn btn-primary-text text-2xl">
+              <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button> -->
+          </div>
+        </div>
+        <div class="user-profile-navigation flex justify-end mt-6 text-right">
+          <ul class="flex flex-col m-0 p-0">
+            <li>
+              <a
+                class="border-r-2 border-base-300 px-4 block py-1 hover:text-base-800"
+                href="/profile/edit"
+                >Edit profile</a
+              >
+            </li>
+            <li>
+              <a
+                class="border-r-2 border-base-300 px-4 block py-1 hover:text-base-800"
+                href="#"
+                >Manage Genres</a
+              >
+            </li>
+            <li>
+              <a
+                class="border-r-2 border-base-300 px-4 block py-1 hover:text-base-800"
+                href="#"
+                >Settings</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      {% set exclude = True %} {% block body %} {% endblock %}
+    </div>
+  </div>
+</div>

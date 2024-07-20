@@ -1,0 +1,123 @@
+{% extends "layout/app.html" %}
+{% block title %}username{% endblock %}
+{% set exclude = True %} {% block body %}
+
+<div class="page-content w-full">
+	<h2 class="text-3xl text-center md:text-left text-base-950">{{ username }}</h2>
+	<div class="flex flex-col gap-6 mt-6">
+		<div class="genres">
+			<p
+				class="text-opacity-90 text-center sm:text-start text-lg pb-2 border-b-2 border-base-100"
+			>
+				genres
+			</p>
+			<div class="flex flex-wrap justify-center sm:justify-start gap-3 pt-3">
+				{% for genre in genres %}
+				<span class="px-3 py-2 text-lg bg-base-100 text-base-950"
+					>{{ genre }}</span
+				>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="user-section">
+			<p
+				class="text-opacity-90 text-center sm:text-start text-lg pb-2 border-b-2 border-base-100 mb-4"
+			>
+				Liked Tracks
+			</p>
+			<div
+				class="grid grid-cols-2 md:grid-cols-4 grid-rows-1 gap-3"
+				data-playlist="liked-trakcs"
+			>
+				{% for genre in ['artist 1'] %}
+				<div
+					href="#"
+					class="item aspect-square"
+					data-playlist-item="{{genre}}"
+					data-playlist-action="toggle"
+				>
+					<div data-playlist-action="toggle">
+						<div class="image size-full bg-base-100 rounded-xl overflow-hidden">
+							<!-- <img
+								_src=""
+								class="h-full w-auto"
+								alt=""
+								srcset=""
+							/> -->
+						</div>
+						<div class="hidden">
+							<audio controls>
+								<source
+									src=""
+									type="audio/ogg"
+								/>
+								<source
+									src=""
+									type="audio/mpeg"
+								/>
+							</audio>
+						</div>
+						<div class="desc flex gap-2 mt-2 text-base-900">
+							<div class="play-btn text-3xl pt-1 size-8 cursor-pointer">
+								<div data-playlist-action="pause" class="hidden">
+									<i class="fa-regular fa-circle-pause hidden"></i>
+								</div>
+								<div data-playlist-action="play">
+									<i class="fa-regular fa-circle-play"></i>
+								</div>
+							</div>
+							<div class="desc flex-1">
+								<div class="name text-xl">{{ genre }}</div>
+								<div class="name text-sm flex gap-1">
+									<span
+										><a
+											class="text-base-950 hover:underline hover:text-base-500"
+											href="#"
+											>artist</a
+										></span
+									>
+									<span>-</span>
+									<span
+										><a
+											class="text-base-950 hover:underline hover:text-base-500"
+											href="#"
+											>album</a
+										></span
+									>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="user-section">
+			<p
+				class="text-opacity-90 text-center sm:text-start text-lg pb-2 border-b-2 border-base-100 mb-4"
+			>
+				Liked Artists
+			</p>
+			<div class="grid grid-cols-2 md:grid-cols-4 grid-rows-1 gap-3">
+				{% for genre in ['artist 1'] %}
+				<a
+					href="#"
+					class="item aspect-square text-base-900 hover:underline hover:text-base-500"
+				>
+					<div class="image size-full bg-base-100 rounded-xl overflow-hidden">
+						<!-- <img
+							_src=""
+							class="h-full w-auto"
+							alt=""
+							srcset=""
+						/> -->
+					</div>
+					<div class="name p-2 text-xl">{{ genre }}</div>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+{%endblock%}

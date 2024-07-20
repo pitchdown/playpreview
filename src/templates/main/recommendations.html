@@ -1,0 +1,12 @@
+{% extends "layout/base.html" %}
+{% block title %}Recommendations{% endblock %}
+
+{% block body %}
+{% set n = namespace(counter = 0) %}
+<div class="grid grid-cols-1 place-items-center">
+    {% for track in tracks %}
+    {% set n.counter = n.counter + 1 %}
+    {% include "_track.html" %}
+    {% endfor %}
+</div>
+{% endblock %}

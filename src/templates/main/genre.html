@@ -1,0 +1,28 @@
+{% extends "layout/base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<form action="{{ url_for('main.recommendations') }}" class="flex flex-col bg-base-50">
+    {% for genre_list in genres %}
+    <div class="grid grid-cols-5 text-center justify-center align-center">
+        {% for genre in genre_list %}
+        <div>
+            <label for="{{ genre }}" data-genre="{{ genre }}"
+                   class="relative overflow-hidden genre-item cursor-pointer h-36 flex flex-col items-center justify-center bg-base-50 hover:bg-base-300 transition-all text-base-900">
+                <div class="text-3xl font-bold">{{ genre }}</div>
+                <button type="button" class="quick-view absolute underline text-sm hover:text-black transition-all ">
+                    QUICK VIEW
+                </button>
+            </label>
+            <input type="checkbox" name="{{ genre }}" id="{{ genre }}" class="opacity-0 w-0 h-0 overflow-hidden">
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+    <button id="submit-genres" type="submit" class="flex justify-center items-center gap-2 fixed bottom-5 right-5 rounded-full bg-base-600 hover:bg-base-700 transition-all text-base-100 border border-white pt-3 pb-3 pl-8 pr-8">
+        <span class="count">NEXT</span>
+        <span>NEXT</span>
+        <i class="fa-solid fa-angles-right"></i>
+    </button>
+</form>
+{% endblock %}

@@ -1,0 +1,345 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	@font-face {
+		font-family: "Poppins";
+		font-style: normal;
+		font-weight: 600;
+		font-display: swap;
+		src: url(fonts/Poppins-Medium.ttf) format("ttf");
+	}
+
+	@font-face {
+		font-family: "Poppins";
+		font-style: normal;
+		font-weight: 800;
+		font-display: swap;
+		src: url(../fonts/Poppins-Bold.ttf) format("ttf");
+	}
+}
+
+:root {
+	--bg-base: ;
+}
+
+html {
+	/* @apply bg-base-500; */
+	/* background: linear-gradient(0deg, red 0%, red 50%, rgba(254,73,9,1) 50%, rgba(254,73,9,1) 100%);  */
+
+	/* background: linear-gradient(0deg, #fff 0%, #fff 50%, #fe4909 50%, #fe4909 100%);  */
+}
+
+body {
+	@apply bg-base-50;
+
+	font-family: Poppins, Arial, Helvetica, sans-serif;
+}
+
+/* Base Styles */
+.page-container {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	@apply px-4;
+}
+
+/* Header */
+.app-header {
+	/* grid-template-columns: 1fr auto 1fr; */
+
+	@apply grid grid-cols-header;
+}
+
+.app-block-overlay {
+	@apply bg-base-100 bg-opacity-80 text-base-950;
+	/* --shadow-bg: #ef3407; */
+	--shadow-bg: #f3d6c6;
+	box-shadow: 0px 10px 10px -10px #ef3407, 0px -2px 0px 0px var(--shadow-bg),
+		0px 1px 0px 0px var(--shadow-bg), 0px 0px 0px 1px var(--shadow-bg),
+		inset 0px 115px 140px -100px #d538124a;
+}
+
+.page-body {
+	--shadow-bg: #f3d6c6;
+	box-shadow: inset 0px 115px 140px -100px #d538124a;
+}
+
+/* Button types */
+.btn {
+	@apply transition-all flex items-center justify-center rounded-md cursor-pointer py-2 px-4 text-base leading-5;
+	/* @apply hover:bg-black hover:bg-opacity-35 hover:text-white; */
+}
+
+/* base */
+
+.btn.btn-white {
+	@apply bg-white text-black;
+	@apply hover:bg-black hover:bg-opacity-35 hover:text-white;
+}
+.btn.btn-white-text {
+	@apply text-white;
+	@apply hover:bg-black hover:bg-opacity-5 hover:text-white;
+}
+
+.btn.btn-black {
+	@apply bg-black text-white;
+	@apply hover:bg-black hover:bg-opacity-35 hover:text-white;
+}
+.btn.btn-black-text {
+	@apply text-black;
+	@apply hover:bg-white hover:bg-opacity-5 hover:text-black;
+}
+
+/* primary */
+.btn.btn-primary {
+	@apply bg-base-600 text-base-50;
+	@apply hover:bg-base-800 hover:bg-opacity-90 hover:text-base-50;
+}
+.btn.btn-primary-text {
+	/* @apply transparent; */
+	@apply hover:bg-base-800 hover:bg-opacity-5 hover:text-base-950;
+}
+
+/* sizes */
+.btn.btn-xl {
+	@apply py-4 px-8 text-xl leading-6;
+}
+
+/* 
+  inputs
+*/
+.form-control input:not([type="submit"]) {
+	transition: box-shadow 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
+	box-shadow: inset #ffbcb075 0px 0px 0px 2px;
+	border-radius: 8px;
+	@apply py-3 px-4;
+	background-color: transparent;
+}
+.form-control input:not([type="submit"]):hover {
+	/* @apply shadow-base-950;
+	@apply shadow-[0px 0px 0px 2px]; */
+	box-shadow: inset #ffbcb0 0px 0px 0px 2px;
+}
+.form-control input:not([type="submit"]):focus-within {
+	/* @apply shadow-base-950;
+	@apply shadow-[0px 0px 0px 2px]; */
+	box-shadow: inset #c62308 0px 0px 0px 2px;
+}
+
+.form-control input:not([type="submit"]),
+.form-control input[type="password"] {
+	/* padding: 12px 12px; */
+	display: block;
+	width: 100%;
+	outline: none;
+	/* @apply shadow-sm; */
+	/* box-shadow:  0px 0px 0px 2px; */
+	/* @apply shadow-base-200; */
+}
+
+.form-control {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.form-control label {
+	display: block;
+	text-transform: uppercase;
+}
+
+/* Page Components */
+
+/* .main-slide-overlay:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -100vh;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.60);
+    height: 100%;
+    width: 100vh;
+}
+.main-slide-overlay:after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: -100vh;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.60);
+    height: 100%;
+    width: 100vh;
+}
+.main-slide-content-overlay {
+    @apply relative w-full h-full;
+} */
+
+.main-slide-overlay {
+	@apply relative h-full;
+	background-color: rgba(0, 0, 0, 0.6);
+	background-image: linear-gradient(
+		90deg,
+		rgba(0, 0, 0, 0.7) 0%,
+		rgba(0, 0, 0, 0) 15%,
+		rgba(0, 0, 0, 0) 85%,
+		rgba(0, 0, 0, 0.7) 100%
+	);
+}
+
+/* Component Styles */
+
+.album-track-item.playing {
+	@apply !bg-base-200;
+}
+.album-track-item:hover:not(.playing) {
+	@apply bg-base-100;
+}
+
+.album-track-item {
+	@apply relative bg-base-100 bg-opacity-50 flex items-start gap-4 w-full rounded-xl cursor-pointer;
+}
+.album-track-item:hover .play-track {
+	transform: scale(1.1);
+}
+
+.album-track-item .slider {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	/* background-color: red; */
+}
+.album-track-item > * {
+	transition: all 0.12s ease-in-out;
+}
+
+.album-track-item * progress {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border: none;
+	height: 4px;
+	background-color: transparent;
+	@apply absolute left-0  w-full;
+	background-color: lightgray;
+	width: 100%;
+	margin: auto 0;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+input[type="range"] {
+	/* removing default appearance */
+	-webkit-appearance: none;
+	appearance: none;
+	/* creating a custom design */
+	width: 100%;
+	cursor: pointer;
+	outline: none;
+	/*  slider progress trick  */
+	overflow: hidden;
+	/* border-radius: 16px; */
+	z-index: 10;
+}
+
+/* Track: webkit browsers */
+input[type="range"] {
+	background-color: transparent;
+	height: 100%;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+	height: 15px;
+	background: transparent;
+	border-radius: 16px;
+}
+
+/* Track: Mozilla Firefox */
+input[type="range"]::-moz-range-track {
+	height: 100%;
+	background: transparent;
+	border-radius: 16px;
+}
+
+/* Thumb: webkit */
+input[type="range"]::-webkit-slider-thumb {
+	/* removing default appearance */
+	-webkit-appearance: none;
+	appearance: none;
+	/* creating a custom design */
+	height: 15px;
+	background-color: transparent;
+	border-radius: 50%;
+	border: 4px solid red;
+	/*  slider progress trick  */
+	box-shadow: -407px 0 0 400px #f50;
+}
+
+/* Thumb: Firefox */
+input[type="range"]::-moz-range-thumb {
+	height: 15px;
+	width: 15px;
+	background-color: #f50;
+	border-radius: 50%;
+	border: none;
+	/* border: 1px solid #f50; */
+	/*  slider progress trick  */
+	/* box-shadow: 0 0 0 100px #f50; */
+}
+
+.album-track-item * progress[value]::-webkit-progress-value {
+	background: #fe4909;
+}
+.album-track-item * progress[value]::-moz-progress-bar {
+	background: #fe4909;
+}
+
+.album-track-item > *:not(.track-progress) {
+	@apply h-full py-4;
+}
+
+.album-track-item > .track-controls {
+	@apply pt-6 size-8;
+}
+
+.album-track-item > .track-form {
+	@apply pr-6;
+}
+
+.album-track-item .track-num {
+	@apply w-20 text-right text-5xl opacity-15;
+}
+
+.album-track-item .track-control {
+	@apply text-4xl;
+}
+
+.album-track-item .track-title {
+	@apply text-4xl;
+}
+
+.album-track-item .track-artist {
+	@apply text-xl;
+}
+
+.album-track-item .track-desc {
+	@apply flex flex-col gap-1;
+}
+
+.album-track-item .track-form {
+	@apply flex justify-end gap-5 ml-auto;
+}
+
+.album-track-item .track-progress {
+	height: 15px;
+}
+.album-track-item .track-progress {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	transform: translateY(50%);
+}
+
+/* .auth */

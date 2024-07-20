@@ -1,0 +1,20 @@
+{% extends "layout/base.html" %}
+{% block title %}Sign in{% endblock %}
+
+{% set exclude = True %}
+{% block body %}
+<form method="post" class="flex justify-center items-center h-screen">
+    {{ form.hidden_tag() }}
+    <div class="flex justify-center flex-col items-center bg-base-500 h-96 w-96 rounded-lg">
+        <div class="flex justify-center flex-col mb-5">
+            {{ form.username.label(class="text-white") }}
+            {{ form.username(class="mt-2 w-64 h-7") }}
+        </div>
+        <div class="flex justify-center flex-col mb-5">
+            {{ form.password.label(class="text-white") }}
+            {{ form.password(class="mt-2 w-64 h-7") }}
+        </div>
+        {{ form.submit(class="mt-6 cursor-pointer rounded-lg bg-red-600 w-32 h-8 text-white") }}
+    </div>
+</form>
+{% endblock %}
