@@ -35,8 +35,8 @@
 		<title>{% block title %}{% endblock %}</title>
 	</head>
 	<body>
-		{% if not exclude %} {% include "layout/layout.html" %} {% endif %} {% block
-		body %} {% endblock %}
+		{% if not exclude %} {% include "layout/layout.html" %} {% endif %}
+		{% block body %} {% endblock %}
 		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 	</body>
 </html>

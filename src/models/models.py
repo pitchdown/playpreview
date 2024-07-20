@@ -3,6 +3,7 @@ from src.models.base import Base
 from flask_login import UserMixin
 from datetime import datetime
 
+
 user_track = db.Table(
     'user_track',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
@@ -49,7 +50,8 @@ class Track(Base):
     name = db.Column(db.String)
     artist_name = db.Column(db.String)
     artist_id = db.Column(db.String)
-    album = db.Column(db.String)
+    album_name = db.Column(db.String)
+    album_id = db.Column(db.String)
     album_cover = db.Column(db.String)
     preview_url = db.Column(db.String)
     genres = db.Column(db.String)

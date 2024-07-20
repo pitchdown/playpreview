@@ -312,7 +312,8 @@ $(document).ready(async function () {
                                 <form action="" id="like-form" method="POST">
                                     <input type="hidden" name="id" value="${track.id}">
                                     <input type="hidden" name="name" value="${track.name}">
-                                    <input type="hidden" name="album" value="${track.album}">
+                                    <input type="hidden" name="album_name" value="${track.album_name}">
+                                    <input type="hidden" name="album_id" value="${track.album_id}">
                                     <input type="hidden" name="album_cover" value="${track.album_cover}">
                                     <input type="hidden" name="artist" value="${artists}">
                                     <input type="hidden" name="preview_url" value="${track.preview_url}">

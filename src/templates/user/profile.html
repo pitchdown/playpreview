@@ -1,6 +1,7 @@
 {% extends "layout/app.html" %}
-{% block title %}username{% endblock %}
-{% set exclude = True %} {% block body %}
+{% block title %}{% endblock %}
+{% set exclude = True %}
+{% block body %}
 
 <div class="page-content w-full">
 	<h2 class="text-3xl text-center md:text-left text-base-950">{{ username }}</h2>
@@ -29,7 +30,7 @@
 				class="grid grid-cols-2 md:grid-cols-4 grid-rows-1 gap-3"
 				data-playlist="liked-trakcs"
 			>
-				{% for genre in ['artist 1'] %}
+				{% for track in tracks %}
 				<div
 					href="#"
 					class="item aspect-square"
@@ -38,12 +39,12 @@
 				>
 					<div data-playlist-action="toggle">
 						<div class="image size-full bg-base-100 rounded-xl overflow-hidden">
-							<!-- <img
-								_src=""
+							<img
+								src="{{ track.album_cover }}"
 								class="h-full w-auto"
 								alt=""
 								srcset=""
-							/> -->
+							/>
 						</div>
 						<div class="hidden">
 							<audio controls>
@@ -67,21 +68,21 @@
 								</div>
 							</div>
 							<div class="desc flex-1">
-								<div class="name text-xl">{{ genre }}</div>
+								<div class="name text-xl">{{ track.name }}</div>
 								<div class="name text-sm flex gap-1">
 									<span
 										><a
 											class="text-base-950 hover:underline hover:text-base-500"
-											href="#"
-											>artist</a
+											href="/artist/{{ track.artist_id }}"
+											>{{ track.artist_name }}</a
 										></span
 									>
 									<span>-</span>
 									<span
 										><a
 											class="text-base-950 hover:underline hover:text-base-500"
-											href="#"
-											>album</a
+											href="/album/{{ track.album_id }}"
+											>{{ track.album_name }}</a
 										></span
 									>
 								</div>
@@ -99,20 +100,20 @@
 				Liked Artists
 			</p>
 			<div class="grid grid-cols-2 md:grid-cols-4 grid-rows-1 gap-3">
-				{% for genre in ['artist 1'] %}
+				{% for artist in artists %}
 				<a
-					href="#"
+					href="/artist/{{ artist.id }}"
 					class="item aspect-square text-base-900 hover:underline hover:text-base-500"
 				>
 					<div class="image size-full bg-base-100 rounded-xl overflow-hidden">
-						<!-- <img
-							_src=""
+						<img
+							src="{{ artist.image }}"
 							class="h-full w-auto"
 							alt=""
 							srcset=""
-						/> -->
+						/>
 					</div>
-					<div class="name p-2 text-xl">{{ genre }}</div>
+					<div class="name p-2 text-xl">{{ artist.name }}</div>
 				</a>
 				{% endfor %}
 			</div>

@@ -26,7 +26,8 @@ def like(id):
     name = request.form.get('name')
     artists_name = request.form.get('artists_name')
     artists_id = request.form.get('artists_id')
-    album = request.form.get('album')
+    album_name = request.form.get('album_name')
+    album_id = request.form.get('album_id')
     album_cover = request.form.get('album_cover')
     preview_url = request.form.get('preview_url')
     artists = artists_name.split('/')
@@ -45,7 +46,7 @@ def like(id):
     genres = '.'.join(genres.split('.')[:3])
     track = Track.query.filter_by(id=id).first()
     if not track:
-        track = Track(id=id, name=name, artist_name=artists_name, artist_id=artists_id, album=album,
+        track = Track(id=id, name=name, artist_name=artists_name, artist_id=artists_id, album_name=album_name, album_id=album_id,
                       album_cover=album_cover, preview_url=preview_url, genres=genres)
         track.create()
     if track not in current_user.tracks:

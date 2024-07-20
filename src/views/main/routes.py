@@ -125,13 +125,14 @@ def home():
     recently_liked_track_ids = [track[1] for track in reversed(recently_liked_tracks)]
 
     track_ids = [track[1] for track in tracks_data]
-    tracks = Track.query.filter(Track.id.in_(track_ids)).all()
+    tracks = Track.query.filter(Track.id.in_(recently_liked_track_ids)).all()
+    tracks_for_genres = Track.query.filter(Track.id.in_(track_ids)).all()
 
     genres_like_count = Counter()
-    for track in tracks:
+    for track in tracks_for_genres:
         genres = track.genres.split('.')
         genres_like_count.update(genres)
-    popular_genres = dict(genres_like_count.most_common())
+    popular_genres = dict(genres_like_count.most_common()[:10])
 
     artists_data = db.session.query(user_artist).all()
     artist_ids = [artist[1] for artist in artists_data]
@@ -166,7 +167,7 @@ def home():
             'name': album.name,
             'cover': album.cover,
         })
-    return render_template('main/home.html', recently_liked_tracks=recently_liked_track_ids, artists=artists, albums=albums, genres=popular_genres)
+    return render_template('main/home.html', recently_liked_tracks=tracks, artists=artists, albums=albums, genres=popular_genres)
 
 
 @main_bp.route('/recommendations')
@@ -235,7 +236,8 @@ def recommendations():
     #             'id': track_id,
     #             'artists_name': track['artists'][0]['name'].lower(),
     #             'artists_id': track['artists'][0]['id'],
-    #             'album': track['album']['name'].lower(),
+    #             'album_name': track['album']['name'].lower(),
+    #             'album_id': track['album']['id'],
     #             'album_cover': track['album']['images'][0]['url'],
     #             'preview_url': track.get('preview_url') or get_preview_url_if_null(track_id),
     #         }

@@ -24,7 +24,7 @@ album_bp = Blueprint('album', __name__)
 @album_bp.route('/album/<id>')
 @login_required
 @token_required
-@cache.cached(timeout=120)
+# @cache.cached(timeout=120)
 def album(id):
     headers = {
         "Authorization": f"Bearer {session['access_token']}"
@@ -47,7 +47,6 @@ def album(id):
         genre['name'] = genre['name'].replace('rnb', 'r&b')
         if genre['name'].lower() in genres_in_file:
             genres.append(genre['name'].lower())
-
     return render_template('album/album_page.html', album=album_data, genres=genres)
 
 

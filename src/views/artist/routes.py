@@ -122,7 +122,7 @@ def search_artist():
                 artists.append(artist_body)
 
 
-    return render_template('artist/search.html', artists=artists, title='')
+    return render_template('artist/search.html', artists=artists, title=artist_name)
 
 
 @artist_bp.route('/artist/<id>')

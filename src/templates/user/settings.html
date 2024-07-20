@@ -1,0 +1,348 @@
+{% extends "layout/app.html" %} {% block title %}Recommendations{% endblock %}
+{% set exclude = True %} {% block body %}
+
+<div class="small-header bg-base-500 pt-7 pb-3">
+	<div class="page-container flex">
+		<div class="logo-area">
+			<a href="/_src/static" class="flex flex-col align-center justify-center w-36">
+				<img class="h-12" src="/static/img/logo.svg" alt="PlayPreview" />
+			</a>
+		</div>
+		<div class="logo-area ml-auto">
+      <a href="/logout" class="btn btn-white-text">Log out</a>
+    </div>
+	</div>
+</div>
+
+<div class="playlist">
+	<div
+		class="grid grid-cols-1 place-items-center w-full gap-4"
+		data-playlist="main-2"
+	>
+		<div data-playlist-item="5FVd6KXrgO9B3JPmC8OPst">
+			<div
+				class="album-track-item"
+				data-playlist-action="play"
+				data-id="5FVd6KXrgO9B3JPmC8OPst"
+			>
+				<div class="track-num">01</div>
+				<div class="track-controls" data-track="5FVd6KXrgO9B3JPmC8OPst">
+					<div
+						data-playlist-action="play"
+						class="track-control track-control-play play-track"
+					>
+						<i class="fa-solid fa-play"></i>
+					</div>
+					<div
+						data-playlist-action="pause"
+						class="track-control track-control-pause play-track hidden"
+					>
+						<i class="fa-solid fa-pause"></i>
+					</div>
+					<!--                                <img data-track="5FVd6KXrgO9B3JPmC8OPst" _src="/static/img/play.svg" class="play-track w-6 cursor-pointer mr-6">-->
+					<audio
+						preload=""
+						data-track="5FVd6KXrgO9B3JPmC8OPst"
+						controls=""
+						style="display: none"
+					>
+						<source
+							src="https://p.scdn.co/mp3-preview/006bc465fe3d1c04dae93a050eca9d402a7322b8?cid=6e82327445994df88d17de8cd6608f19"
+							type="audio/ogg"
+						/>
+						<source
+							src="https://p.scdn.co/mp3-preview/006bc465fe3d1c04dae93a050eca9d402a7322b8?cid=6e82327445994df88d17de8cd6608f19"
+							type="audio/mpeg"
+						/>
+					</audio>
+				</div>
+
+				<div class="track-desc">
+					<p class="track-title">do i wanna know?</p>
+					<p class="text-artist">arctic monkeys</p>
+				</div>
+				<div class="track-form">
+					<form action="" id="like-form" method="POST">
+						<input type="hidden" name="id" value="5FVd6KXrgO9B3JPmC8OPst" />
+						<input type="hidden" name="name" value="do i wanna know?" />
+						<input type="hidden" name="album" value="am" />
+						<input
+							type="hidden"
+							name="album_cover"
+							value="https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163"
+						/>
+						<input type="hidden" name="artist" value="arctic monkeys" />
+						<input
+							type="hidden"
+							name="preview_url"
+							value="https://p.scdn.co/mp3-preview/006bc465fe3d1c04dae93a050eca9d402a7322b8?cid=6e82327445994df88d17de8cd6608f19"
+						/>
+						<button class="like-button" type="button">
+							<img src="/static/img/like.svg" class="w-7 icon" />
+						</button>
+					</form>
+				</div>
+				<div>
+					<input
+						data-playlist-action="seeking"
+						type="range"
+						min="0.0"
+						max="100"
+						value="0.0"
+						step="0.01"
+						class="slider"
+					/>
+				</div>
+				<progress class="seekbar" value="0" max="1"></progress>
+			</div>
+		</div>
+		<div data-playlist-item="2AT8iROs4FQueDv2c8q2KE">
+			<div
+				class="album-track-item"
+				data-playlist-action="play"
+				data-id="2AT8iROs4FQueDv2c8q2KE"
+			>
+				<div class="track-num">02</div>
+				<div class="track-controls" data-track="2AT8iROs4FQueDv2c8q2KE">
+					<div
+						data-playlist-action="play"
+						class="track-control track-control-play play-track"
+					>
+						<i class="fa-solid fa-play"></i>
+					</div>
+					<div
+						data-playlist-action="pause"
+						class="track-control track-control-pause play-track hidden"
+					>
+						<i class="fa-solid fa-pause"></i>
+					</div>
+					<!--                                <img data-track="2AT8iROs4FQueDv2c8q2KE" _src="/static/img/play.svg" class="play-track w-6 cursor-pointer mr-6">-->
+					<audio
+						preload=""
+						data-track="2AT8iROs4FQueDv2c8q2KE"
+						controls=""
+						style="display: none"
+					>
+						<source
+							src="https://p.scdn.co/mp3-preview/d41c9b18f0787cc9b2ccea10740d92dd7e7f639a?cid=6e82327445994df88d17de8cd6608f19"
+							type="audio/ogg"
+						/>
+						<source
+							src="https://p.scdn.co/mp3-preview/d41c9b18f0787cc9b2ccea10740d92dd7e7f639a?cid=6e82327445994df88d17de8cd6608f19"
+							type="audio/mpeg"
+						/>
+					</audio>
+				</div>
+
+				<div class="track-desc">
+					<p class="track-title">r u mine?</p>
+					<p class="text-artist">arctic monkeys</p>
+				</div>
+				<div class="track-form">
+					<form action="" id="like-form" method="POST">
+						<input type="hidden" name="id" value="2AT8iROs4FQueDv2c8q2KE" />
+						<input type="hidden" name="name" value="r u mine?" />
+						<input type="hidden" name="album" value="am" />
+						<input
+							type="hidden"
+							name="album_cover"
+							value="https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163"
+						/>
+						<input type="hidden" name="artist" value="arctic monkeys" />
+						<input
+							type="hidden"
+							name="preview_url"
+							value="https://p.scdn.co/mp3-preview/d41c9b18f0787cc9b2ccea10740d92dd7e7f639a?cid=6e82327445994df88d17de8cd6608f19"
+						/>
+						<button class="like-button" type="button">
+							<img src="/static/img/like.svg" class="w-7 icon" />
+						</button>
+					</form>
+				</div>
+				<div>
+					<input
+						data-playlist-action="seeking"
+						type="range"
+						min="0.0"
+						max="100"
+						value="0.0"
+						step="0.01"
+						class="slider"
+					/>
+				</div>
+				<progress class="seekbar" value="0" max="1"></progress>
+			</div>
+		</div>
+		<div data-playlist-item="6wNUBZNWFxdUGof6vkaykE">
+			<div
+				class="album-track-item"
+				data-playlist-action="play"
+				data-id="6wNUBZNWFxdUGof6vkaykE"
+			>
+				<div class="track-num">03</div>
+				<div class="track-controls" data-track="6wNUBZNWFxdUGof6vkaykE">
+					<div
+						data-playlist-action="play"
+						class="track-control track-control-play play-track"
+					>
+						<i class="fa-solid fa-play"></i>
+					</div>
+					<div
+						data-playlist-action="pause"
+						class="track-control track-control-pause play-track hidden"
+					>
+						<i class="fa-solid fa-pause"></i>
+					</div>
+					<!--                                <img data-track="6wNUBZNWFxdUGof6vkaykE" _src="/static/img/play.svg" class="play-track w-6 cursor-pointer mr-6">-->
+					<audio
+						preload=""
+						data-track="6wNUBZNWFxdUGof6vkaykE"
+						controls=""
+						style="display: none"
+					>
+						<source
+							src="https://p.scdn.co/mp3-preview/8ad968049796e1234d20eba15c62de83d188c9f0?cid=6e82327445994df88d17de8cd6608f19"
+							type="audio/ogg"
+						/>
+						<source
+							src="https://p.scdn.co/mp3-preview/8ad968049796e1234d20eba15c62de83d188c9f0?cid=6e82327445994df88d17de8cd6608f19"
+							type="audio/mpeg"
+						/>
+					</audio>
+				</div>
+
+				<div class="track-desc">
+					<p class="track-title">one for the road</p>
+					<p class="text-artist">arctic monkeys</p>
+				</div>
+				<div class="track-form">
+					<form action="" id="like-form" method="POST">
+						<input type="hidden" name="id" value="6wNUBZNWFxdUGof6vkaykE" />
+						<input type="hidden" name="name" value="one for the road" />
+						<input type="hidden" name="album" value="am" />
+						<input
+							type="hidden"
+							name="album_cover"
+							value="https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163"
+						/>
+						<input type="hidden" name="artist" value="arctic monkeys" />
+						<input
+							type="hidden"
+							name="preview_url"
+							value="https://p.scdn.co/mp3-preview/8ad968049796e1234d20eba15c62de83d188c9f0?cid=6e82327445994df88d17de8cd6608f19"
+						/>
+						<button class="like-button" type="button">
+							<img src="/static/img/like.png" class="w-7 icon" />
+						</button>
+					</form>
+				</div>
+				<div>
+					<input
+						data-playlist-action="seeking"
+						type="range"
+						min="0.0"
+						max="100"
+						value="0.0"
+						step="0.01"
+						class="slider"
+					/>
+				</div>
+				<progress class="seekbar" value="0" max="1"></progress>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="playlist" data-playlist="main">
+	data-playlist-action="play"
+	<!-- <div class="playlist-item-" data-playlist-item="1">
+		<p>1</p>
+		<div class="play-button" data-playlist-action="play">play</div>
+		<div class="play-button" data-playlist-action="pause">pause</div>
+		<div>
+			<input
+				data-playlist-action="seeking"
+				type="range"
+				min="0.0"
+				max="100"
+				value="0.0"
+				step="0.01"
+				class="slider"
+			/>
+		</div>
+		<div>
+			<progress class="seekbar" value="0" max="1"></progress>
+		</div>
+
+		<audio controls="controls" data-element="some">
+			<source
+				_src="https://p.scdn.co/mp3-preview/625c052dea9cc162a13fb614622875e1d827f043"
+				type="audio/mpeg"
+			/>
+		</audio>
+	</div>
+  data-playlist-action="play"
+	<div class="playlist-item-" data-playlist-item="2">
+		<p>2</p>
+		<div class="play-button" data-playlist-action="play">play</div>
+		<div class="play-button" data-playlist-action="pause">pause</div>
+		<div>
+			<input
+				data-playlist-action="seeking"
+				type="range"
+				min="0.0"
+				max="100"
+				value="0.0"
+				step="0.01"
+				class="slider"
+			/>
+			<input
+				data-playlist-action="seeking"
+				type="range"
+				min="0.0"
+				max="100"
+				value="0.0"
+				step="0.01"
+				class="slider"
+			/>
+		</div>
+		<div>
+			<progress class="seekbar" value="0" max="1"></progress>
+		</div>
+
+		<audio controls="controls" data-element="some">
+			<source
+				_src="https://p.scdn.co/mp3-preview/de4f4484ebb6d4d2e6f23fe87ec686cd69466375"
+				type="audio/mpeg"
+			/>
+		</audio>
+	</div>
+  data-playlist-action="play"
+	<div class="playlist-item-" data-playlist-item="3">
+		<p>3</p>
+		<div class="play-button" data-playlist-action="play">play</div>
+		<div class="play-button" data-playlist-action="pause">pause</div>
+		<div>
+			<input
+				data-playlist-action="seeking"
+				type="range"
+				min="0.0"
+				max="100"
+				value="0.0"
+				step="0.01"
+				class="slider"
+			/>
+		</div>
+		<div>
+			<progress class="seekbar" value="0" max="1"></progress>
+		</div>
+
+		<audio controls="controls" data-element="some">
+			<source
+				_src="https://p.scdn.co/mp3-preview/df8dedc5581d5b71bc0af6d8d06fe1a30855cf8c"
+				type="audio/mpeg"
+			/>
+		</audio>
+	</div> -->
+	{% endblock %}
+</div>

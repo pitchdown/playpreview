@@ -1,0 +1,72 @@
+{% extends "layout/app.html" %} {% block title %}Recommendations{% endblock %}
+{% set exclude = True %} {% block body %}
+
+<div class="page-content w-full">
+	<h2 class="text-3xl text-center md:text-left">Edit</h2>
+	<div class="flex flex-col gap-6 mt-6">
+		<div class="bg-opacity-15 rounded-xl">
+			<h2
+				class="text-xl text-center md:text-left form-area bg-opacity-10 rounded-xl p-4"
+			>
+				Personal information
+			</h2>
+			<form action="" class="form-area p-4">
+				<div class="felds grid gap-2 grid-cols-2">
+					<div class="form-control w-full">
+						<div class="form-control-label">username:</div>
+						<div class="form-control-field">
+							<input type="text" name="username" value="username" />
+						</div>
+					</div>
+					<div class="form-control w-full">
+						<div class="form-control-label">email:</div>
+						<div class="form-control-field">
+							<input type="text" name="email" value="example@mail" />
+						</div>
+					</div>
+				</div>
+				<div class="form-control flex justify-start items-start mt-4">
+					<button class="btn btn-primary disabled">Save info</button>
+				</div>
+			</form>
+		</div>
+		<div class="bg-opacity-15 rounded-xl">
+			<h2
+				class="text-xl text-center md:text-left form-area bg-opacity-10 rounded-xl p-4"
+			>
+				Update password
+			</h2>
+			<form action="" class="form-area bg-opacity-10 rounded-xl p-4">
+				<div class="felds grid gap-2 grid-cols-2">
+					<div class="form-control w-full grid-rows-1">
+						<div class="form-control-label">current password:</div>
+						<div class="form-control-field">
+							<input type="password" name="username" />
+						</div>
+					</div>
+					<div class="form-control w-full grid-rows-1">
+						<div class="form-control-label">password:</div>
+						<div class="form-control-field">
+							<input type="password" name="username" />
+						</div>
+					</div>
+					<div
+						class="full grid-cols-2 grid-[column-start-1] grid-[column-end-3]"
+					>
+						<div class="form-control w-full">
+							<div class="form-control-label">confirm password:</div>
+							<div class="form-control-field">
+								<input type="password" name="username" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-control flex justify-start items-start mt-4">
+					<button class="btn btn-primary disabled">Update password</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{%endblock%}

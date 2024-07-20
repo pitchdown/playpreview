@@ -1,34 +1,36 @@
-{% extends "layout/base.html" %} {% block title %}{{ album['name'] }}{% endblock
-%} {% block body %} {% set n = namespace(counter = 0) %}
+{% extends "layout/base.html" %}
+{% block title %}{{ album['name'] }}{% endblock%}
+{% block body %}
+{% set n = namespace(counter = 0) %}
 <div class="page-container">
-	<div class="flex flex-col sm:flex-row gap-8 mt-10">
-		<div
-			class="avatar aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg overflow-hidden bg-black bg-opacity-15"
-		>
-			<img src="{{ album['cover'] }}" class="h-full" />
-		</div>
-		<div class="desc flex-1">
-			<div
-				class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
-			>
-				<div>
-					{% for artist in album['artist'] %}
-					<p class="text-2xl">{{ artist }}</p>
-					{% endfor %}
-					<p class="mb-2">{{ album['type'] }}</p>
-					<p class="text-5xl">{{ album['name'] }}</p>
-					<p>release date: {{ album['release_date'] }}</p>
-					<p>total songs: {{ album['total_tracks'] }}</p>
-				</div>
-				<!-- <div class="mt-1 mr-3 flex gap-2">
+    <div class="flex flex-col sm:flex-row gap-8 mt-10">
+        <div
+                class="avatar aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg overflow-hidden bg-black bg-opacity-15"
+        >
+            <img src="{{ album['cover'] }}" class="h-full"/>
+        </div>
+        <div class="desc flex-1">
+            <div
+                    class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
+            >
+                <div>
+                    {% for artist in album['artist'] %}
+                    <p class="text-2xl">{{ artist }}</p>
+                    {% endfor %}
+                    <p class="mb-2">{{ album['type'] }}</p>
+                    <p class="text-5xl">{{ album['name'] }}</p>
+                    <p>release date: {{ album['release_date'] }}</p>
+                    <p>total songs: {{ album['total_tracks'] }}</p>
+                </div>
+                <!-- <div class="mt-1 mr-3 flex gap-2">
           <button class="btn btn-primary text-2xl">follow</button>
           <button class="btn btn-text text-2xl">
             <i class="fa-solid fa-ellipsis-vertical"></i>
           </button>
         </div> -->
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- <div class="flex justify-center items-center gap-16 mt-10">
@@ -47,88 +49,88 @@
 </div> -->
 
 <div class="page-container py-5 min-h-[1000px]">
-	<div
-		class="album-tracks grid grid-cols-1 place-items-center w-full gap-4"
-		id="tracks"
-		data-api-url="/albums/tracks/data"
-		data-load-template="example"
-	>
-		<div data-api-on="loading" hidden>Loading</div>
-		<div data-api-on="success" hidden></div>
-		<div data-api-on="error" hidden>Error</div>
-		<div
-			data-playlist="main-2"
-			data-template="true"
-			data-template="true"
-			class="album-track-item"
-			data-playlist-action="toggle"
-			data-playlist-item="${track.id}"
-			data-album-id="{{ album['id'] }}"
-		>
-			<div class="track-num">
-				<!-- ${trackNumber < 10 ? '0' + trackNumber : trackNumber} -->
-				1
-			</div>
-			<div class="track-controls">
-				<div
-					data-playlist-action="play"
-					class="track-control track-control-play play-track"
-				>
-					<i class="fa-solid fa-play"></i>
-				</div>
-				<div
-					data-playlist-action="pause"
-					class="track-control track-control-pause play-track hidden"
-				>
-					<i class="fa-solid fa-pause"></i>
-				</div>
-				<!--                                <img _src="/static/img/play.svg" class="play-track w-6 cursor-pointer mr-6">-->
-				<audio controls style="display: none">
-					<source src="${track.preview_url}" type="audio/ogg" />
-					<source src="${track.preview_url}" type="audio/mpeg" />
-				</audio>
-			</div>
+    <div
+            class="album-tracks grid grid-cols-1 place-items-center w-full gap-4"
+            id="tracks"
+            data-api-url="/albums/tracks/data"
+            data-load-template="example"
+    >
+        <div data-api-on="loading" hidden>Loading</div>
+        <div data-api-on="success" hidden></div>
+        <div data-api-on="error" hidden>Error</div>
+        <div
+                data-playlist="main-2"
+                data-template="true"
+                data-template="true"
+                class="album-track-item"
+                data-playlist-action="toggle"
+                data-playlist-item="${track.id}"
+                data-album-id="{{ album['id'] }}"
+        >
+            <div class="track-num">
+                <!-- ${trackNumber < 10 ? '0' + trackNumber : trackNumber} -->
+                1
+            </div>
+            <div class="track-controls">
+                <div
+                        data-playlist-action="play"
+                        class="track-control track-control-play play-track"
+                >
+                    <i class="fa-solid fa-play"></i>
+                </div>
+                <div
+                        data-playlist-action="pause"
+                        class="track-control track-control-pause play-track hidden"
+                >
+                    <i class="fa-solid fa-pause"></i>
+                </div>
+                <!--                                <img _src="/static/img/play.svg" class="play-track w-6 cursor-pointer mr-6">-->
+                <audio controls style="display: none">
+                    <source src="${track.preview_url}" type="audio/ogg"/>
+                    <source src="${track.preview_url}" type="audio/mpeg"/>
+                </audio>
+            </div>
 
-			<div class="track-desc">
-				<p class="track-title">${track.name}</p>
-				<p class="text-artist">${artists}</p>
-				<p class="text-duration" data-playlist-item-duration></p>
-			</div>
-			<div class="track-form">
-				<form action="" id="like-form" method="POST">
-					<input type="hidden" name="id" value="${track.id}" />
-					<input type="hidden" name="name" value="${track.name}" />
-					<input type="hidden" name="album" value="${track.album}" />
-					<input
-						type="hidden"
-						name="album_cover"
-						value="${track.album_cover}"
-					/>
-					<input type="hidden" name="artist" value="${artists}" />
-					<input
-						type="hidden"
-						name="preview_url"
-						value="${track.preview_url}"
-					/>
-					<button class="like-button" type="button">
-						<img src="${likeImage}" class="w-7 icon" />
-					</button>
-				</form>
-			</div>
-			<div class="track-progress" data-playlist-progress>
-				<input
-					data-playlist-action="seeking"
-					type="range"
-					min="0.0"
-					max="100"
-					value="0.0"
-					step="0.01"
-					class="slider"
-				/>
-				<progress class="seekbar" value="0" max="1"></progress>
-			</div>
-		</div>
-	</div>
+            <div class="track-desc">
+                <p class="track-title">${track.name}</p>
+                <p class="text-artist">${artists}</p>
+                <p class="text-duration" data-playlist-item-duration></p>
+            </div>
+            <div class="track-form">
+                <form action="" id="like-form" method="POST">
+                    <input type="hidden" name="id" value="${track.id}"/>
+                    <input type="hidden" name="name" value="${track.name}"/>
+                    <input type="hidden" name="album" value="${track.album}"/>
+                    <input
+                            type="hidden"
+                            name="album_cover"
+                            value="${track.album_cover}"
+                    />
+                    <input type="hidden" name="artist" value="${artists}"/>
+                    <input
+                            type="hidden"
+                            name="preview_url"
+                            value="${track.preview_url}"
+                    />
+                    <button class="like-button" type="button">
+                        <img src="${likeImage}" class="w-7 icon"/>
+                    </button>
+                </form>
+            </div>
+            <div class="track-progress" data-playlist-progress>
+                <input
+                        data-playlist-action="seeking"
+                        type="range"
+                        min="0.0"
+                        max="100"
+                        value="0.0"
+                        step="0.01"
+                        class="slider"
+                />
+                <progress class="seekbar" value="0" max="1"></progress>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- <input type="hidden" id="albumId"  /> -->
 {% endblock %}
