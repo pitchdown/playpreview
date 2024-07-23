@@ -29,6 +29,13 @@ user_album = db.Table(
 )
 
 
+followers = db.Table(
+    'followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+
 class User(Base, UserMixin):
     __tablename__ = 'user'
 
@@ -41,6 +48,30 @@ class User(Base, UserMixin):
     tracks = db.relationship('Track', secondary=user_track, back_populates='users')
     artists = db.relationship('Artist', secondary=user_artist, back_populates='users')
     albums = db.relationship('Album', secondary=user_album, back_populates='users')
+
+    following = db.relationship(
+        'User', secondary=followers,
+        primaryjoin=(followers.c.follower_id == id),
+        secondaryjoin=(followers.c.followed_id == id),
+        backref=db.backref('followers', lazy='dynamic'),
+        lazy='dynamic'
+    )
+
+    def follow(self, user):
+        if not self.is_following(user):
+            self.following.append(user)
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.following.remove(user)
+
+    def is_following(self, user):
+        return self.following.filter(
+            followers.c.followed_id == user.id).count() > 0
+
+    def is_followed_by(self, user):
+        return self.followers.filter(
+            followers.c.follower_id == user.id).count() > 0
 
 
 class Track(Base):

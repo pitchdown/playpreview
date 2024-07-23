@@ -1,7 +1,7 @@
 import requests
 import json
 from time import time
-from flask import render_template, redirect, url_for, session, Blueprint, jsonify, request, g
+from flask import render_template, session, Blueprint, jsonify, request, g
 from flask_login import login_required, current_user
 from sqlalchemy import exists, delete
 
@@ -43,10 +43,11 @@ def album(id):
     album_name = album_data['name'].replace(' ', '+')
     response_genres = requests.get(f'http://ws.audioscrobbler.com/2.0/?method=album.gettoptags&artist={artist_name}&album={album_name}&api_key={Config.LASTFM_KEY}&format=json')
     genres = []
-    for genre in response_genres.json()['toptags']['tag']:
-        genre['name'] = genre['name'].replace('rnb', 'r&b')
-        if genre['name'].lower() in genres_in_file:
-            genres.append(genre['name'].lower())
+    if not 'error' in response_genres.json():
+        for genre in response_genres.json()['toptags']['tag']:
+            genre['name'] = genre['name'].replace('rnb', 'r&b')
+            if genre['name'].lower() in genres_in_file:
+                genres.append(genre['name'].lower())
     return render_template('album/album_page.html', album=album_data, genres=genres)
 
 

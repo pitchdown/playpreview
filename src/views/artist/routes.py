@@ -1,6 +1,6 @@
 import requests
 from time import time
-from flask import render_template, url_for, redirect, session, request, Blueprint, jsonify
+from flask import render_template, session, request, Blueprint, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy import delete, exists
 
@@ -165,10 +165,69 @@ def artist(id):
     return render_template('artist/artist_page.html', albums=albums, artist=artist_body)
 
 
-@artist_bp.route('/follow/<id>', methods=['POST'])
+@artist_bp.route('/artist/<id>/singles')
 @login_required
 @token_required
-def follow(id):
+@cache.cached(timeout=120)
+def artist_singles(id):
+    singles = []
+    headers = {
+        "Authorization": f"Bearer {session['access_token']}"
+    }
+    params = {
+        'limit': 50,
+        'include_groups': 'single'
+    }
+    response_single = requests.get(f'https://api.spotify.com/v1/artists/{id}/albums', headers=headers, params=params)
+
+
+    for single in response_single.json()['items']:
+        single_body = {
+            'name': single['name'].lower(),
+            'id': single['id'],
+            'cover': single['images'][0]['url'],
+            'release_date': single['release_date'],
+            'artists': [artist['name'].lower() for artist in single['artists']],
+            'type': single['album_group'],
+            'url': single['external_urls']['spotify']
+        }
+        singles.append(single_body)
+    return jsonify(singles)
+
+
+@artist_bp.route('/artist/<id>/albums')
+@login_required
+@token_required
+@cache.cached(timeout=120)
+def artist_albums(id):
+    albums = []
+    headers = {
+        "Authorization": f"Bearer {session['access_token']}"
+    }
+    params = {
+        'limit': 50,
+        'include_groups': 'album'
+    }
+    response_album = requests.get(f'https://api.spotify.com/v1/artists/{id}/albums', headers=headers, params=params)
+
+
+    for album in response_album.json()['items']:
+        album_body = {
+            'name': album['name'].lower(),
+            'id': album['id'],
+            'cover': album['images'][0]['url'],
+            'release_date': album['release_date'],
+            'artists': [artist['name'].lower() for artist in album['artists']],
+            'type': album['album_group'],
+            'url': album['external_urls']['spotify']
+        }
+        albums.append(album_body)
+    return jsonify(albums)
+
+
+@artist_bp.route('/follow-artist/<id>', methods=['POST'])
+@login_required
+def follow_artist(id):
     name = request.form.get('name')
     image = request.form.get('image')
     genres = request.form.get('genres')
@@ -179,13 +238,13 @@ def follow(id):
     if artist not in current_user.artists:
         current_user.artists.append(artist)
         current_user.save()
-    return jsonify({'message': 'You followed artist.'})
+        return jsonify({'message': 'You followed the artist.'})
+    return jsonify({'message': 'You are already following the artist.'})
 
 
-@artist_bp.route('/unfollow/<id>', methods=['POST'])
+@artist_bp.route('/unfollow-artist/<id>', methods=['POST'])
 @login_required
-@token_required
-def unfollow(id):
+def unfollow_artist(id):
     delete_stmt = delete(user_artist).where(
         db.and_(
             user_artist.c.user_id == current_user.id,
@@ -193,7 +252,9 @@ def unfollow(id):
         )
     )
     artist = Artist.query.filter_by(id=id).first()
-    artist.delete()
-    db.session.execute(delete_stmt)
-    db.session.commit()
-    return jsonify({'message': 'You unfollowed artist.'})
+    if artist:
+        artist.delete()
+        db.session.execute(delete_stmt)
+        db.session.commit()
+        return jsonify({'message': 'You unfollowed artist.'})
+    return jsonify({'message': "You aren't following the artist."})

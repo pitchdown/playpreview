@@ -19,7 +19,7 @@
         <p class="text-2xl">{{ track['artist'] }} - {{ track['album'] }}</p>
     </div>
     <div class="flex justify-end gap-5 ml-auto">
-        <form action="{{ url_for('track.like', id=track['id']) }}" method="POST">
+        <form action="{{ url_for('track.like_track', id=track['id']) }}" method="POST">
             <input type="hidden" name="id" value="{{ track['id'] }}">
             <input type="hidden" name="name" value="{{ track['name'] }}">
             <input type="hidden" name="album" value="{{ track['album'] }}">

@@ -1,14 +1,10 @@
 import requests
 from random import choice
-from time import time
-from flask import Blueprint, render_template, request, redirect, url_for, session
-from urllib.parse import urlparse, parse_qs
+from flask import Blueprint, render_template, session
 from flask_login import login_required, current_user
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import select
 from collections import Counter
 
-from src.extensions import cache, db
+from src.extensions import db
 from src.models.models import Track, Artist, Album, user_artist, user_album, user_track
 from src.functions import get_preview_url_if_null, token_required
 
@@ -213,7 +209,7 @@ def recommendations():
     # print(seed_tracks)
     # -------
     # headers = {
-    #     "Authorization": src"Bearer {session['access_token']}"
+    #     "Authorization": f"Bearer {session['access_token']}"
     # }
     # params = {
     #     'limit': 20,
@@ -244,26 +240,6 @@ def recommendations():
     #         tracks.append(track_body)
     #         session['tracks'].append(track_id)
     return render_template('main/recommendations.html', tracks=tracks_list)
-
-
-@main_bp.route('/genres')
-def genres():
-    genres_row = []
-    sublist = []
-
-    with open("genres.txt", "r+") as f:
-        genres = f.read().split('\n')
-
-    for index, genre in enumerate(genres):
-        sublist.append(genre)
-        if (index + 1) % 5 == 0:
-            genres_row.append(sublist)
-            sublist = []
-
-    if sublist:
-        genres_row.append(sublist)
-
-    return render_template('main/genre.html', genres=genres_row)
 
 
 @main_bp.route('/dlt')

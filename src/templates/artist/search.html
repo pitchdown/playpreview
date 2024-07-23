@@ -28,7 +28,7 @@
 
 
                     <div class="mt-1 mr-3 flex gap-2">
-                        <form action="{% if artist['followed'] == True %}{{ url_for('artist.unfollow', id=artist['id']) }}{% else %}{{ url_for('artist.follow', id=artist['id']) }}{% endif %}"
+                        <form action="{% if artist['followed'] == True %}{{ url_for('artist.unfollow_artist', id=artist['id']) }}{% else %}{{ url_for('artist.follow_artist', id=artist['id']) }}{% endif %}"
                               id="follow-form" method="POST">
                             <input type="hidden" name="id" value="{{ artist['id'] }}">
                             <input type="hidden" name="name" value="{{ artist['name'] }}">

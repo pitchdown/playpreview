@@ -1,9 +1,9 @@
-from flask import Blueprint, session, render_template, redirect, url_for, jsonify
+from flask import Blueprint, session, render_template, jsonify
 from flask_login import current_user, login_required
 from sqlalchemy import exists
 from collections import Counter
 
-from src.models.models import User, Artist, Album, Track, user_artist, user_album, user_track
+from src.models.models import User, Artist, Album, Track, user_artist, user_album, user_track, followers
 from src.extensions import db
 from src.functions import token_required
 
@@ -11,9 +11,9 @@ from src.functions import token_required
 user_bp = Blueprint('user', __name__)
 
 
-@user_bp.route('/<name>')
-def profile(name):
-    user = User.query.filter_by(username=name).first()
+@user_bp.route('/<username>')
+def profile(username):
+    user = User.query.filter_by(username=username).first()
     if not user:
         return jsonify({'message': "User doesn't exists"})
     favorite_genres = Counter()
@@ -26,27 +26,36 @@ def profile(name):
     favorite_genres = list(dict(favorite_genres.most_common()))[:5]
     for artist in user.artists:
         recently_liked_artists.append(artist)
-    # artists_data = db.session.query(user_artist).all()
-    # recently_liked_artists = artists_data[-4:]
-    # recently_liked_artists_ids = [artist[1] for artist in reversed(recently_liked_artists)]
-    # artists = Artist.query.filter(Artist.id.in_(recently_liked_artists_ids)).all()
-    # favorite_artists = db.session.query(user_artist).where(user_artist.c.user_id == user.id, user_artist.c.favorited == True).order_by(user_artist.c.order).all()
-    # favorite_artists_ids = [id for _, id, _, _ in favorite_artists]
-    # favorite_artists_data = Artist.query.filter(Artist.id.in_(favorite_artists_ids)).all()
-    # for artist in favorite_artists_data:
-    #     print(artist.name)
-    # favorite_albums = db.session.query(user_album).where(user_album.c.user_id == user.id, user_album.c.favorited == True).order_by(user_album.c.order).all()
-    # favorite_albums_ids = [id for _, id, _, _ in favorite_albums]
-    # favorite_albums_data = Album.query.filter(Album.id.in_(favorite_albums_ids)).all()
-    # for album in favorite_albums_data:
-    #     print(album.name)
-    return render_template('/user/profile.html', username=name, genres=favorite_genres, tracks=reversed(recently_liked_tracks[-4:]), artists=reversed(recently_liked_artists[-4:]))
+    return render_template('user/profile.html', id=user.id, username=username, genres=favorite_genres, tracks=reversed(recently_liked_tracks[-4:]), artists=reversed(recently_liked_artists[-4:]))
 
 
-@user_bp.route('/favorite-artist/<id>')
+@user_bp.route('/follow-user/<int:id>')
 @login_required
-@token_required
-def favorite_artist(id):
-    artist = Artist.query.filter_by(id=id).first()
-    print(artist)
-    return jsonify({'message': 'You favorited an artist.'})
+def follow_user(id):
+    user = User.query.filter_by(id=current_user.id).first()
+    user_to_follow = User.query.filter_by(id=id).first()
+    if not user.is_following(user_to_follow):
+        user.follow(user_to_follow)
+        db.session.commit()
+        return jsonify({'message': 'You followed the user.'})
+    return jsonify({'message': 'You are already following the user.'})
+
+
+@user_bp.route('/unfollow-user/<int:id>')
+@login_required
+def unfollow_user(id):
+    user = User.query.filter_by(id=current_user.id).first()
+    user_to_unfollow = User.query.filter_by(id=id).first()
+    if user.is_following(user_to_unfollow):
+        user.unfollow(user_to_unfollow)
+        db.session.commit()
+        return jsonify({'message': 'You unfollowed the user.'})
+    return jsonify({'message': "You aren't following the user."})
+
+
+@user_bp.route('/<username>/liked-tracks/')
+def liked_tracks(username):
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return jsonify({'message': "User doesn't exists."})
+    return ''

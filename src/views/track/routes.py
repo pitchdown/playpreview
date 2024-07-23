@@ -1,8 +1,7 @@
 import requests
 import json
-from flask import Blueprint, redirect, url_for, jsonify, session, request
+from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
-from time import time
 from sqlalchemy import delete
 
 from src.extensions import db
@@ -19,10 +18,10 @@ with open('genres.json', 'r') as f:
 track_bp = Blueprint('track', __name__)
 
 
-@track_bp.route('/like/<id>', methods=['POST'])
+@track_bp.route('/like-track/<id>', methods=['POST'])
 @login_required
 @token_required
-def like(id):
+def like_track(id):
     name = request.form.get('name')
     artists_name = request.form.get('artists_name')
     artists_id = request.form.get('artists_id')
@@ -55,10 +54,10 @@ def like(id):
     return jsonify({'message': 'You liked the song.'})
 
 
-@track_bp.route('/unlike/<id>', methods=['POST'])
+@track_bp.route('/unlike-track/<id>', methods=['POST'])
 @login_required
 @token_required
-def unlike(id):
+def unlike_track(id):
     delete_stmt = delete(user_track).where(
         db.and_(
             user_track.c.user_id == current_user.id,

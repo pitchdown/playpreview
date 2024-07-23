@@ -1,13 +1,9 @@
-import urllib.parse
 import requests
-import base64
 import urllib
 from time import time
 from datetime import datetime
-from base64 import b64encode
 from flask import render_template, redirect, url_for, request, session, Blueprint, jsonify
 from flask_login import login_required, logout_user, login_user
-from uuid import uuid4
 
 from src.views.auth.forms import SignUpForm, SignInForm
 from src.models.models import User
