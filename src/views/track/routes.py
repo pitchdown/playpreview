@@ -35,6 +35,7 @@ def like_track(id):
     track_name_for_genre = name.replace(' ', '+')
     track_tags = requests.get(
         f'http://ws.audioscrobbler.com/2.0/?method=track.gettoptags&artist={artist_name_for_genre}&track={track_name_for_genre}&api_key={Config.LASTFM_KEY}&format=json')
+    print(track_tags.json())
     for genre in track_tags.json()['toptags']['tag']:
         genre = genre['name']
         if 'hip-hop' in genre or 'rnb' in genre:

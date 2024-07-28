@@ -46,7 +46,7 @@ def album(id):
     if not 'error' in response_genres.json():
         for genre in response_genres.json()['toptags']['tag']:
             genre['name'] = genre['name'].replace('rnb', 'r&b')
-            if genre['name'].lower() in genres_in_file:
+            if genre['name'].lower() in genres_in_file and len(genres) < 3:
                 genres.append(genre['name'].lower())
     return render_template('album/album_page.html', album=album_data, genres=genres)
 
@@ -67,6 +67,7 @@ def album_tracks(id):
     if not hasattr(g, 'album_details'):
         g.album_details = get_album_data(id, headers)
 
+    print(g.album_details)
     response_album_tracks = requests.get(f'https://api.spotify.com/v1/albums/{id}/tracks', headers=headers,
                                          params=params)
     for track in response_album_tracks.json()['items']:
@@ -85,7 +86,8 @@ def album_tracks(id):
             'artists_id': [artist['id'] for artist in track['artists']],
             'track_number': track['track_number'],
             'preview_url': track['preview_url'],
-            'album': g.album_details['name'],
+            'album_name': g.album_details['name'],
+            'album_id': g.album_details['id'],
             'album_cover': g.album_details['cover'],
         }
         track_data['liked'] = result

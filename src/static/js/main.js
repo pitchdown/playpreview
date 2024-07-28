@@ -280,7 +280,7 @@ $(document).ready(async function () {
       await sleep(2000);
       sampleData.forEach(function (track, index) {
         let trackNumber = index + 1;
-        let artists = track.artists.join('/').toLowerCase();
+        let artists = track.artists_name.join('/').toLowerCase();
         let likeImage = track.liked ? '/static/img/like.svg' : '/static/img/like.png';
         tracksHtml += `
                       <div class="album-track-item"  data-playlist-action="toggle" data-playlist-item="${track.id}">
@@ -315,7 +315,7 @@ $(document).ready(async function () {
                                     <input type="hidden" name="album_name" value="${track.album_name}">
                                     <input type="hidden" name="album_id" value="${track.album_id}">
                                     <input type="hidden" name="album_cover" value="${track.album_cover}">
-                                    <input type="hidden" name="artist" value="${artists}">
+                                    <input type="hidden" name="artists_name" value="${artists}">
                                     <input type="hidden" name="preview_url" value="${track.preview_url}">
                                     <button class="like-button" type="button">
                                         <img src="${likeImage}" class="w-7 icon">
@@ -349,7 +349,7 @@ $(document).ready(async function () {
             console.log('track', track);
             // return;
             let trackNumber = index + 1;
-            let artists = track.artists ? track.artists.join('/').toLowerCase() : [];
+            let artists = track.artists_name.join('/').toLowerCase();
             let likeImage = track.liked ? '/static/img/like.svg' : '/static/img/like.png';
             tracksHtml += `<div class="album-track-item"  data-playlist-action="toggle" data-playlist-item="${track.id}">
                                 <div class="track-num">
@@ -383,7 +383,8 @@ $(document).ready(async function () {
                                     <input type="hidden" name="album_name" value="${track.album_name}">
                                     <input type="hidden" name="album_id" value="${track.album_id}">
                                     <input type="hidden" name="album_cover" value="${track.album_cover}">
-                                    <input type="hidden" name="artist" value="${artists}">
+                                    <input type="hidden" name="artists_name" value="${artists}">
+                                    <input type="hidden" name="artists_id" value="${track.artists_id}">
                                     <input type="hidden" name="preview_url" value="${track.preview_url}">
                                     <button class="like-button" type="button">
                                         <img src="${likeImage}" class="w-7 icon">
@@ -415,14 +416,14 @@ $(document).ready(async function () {
             if (icon.attr('src') === '/static/img/like.png') {
               icon.attr('src', '/static/img/like.svg');
               $.ajax({
-                url: '/like/' + trackId,
+                url: '/like-track/' + trackId,
                 type: 'POST',
                 data: formData,
               });
             } else {
               icon.attr('src', '/static/img/like.png');
               $.ajax({
-                url: '/unlike/' + trackId,
+                url: '/unlike-track/' + trackId,
                 type: 'POST',
                 data: formData,
               });

@@ -128,7 +128,7 @@ def search_artist():
 @artist_bp.route('/artist/<id>')
 @login_required
 @token_required
-@cache.cached(timeout=120)
+# @cache.cached(timeout=120)
 def artist(id):
     albums = []
     headers = {

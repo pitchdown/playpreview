@@ -89,8 +89,8 @@ body %} {% if not current_user.is_authenticated %}
 									<span
 										><a
 											class="text-base-900 hover:text-base-600 hover:underline"
-											href="#"
-											>{{ track.album }}</a
+											href="/album/{{ track.album_id }}"
+											>{{ track.album_name }}</a
 										>
 									</span>
 								</div>
