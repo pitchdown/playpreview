@@ -1,108 +1,124 @@
-{% extends "layout/base.html" %}
-{% block title %}Home{% endblock %}
-{% block body %}
-{% if not current_user.is_authenticated %}
-<div class="flex relative">
-    <div class="w-full relative h-[370px]">
-        <div
-                class="bg-repeat absolute left-0 top-0 h-[370px] bg-repeat-x bg-center ml-auto mr-auto bg-contain w-full"
-                style="background-image: url(../../static/img/Abbey-Road.webp)"
-        ></div>
-        <div class="main-slide-overlay">
-            <div class="page-container">
-                <p
-                        class="text-white text-center text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 z-10"
-                >
-                    discover music quicker
-                </p>
-            </div>
-        </div>
-        <!-- <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px">
-        <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px">
-        <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px">
-        <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px"> -->
-    </div>
+{% extends "layout/base.html" %} {% block title %}Home{% endblock %} {% block
+body %}
+
+<div class="w-full relative h-[370px]">
+	<div
+		class="bg-repeat absolute left-0 top-0 h-[370px] bg-repeat-x bg-center ml-auto mr-auto bg-contain w-full"
+		style="background-image: url(../../static/img/Abbey-Road.webp)"
+	></div>
+	<div class="main-slide-overlay">
+		<div class="page-container">
+			<p
+				class="text-white text-center text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 z-10"
+			>
+				discover music quicker
+			</p>
+		</div>
+	</div>
+	<!-- <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px">
+      <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px">
+      <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px">
+      <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px"> -->
 </div>
-<div class="ml-auto mr-auto flex justify-center items-center mt-6">
-    <form class="flex flex-col gap-2 text-center" action="">
-        <p>For more experience</p>
-        <button class="btn btn-xl btn-primary">GET STARTED</button>
-    </form>
-</div>
-{% else %}
-<div class="flex gap-2 justify-center mt-12 text-4xl text-center">
-    welcome back
-    <p class="underline">{{ current_user.username }}</p>
-</div>
-{% endif %}
-<div class="page-container">
-    <div class="grid grid-cols-1 mt-16">
-        <div>
-            <h3 class="text-2xl pb-4 border-b-2 border-base-100">
-                recently liked songs
-            </h3>
-            <div class="flex flex-col gap-0 w-full mt-6 mb-6 rounded-[16px] overflow-hidden">
-                {% for track in recently_liked_tracks %}
-                <div
-                        class="track-item flex w-full border-b-base-50 border-b-2 transition-all bg-base-100  p-2"
-                >
-                    <div class="id flex pr-5 pl-5 shrink-0 size-28">
-                        <p class="text-5xl m-auto opacity-15">01</p>
-                    </div>
-                    <div class="desc flex gap-3 flex-1">
-                        <div
-                                class="image size-28 bg-base-50  rounded-xl transition-all overflow-hidden shrink-0"
-                        >
-                            <img
-                                    src="{{ track.album_cover }}"
-                                    class="img size-28 bg-base-200 rounded-xl"
-                            />
-                        </div>
-                        <div class="info flex flex-col gap-2">
-                            <div class="title text-3xl text-wrap" style="word-wrap: anywhere">
-                                {{ track.name }}
-                            </div>
-                            <div class="text-lg">
-								<span
-                                ><a
-                                        class="text-base-900 hover:text-base-600 hover:underline"
-                                        href="/artist/{{ track.artist_id }}"
-                                >{{ track.artist_name }}</a>
-                                </span>
-                                <span>-</span>
-                                <span><a
-                                        class="text-base-900 hover:text-base-600 hover:underline"
-                                        href="#"
-                                >{{ track.album }}</a>
-                                </span>
-                            </div>
-                            <div class="text-black text-opacity-50">
-                                <p></p>
-                            </div>
-                        </div>
-                    </div>
-                    <form class="control pt-2 pr-4">
-                        <ul class="flex gap-4">
-                            <li>
-                                <button type="input" value="Like">
-                                    <i class="fa-regular fa-heart text-2xl"></i>
-                                    <span class="hidden">Like</span>
-                                </button>
-                            </li>
-                            <li>
-                                <button type="input" value="Like">
-                                    <i class="fa-solid fa-ellipsis-h text-2xl"></i>
-                                    <span class="hidden">Options</span>
-                                </button>
-                            </li>
-                            <!-- <li></li> -->
-                        </ul>
-                    </form>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <!-- <h3 class="text-2xl pb-4 border-b-2 border-base-100">
+<div class="page-body">
+	{% if not current_user.is_authenticated %}
+
+	<div class="ml-auto mr-auto flex justify-center items-center pt-6">
+		<form class="flex flex-col gap-2 text-center" action="">
+			<p>For more experience</p>
+			<button class="btn btn-xl btn-primary">GET STARTED</button>
+		</form>
+	</div>
+	{% else %}
+
+	<div class="flex gap-2 justify-center pt-12 text-4xl text-center">
+		welcome back -
+		<p class="underline">{{ current_user.username }}</p>
+	</div>
+	{% endif %}
+	<div class="page-container">
+		<div class="grid grid-cols-1 mt-16">
+			<div>
+				<h3 class="text-2xl pb-4 border-b-2 border-base-100">
+					recently liked songs
+				</h3>
+				<div
+					class="main-player theme-shadow flex flex-col gap-0 w-full mt-6 mb-6 rounded-[16px] overflow-hidden"
+					data-playlist="recently_liked"
+					data-playlist-action="toggle"
+					data-playlist-item="${track.id}"
+				>
+					{% for track in recently_liked_tracks %}
+					<div
+						class="track-item bg-base-100 bg-opacity-50 hover:bg-base-100 hover:bg-opacity- 15 flex w-full border-b-base-50 border-b-2 transition-all p-2"
+					>
+						<div class="id flex pr-5 pl-5 shrink-0 size-28">
+							<p class="text-5xl m-auto opacity-15">01</p>
+						</div>
+						<div class="desc flex gap-3 flex-1">
+							<div
+								class="image size-28 bg-base-50 rounded-xl transition-all overflow-hidden shrink-0"
+							>
+								<div
+									class="drop"
+									style="background-image: url({{track.album_cover}})"
+								></div>
+								<img
+									src="{{ track.album_cover }}"
+									class="img size-28 bg-base-200 rounded-xl"
+								/>
+							</div>
+							<div class="info flex flex-col gap-2">
+								<div
+									class="title text-3xl text-wrap"
+									style="word-wrap: anywhere"
+								>
+									{{ track.name }}
+								</div>
+								<div class="text-lg">
+									<span
+										><a
+											class="text-base-900 hover:text-base-600 hover:underline"
+											href="/artist/{{ track.artist_id }}"
+											>{{ track.artist_name }}</a
+										>
+									</span>
+									<span>-</span>
+									<span
+										><a
+											class="text-base-900 hover:text-base-600 hover:underline"
+											href="#"
+											>{{ track.album }}</a
+										>
+									</span>
+								</div>
+								<div class="text-black text-opacity-50">
+									<p></p>
+								</div>
+							</div>
+						</div>
+						<form class="control pt-2 pr-4">
+							<ul class="flex gap-4">
+								<li>
+									<button type="input" value="Like">
+										<i class="fa-regular fa-heart text-2xl"></i>
+										<span class="hidden">Like</span>
+									</button>
+								</li>
+								<li>
+									<button type="input" value="Like">
+										<i class="fa-solid fa-ellipsis-h text-2xl"></i>
+										<span class="hidden">Options</span>
+									</button>
+								</li>
+								<!-- <li></li> -->
+							</ul>
+						</form>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<!-- <h3 class="text-2xl pb-4 border-b-2 border-base-100">
             recently liked songs
         </h3>
         <div class="flex items-center mt-10 mb-10 gap-10 w-[900px]">
@@ -123,68 +139,70 @@
                 <img _src="static/img/three-dots.svg" class="w-7" />
             </div>
         </div> -->
-    </div>
-</div>
-<div
-        class="page-container grid grid-cols-[none] md:grid-cols-3 gap-6 pt-5 pb-4"
->
-    <div class="grid-item pt-3 flex flex-col gap-3">
-        <h4 class="text-2xl pb-4 border-b-2 border-base-100">genres</h4>
-        <div class="flex flex-wrap gap-2">
-            {% for genre, count in genres.items() %}
-            <a
-                    href="#"
-                    class="p-2 gap-1 flex flex-col text-black rounded-lg hover:bg-black hover:bg-opacity-5 hover:text-base-500"
-            >
-                <p class="text-lg">{{ genre }}</p>
-                <p class="text-sm"><span>likes: </span>{{ count }}</p>
-            </a>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="grid-item pt-3 flex flex-col gap-3">
-        <h4 class="text-2xl pb-4 border-b-2 border-base-100">artists</h4>
-        <div class="grid grid-cols-4 gap-2">
-            {% for artist in artists %}
-            <a
-                    href="#"
-                    class="artist-item aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
-            >
-                <div class="block size-full bg-base-200">
-                    <div class="w-full bg-base-500"></div>
-                    <img src="{{ artist.image }}" alt="{{ artist.name }}"/>
-                </div>
-                <div class="desc">
-                    <p class="text-lg text-ellipsis overflow-hidden whitespace-nowrap">
-                        {{ artist.name }}
-                    </p>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="grid-item pt-3 flex flex-col gap-3">
-        <h4 class="text-2xl pb-4 border-b-2 border-base-100">albums</h4>
-        {% for album in albums %}
-        <a
-                href="#"
-                class="artist-item aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
-        >
-            <div class="block size-full bg-base-200">
-                <div class="w-full bg-base-500"></div>
-                <img src="{{ album.cover }}" alt="{{ album.name }}"/>
-            </div>
-            <div class="desc">
-                <p class="text-lg text-ellipsis overflow-hidden whitespace-nowrap">
-                    {{ album.name }}
-                </p>
-            </div>
-        </a>
-        {% endfor %}
-        <div class="flex flex-col justify-center items-center gap-8">content</div>
-    </div>
-</div>
-<!-- <div class="page-container grid grid-cols-3">
+		</div>
+	</div>
+	<div
+		class="page-container grid grid-cols-[none] md:grid-cols-3 gap-6 pt-5 pb-4"
+	>
+		<div class="grid-item pt-3 flex flex-col gap-3">
+			<h4 class="text-2xl pb-4 border-b-2 border-base-100">genres</h4>
+			<div class="flex flex-wrap gap-2">
+				{% for genre, count in genres.items() %}
+				<a
+					href="#"
+					class="p-2 gap-1 flex flex-col text-black rounded-lg hover:bg-black hover:bg-opacity-5 hover:text-base-500"
+				>
+					<p class="text-lg">{{ genre }}</p>
+					<p class="text-sm"><span>likes: </span>{{ count }}</p>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="grid-item pt-3 flex flex-col gap-3">
+			<h4 class="text-2xl pb-4 border-b-2 border-base-100">artists</h4>
+			<div class="grid grid-cols-4 gap-2">
+				{% for artist in artists %}
+				<a
+					href="#"
+					class="artist-item  aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
+				>
+					<div class="flex rounded-md overflow-hidden size-full bg-base-200">
+						<div class="w-full bg-base-100"></div>
+						<img src="{{ artist.image }}" class="m-auto" alt="{{ artist.name }}" />
+					</div>
+					<div class="desc">
+						<p class="text-lg text-ellipsis overflow-hidden whitespace-nowrap">
+							{{ artist.name }}
+						</p>
+					</div>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="grid-item pt-3 flex flex-col gap-3">
+			<h4 class="text-2xl pb-4 border-b-2 border-base-100">albums</h4>
+			<div class="grid grid-cols-4 gap-2">
+				{% for album in albums %}
+				<a
+					href="#"
+					class="artist-item  aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
+				>
+					<div class="flex rounded-md overflow-hidden size-full bg-base-200">
+						<div class="w-full bg-base-100"></div>
+						<img src="{{ album.cover }}" class="m-auto" alt="{{ album.name }}" />
+					</div>
+					<div class="desc">
+						<p class="text-lg text-ellipsis overflow-hidden whitespace-nowrap">
+							{{ album.name }}
+						</p>
+					</div>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<!-- <div class="page-container grid grid-cols-3">
     <div class="mt-16 mb-16">
         <p class="flex justify-center text-3xl mb-8">genres</p>
         <div class="flex flex-col justify-center items-center gap-8">
@@ -194,4 +212,5 @@
         </div>
     </div>
 </div> -->
-{% endblock %}
+	{% endblock %}
+</div>

@@ -123,6 +123,8 @@ def home():
     track_ids = [track[1] for track in tracks_data]
     tracks = Track.query.filter(Track.id.in_(recently_liked_track_ids)).all()
     tracks_for_genres = Track.query.filter(Track.id.in_(track_ids)).all()
+    print(tracks)
+
 
     genres_like_count = Counter()
     for track in tracks_for_genres:

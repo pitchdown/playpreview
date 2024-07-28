@@ -270,11 +270,11 @@ function sleep(ms = 100) {
   })
 }
 
-let testCase = true;
+let testCase = !true;
 
 $(document).ready(async function () {
   if (window.location.pathname.startsWith('/album/')) {
-    var albumId = $('#albumId').data('album-id');
+    var albumId = $('#tracks').data('album-id');
     var tracksHtml;
     if (testCase) {
       await sleep(2000);
@@ -337,12 +337,7 @@ $(document).ready(async function () {
                       </div>`;
       });
       $('#tracks').html(tracksHtml);
-      _initPlaylistPlayer($('#tracks'))
-      setTimeout(() => {
-        $('#tracks').append(tracksHtml);
-        console.log('update');
-        _initPlaylistPlayer($('#tracks'))
-      }, 5000);
+      initPlaylistPlayer($('#tracks'));
     } else {
       $.ajax({
         url: '/album/' + albumId + '/tracks',
@@ -351,8 +346,10 @@ $(document).ready(async function () {
           let tracksHtml = '';
           console.log(data)
           data.forEach(function (track, index) {
+            console.log('track', track);
+            // return;
             let trackNumber = index + 1;
-            let artists = track.artists.join('/').toLowerCase();
+            let artists = track.artists ? track.artists.join('/').toLowerCase() : [];
             let likeImage = track.liked ? '/static/img/like.svg' : '/static/img/like.png';
             tracksHtml += `<div class="album-track-item"  data-playlist-action="toggle" data-playlist-item="${track.id}">
                                 <div class="track-num">
@@ -377,12 +374,14 @@ $(document).ready(async function () {
                                 <p class="track-title">${track.name}</p>
                                 <p class="text-artist">${artists}</p>
                                 <p class="text-duration" data-playlist-item-duration></p>
+
                             </div>
                             <div class="track-form">
                                 <form action="" id="like-form" method="POST">
                                     <input type="hidden" name="id" value="${track.id}">
                                     <input type="hidden" name="name" value="${track.name}">
-                                    <input type="hidden" name="album" value="${track.album}">
+                                    <input type="hidden" name="album_name" value="${track.album_name}">
+                                    <input type="hidden" name="album_id" value="${track.album_id}">
                                     <input type="hidden" name="album_cover" value="${track.album_cover}">
                                     <input type="hidden" name="artist" value="${artists}">
                                     <input type="hidden" name="preview_url" value="${track.preview_url}">
@@ -478,6 +477,7 @@ const initPlaylistPlayer = (targetEl) => {
 
     switch (eventAction) {
       case 'play':
+        console.log('play');
         audioTarget.play();
         break;
       case 'pause':
@@ -663,7 +663,7 @@ const scopeQuery = '[data-playlist]';
 
 function initApp(options) {
   $(scopeQuery).each((key, playlist) => {
-    _initPlaylistPlayer($(playlist));
+    initPlaylistPlayer($(playlist));
   });
 }
 

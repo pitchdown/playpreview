@@ -1,86 +1,101 @@
-{% extends "layout/base.html" %}
-{% block title %}{{ title }}{% endblock %}
-{% block body %}
-<div class="page-container py-12">
-    <div class="mb-12">
-        <div class="text-black text-xl">
-            Search result for: <span class="underline">...</span>
-        </div>
-    </div>
-    <div class="flex flex-col gap-6">
-        {% for artist in artists %}
-        <a
-                href="{{ url_for('artist.artist', id=artist['id']) }}"
-                class="flex flex-1 rounded-xl transition-all hover:bg-base-100 hover:bg-opacity-80 flex-col sm:flex-row gap-8"
-        >
-            <div
-                    class="avatar aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg overflow-hidden bg-black bg-opacity-15"
-            >
-                <img src="{{ artist['image'] }}" class="h-full max-w-[initial]"/>
+{% extends "layout/base.html" %} {% block title %}{{ title }}{% endblock %} {%
+block body %}
+<div class="page-body">
+	<div class="page-container py-12">
+		<div class="mb-12">
+			<div class="text-black text-xl">
+				Search result for: <span class="underline">...</span>
+			</div>
+		</div>
+		<div class="flex flex-col gap-6">
+			{% for artist in artists %}
+			<a
+				href="{{ url_for('artist.artist', id=artist['id']) }}"
+				class="flex flex-1 rounded-xl transition-all hover:bg-base-100 hover:bg-opacity-80 flex-col sm:flex-row gap-8"
+			>
+				<div
+					class="avatar aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg overflow-hidden bg-black bg-opacity-15"
+				>
+					<img src="{{ artist['image'] }}" class="h-full max-w-[initial]" />
+				</div>
+				<div class="desc flex-1 pt-3">
+					<div
+						class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
+					>
+						<div>
+							<p class="text-3xl">{{ artist['name'] }}</p>
+						</div>
+
+						<div class="mt-1 mr-3 flex gap-2">
+							<form
+								action="{% if artist['followed'] == True %}{{ url_for('artist.unfollow_artist', id=artist['id']) }}{% else %}{{ url_for('artist.follow_artist', id=artist['id']) }}{% endif %}"
+								id="follow-form"
+								method="POST"
+							>
+								<input type="hidden" name="id" value="{{ artist['id'] }}" />
+								<input type="hidden" name="name" value="{{ artist['name'] }}" />
+								<input
+									type="hidden"
+									name="image"
+									value="{{ artist['image'] }}"
+								/>
+								<input
+									type="hidden"
+									name="genres"
+									value="{{ artist['genres']|join('.') }}"
+								/>
+								<div class="flex gap-5">
+									{% if artist['followed'] != True %}
+									<button class="btn btn-primary text-2xl" type="submit">
+										follow
+									</button>
+									{% else %}
+									<button
+										class="text-2xl text-white pl-5 pr-5 rounded-lg bg-base-600 w-auto"
+										type="submit"
+									>
+										unfollow
+									</button>
+									{% endif %}
+									<button class="btn btn-text text-2xl">
+										<i class="fa-solid fa-ellipsis-vertical"></i>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div>
+						<!-- <p class="text-sm text-opacity-90 text-center sm:text-start">genres</p> -->
+						<div
+							class="flex flex-wrap justify-center sm:justify-start gap-3 pt-3"
+						>
+							{% for genre in artist['genres'] %}
+							<span class="px-3 py-2 text-lg bg-base-100 text-base-950"
+								>{{ genre }}</span
+							>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</a>
+
+			<!-- <div class="flex justify-center items-center gap-16 mt-10 w-[900px]">
+            <a href="{{ url_for('artist.artist', id=artist['id']) }}">
+                <img _src="{{ artist['image'] }}" class="flex justify-start rounded-lg" width="250px">
+            </a>
+            <div class="">
+                <p class="text-5xl mb-5">{{ artist['name'] }}</p>
+                {% for genre in artist['genres'] %}
+                    <p>{{ genre }}</p>
+                {% endfor %}
             </div>
-            <div class="desc flex-1 pt-3">
-                <div
-                        class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
-                >
-                    <div>
-                        <p class="text-3xl">{{ artist['name'] }}</p>
-                    </div>
-
-
-                    <div class="mt-1 mr-3 flex gap-2">
-                        <form action="{% if artist['followed'] == True %}{{ url_for('artist.unfollow_artist', id=artist['id']) }}{% else %}{{ url_for('artist.follow_artist', id=artist['id']) }}{% endif %}"
-                              id="follow-form" method="POST">
-                            <input type="hidden" name="id" value="{{ artist['id'] }}">
-                            <input type="hidden" name="name" value="{{ artist['name'] }}">
-                            <input type="hidden" name="image" value="{{ artist['image'] }}">
-                            <input type="hidden" name="genres" value="{{ artist['genres']|join('.') }}">
-                            <div class="flex gap-5">
-                                {% if artist['followed'] != True %}
-                                <button class="btn btn-primary text-2xl" type="submit">follow</button>
-                                {% else %}
-                                <button class="text-2xl text-white pl-5 pr-5 rounded-lg bg-base-600 w-auto"
-                                        type="submit">unfollow
-                                </button>
-                                {% endif %}
-                                <button class="btn btn-text text-2xl">
-                                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-                <div>
-                    <!-- <p class="text-sm text-opacity-90 text-center sm:text-start">genres</p> -->
-                    <div
-                            class="flex flex-wrap justify-center sm:justify-start gap-3 pt-3"
-                    >
-                        {% for genre in artist['genres'] %}
-                        <span class="px-3 py-2 text-lg bg-base-100 text-base-950"
-                        >{{ genre }}</span
-                        >
-                        {% endfor %}
-                    </div>
-                </div>
+            <div class="flex justify-end gap-5 ml-auto">
+                <button class="text-2xl text-white p-1 pl-5 pr-5 rounded-lg bg-red-500 w-auto">follow</button>
+                <img _src="/static/img/three-dots.svg" class="w-7">
             </div>
-        </a>
-
-        <!-- <div class="flex justify-center items-center gap-16 mt-10 w-[900px]">
-          <a href="{{ url_for('artist.artist', id=artist['id']) }}">
-              <img _src="{{ artist['image'] }}" class="flex justify-start rounded-lg" width="250px">
-          </a>
-          <div class="">
-              <p class="text-5xl mb-5">{{ artist['name'] }}</p>
-              {% for genre in artist['genres'] %}
-                  <p>{{ genre }}</p>
-              {% endfor %}
-          </div>
-          <div class="flex justify-end gap-5 ml-auto">
-              <button class="text-2xl text-white p-1 pl-5 pr-5 rounded-lg bg-red-500 w-auto">follow</button>
-              <img _src="/static/img/three-dots.svg" class="w-7">
-          </div>
-      </div> -->
-        {% endfor %}
-    </div>
+        </div> -->
+			{% endfor %}
+		</div>
+	</div>
 </div>
 {% endblock %}
