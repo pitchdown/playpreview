@@ -1,5 +1,5 @@
 {% extends "layout/base.html" %} {% block title %}Home{% endblock %} {% block
-body %}
+body %} {% if not current_user.is_authenticated %}
 
 <div class="w-full relative h-[370px]">
 	<div
@@ -20,6 +20,8 @@ body %}
       <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px">
       <img _src="static/img/abbey-road.webp" class="brightness-50" width="420px"> -->
 </div>
+{% endif %}
+
 <div class="page-body">
 	{% if not current_user.is_authenticated %}
 
@@ -31,13 +33,13 @@ body %}
 	</div>
 	{% else %}
 
-	<div class="flex gap-2 justify-center pt-12 text-4xl text-center">
+	<!-- <div class="flex gap-2 justify-center pt-12 text-4xl text-center">
 		welcome back -
 		<p class="underline">{{ current_user.username }}</p>
-	</div>
+	</div> -->
 	{% endif %}
 	<div class="page-container">
-		<div class="grid grid-cols-1 mt-16">
+		<div class="grid grid-cols-1 pt-16">
 			<div>
 				<h3 class="text-2xl pb-4 border-b-2 border-base-100">
 					recently liked songs
@@ -45,12 +47,12 @@ body %}
 				<div
 					class="main-player theme-shadow flex flex-col gap-0 w-full mt-6 mb-6 rounded-[16px] overflow-hidden"
 					data-playlist="recently_liked"
-					data-playlist-action="toggle"
-					data-playlist-item="${track.id}"
 				>
 					{% for track in recently_liked_tracks %}
 					<div
 						class="track-item bg-base-100 bg-opacity-50 hover:bg-base-100 hover:bg-opacity- 15 flex w-full border-b-base-50 border-b-2 transition-all p-2"
+						data-playlist-item="{{track.id}}"
+						data-playlist-action="toggle"
 					>
 						<div class="id flex pr-5 pl-5 shrink-0 size-28">
 							<p class="text-5xl m-auto opacity-15">01</p>
@@ -75,7 +77,7 @@ body %}
 								>
 									{{ track.name }}
 								</div>
-								<div class="text-lg">
+								<div class="text-md">
 									<span
 										><a
 											class="text-base-900 hover:text-base-600 hover:underline"
@@ -92,8 +94,60 @@ body %}
 										>
 									</span>
 								</div>
-								<div class="text-black text-opacity-50">
-									<p></p>
+								<div
+									class="player-control flex items-center gap-2 text-3xl text-base-900 text-opacity-50"
+								>
+									<div class="track">
+										<div class="" data-playlist-action="current-duration"></div>
+										<div class="" data-playlist-action="full-duration"></div>
+									</div>
+									<div class="relative" data-playlist-action="toggle">
+										<i data-playlist-action="play" class="w-12 fa-solid fa-play"></i>
+										<span data-playlist-action="pause" class="hidden">
+											<i class="fa-solid fa-pause w-12 "></i>
+										</span>
+									</div>
+									<div class="flex relative">
+										<input
+											data-playlist-action="seeking"
+											type="range"
+											min="0.0"
+											max="100"
+											value="0.0"
+											step="0.01"
+											class="slider size-5 relative top-0 left-0 w-full"
+										/>
+										<div
+											class="absolute flex items-center top-0 left-0 h-full size-full py-1"
+										>
+											<div class="h-1 w-full relative">
+												<div
+													class="absolute left-0 top-0 size-full seekbar h-full bg-base-200 bg-opacity-80"
+												></div>
+												<div
+													class="absolute left-0 top-0 h-full seekbar h-full bg-base-300"
+													data-playlist-action="progress"
+												></div>
+											</div>
+										</div>
+									</div>
+									<div class="flex text-lg">
+										<div>00:00</div>
+										<div>-</div>
+										<div>00:00</div>
+									</div>
+									<div class="flex">
+										<audio controls style="display: none">
+											<source
+												src="https://p.scdn.co/mp3-preview/07de30bde8363d9ff78b72339245c151f67af451?cid=6e82327445994df88d17de8cd6608f19"
+												type="audio/ogg"
+											/>
+											<source
+												src="https://p.scdn.co/mp3-preview/07de30bde8363d9ff78b72339245c151f67af451?cid=6e82327445994df88d17de8cd6608f19"
+												type="audio/mpeg"
+											/>
+										</audio>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -150,7 +204,7 @@ body %}
 				{% for genre, count in genres.items() %}
 				<a
 					href="#"
-					class="p-2 gap-1 flex flex-col text-black rounded-lg hover:bg-black hover:bg-opacity-5 hover:text-base-500"
+					class="p-2 gap-1 flex flex-col text-black rounded-lg hover:bg-base-100 hover:text-base-500"
 				>
 					<p class="text-lg">{{ genre }}</p>
 					<p class="text-sm"><span>likes: </span>{{ count }}</p>
@@ -164,11 +218,19 @@ body %}
 				{% for artist in artists %}
 				<a
 					href="#"
-					class="artist-item  aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
+					class="artist-item aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
 				>
-					<div class="flex rounded-md overflow-hidden size-full bg-base-200">
-						<div class="w-full bg-base-100"></div>
-						<img src="{{ artist.image }}" class="m-auto" alt="{{ artist.name }}" />
+					<div
+						class="flex rounded-md overflow-hidden size-full relative bg-base-200"
+					>
+						<div
+							class="w-full absolute top-0 left-0 size-full bg-base-100"
+						></div>
+						<img
+							src="{{ artist.image }}"
+							class="m-auto size-full object-cover relative"
+							alt="{{ artist.name }}"
+						/>
 					</div>
 					<div class="desc">
 						<p class="text-lg text-ellipsis overflow-hidden whitespace-nowrap">
@@ -185,11 +247,19 @@ body %}
 				{% for album in albums %}
 				<a
 					href="#"
-					class="artist-item  aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
+					class="artist-item aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
 				>
-					<div class="flex rounded-md overflow-hidden size-full bg-base-200">
-						<div class="w-full bg-base-100"></div>
-						<img src="{{ album.cover }}" class="m-auto" alt="{{ album.name }}" />
+					<div
+						class="flex rounded-md overflow-hidden size-full relative bg-base-200"
+					>
+						<div
+							class="w-full absolute top-0 left-0 size-full bg-base-100"
+						></div>
+						<img
+							src="{{ album.cover }}"
+							class="m-auto size-full object-cover relative"
+							alt="{{ album.name }}"
+						/>
 					</div>
 					<div class="desc">
 						<p class="text-lg text-ellipsis overflow-hidden whitespace-nowrap">

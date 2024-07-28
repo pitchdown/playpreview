@@ -520,6 +520,7 @@ const initPlaylistPlayer = (targetEl) => {
     const playBtn = $(_playingItem).find('[data-playlist-action="play"]') || null;
     const pauseBtn = $(_playingItem).find('[data-playlist-action="pause"]') || null;
 
+    // console.log('-----------', progressBar);
 
     switch (e.type) {
       case 'play':
@@ -559,8 +560,8 @@ const initPlaylistPlayer = (targetEl) => {
         }
         break;
       case 'timeupdate':
-        const progressElement = $(_playlistElement).find('progress');
-        const sliderElement = $(_playlistElement).find('.slider');
+        const progressElement = $(_playlistElement).find('[data-playlist-action="progress"]');
+        const sliderElement = $(_playlistElement).find('[data-playlist-action="seeking"]');
 
         if (!this.paused) {
           $($(_playlistElement).find('[data-playlist-action="pause"]')).show()
@@ -573,8 +574,13 @@ const initPlaylistPlayer = (targetEl) => {
           $($(_playlistElement).find('[data-playlist-action="play"]')).show()
         }
 
-        progressElement.attr("value", this.currentTime / this.duration);
-        $(sliderElement).val((this.currentTime / this.duration) * 100);
+        if (progressElement) {
+          progressElement.css("width", (this.currentTime / this.duration) * 100 + '%');
+          progressElement.attr("data-playlist-progress-value", this.currentTime / this.duration);
+        }
+        if (sliderElement) {
+          $(sliderElement).val((this.currentTime / this.duration) * 100);
+        }
         break;
       default:
         break;
@@ -590,6 +596,28 @@ const initPlaylistPlayer = (targetEl) => {
       const audioEl = $($(element).find('audio')[0]);
       const slideEl = $($(element).find('.slider'));
       const el = $(element).find('audio')[0];
+
+
+      const progresbarHTML = ` <input
+                                    data-playlist-action="seeking"
+                                    type="range"
+                                    min="0.0"
+                                    max="100"
+                                    value="0.0"
+                                    step="0.01"
+                                    class="slider"
+                                  />
+                                  `;
+      const seekBarHTML = `
+              <progress class="seekbar" value="0" max="1" data-playlist-action="progress"></progress>
+              `;
+
+      const progressBar = $(element).find('[data-playlist-action="progress"]');
+      const seekBar = $(element).find('[data-playlist-action="seeking"]');
+
+      // $(progressBar).replaceWith(progresbarHTML)
+      // $(seekBar).replaceWith(seekBarHTML)
+      // console.log('---------------', progresbarHTML);
 
       if ($(this).find('audio')[0].onplay) {
         console.log('------ onplay');
@@ -642,7 +670,7 @@ const _initPlaylistPlayer = (targetEl) => {
   const playlistItems = $(playlistElement.find('[data-playlist-item]'));
   playlistItems.each((key, item) => {
     console.log('--', $.data(item, 'events'));
-    $(item).on('click', function() {
+    $(item).on('click', function () {
       console.log('------ click');
     })
     if (item.onclick) {
