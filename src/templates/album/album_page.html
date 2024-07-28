@@ -1,36 +1,45 @@
 {% extends "layout/base.html" %} {% block title %}{{ album['name'] }}{%
 endblock%} {% block body %} {% set n = namespace(counter = 0) %}
 <div class="page-body">
-  <div class="page-container">
-    <div class="flex flex-col sm:flex-row gap-8 pt-10">
-      <div
-        class="avatar aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg overflow-hidden bg-black bg-opacity-15"
-      >
-        <img src="{{ album['cover'] }}" class="h-full" />
-      </div>
-      <div class="desc flex-1">
-        <div
-          class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
-        >
-          <div>
-            {% for artist in album['artist'] %}
-            <p class="text-2xl">{{ artist }}</p>
-            {% endfor %}
-            <p class="mb-2">{{ album['type'] }}</p>
-            <p class="text-5xl">{{ album['name'] }}</p>
-            <p>release date: {{ album['release_date'] }}</p>
-            <p>total songs: {{ album['total_tracks'] }}</p>
-          </div>
-          <!-- <div class="mt-1 mr-3 flex gap-2">
-            <button class="btn btn-primary text-2xl">follow</button>
-            <button class="btn btn-text text-2xl">
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </button>
-          </div> -->
+    <div class="page-container">
+        <div class="flex flex-col sm:flex-row gap-8 pt-10">
+            <div
+                    class="avatar aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg overflow-hidden bg-black bg-opacity-15"
+            >
+                <img src="{{ album['cover'] }}" class="h-full"/>
+            </div>
+            <div class="desc flex-1">
+                <div
+                        class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
+                >
+                    <div>
+                        {% for artist in album['artist'] %}
+                        <p class="text-2xl">{{ artist }}</p>
+                        {% endfor %}
+                        <p class="mb-2">{{ album['type'] }}</p>
+                        <p class="text-5xl">{{ album['name'] }}</p>
+                        <p>release date: {{ album['release_date'] }}</p>
+                        <p>total songs: {{ album['total_tracks'] }}</p>
+                        <div
+                                class="flex flex-wrap justify-center sm:justify-start gap-3 pt-3"
+                        >
+                            {% for genre in genres %}
+                            <span class="px-3 py-2 text-lg bg-base-100 text-base-950"
+                            >{{ genre }}</span
+                            >
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- <div class="mt-1 mr-3 flex gap-2">
+                      <button class="btn btn-primary text-2xl">follow</button>
+                      <button class="btn btn-text text-2xl">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                      </button>
+                    </div> -->
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <!-- <div class="flex justify-center items-center gap-16 mt-10">
