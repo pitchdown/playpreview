@@ -10,7 +10,10 @@ from src.functions import get_preview_url_if_null, token_required
 
 main_bp = Blueprint('main', __name__)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/main
 tracks_list = [{'name': 'pyramids', 'id': '4QhWbupniDd44EDtnh2bFJ', 'artists_name': 'frank ocean',
                 'artists_id': '2h93pZq0e7k5yf4dywlkpM', 'album_name': 'channel orange',
                 'album_id': '392p3shh2jkxUxY2VHvlH8',

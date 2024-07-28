@@ -464,7 +464,10 @@ const initPlaylistPlayer = (targetEl) => {
   const playListId = playListElement.data('playlist')
 
   const uiEventHandler = function (e) {
-    e.preventDefault();
+    if (e.target instanceof HTMLAnchorElement) {
+      return;
+    }
+    // e.preventDefault();
     e.stopPropagation();
     const eventTarget = $(e.currentTarget);
     const itemElement = eventTarget.data('playlistItem') ? eventTarget : eventTarget.parents('[data-playlist-item]');
@@ -505,7 +508,6 @@ const initPlaylistPlayer = (targetEl) => {
   };
 
   playListElement.on('click', '[data-playlist-action]', uiEventHandler);
-
 
   /**
    * Audio Element Events
