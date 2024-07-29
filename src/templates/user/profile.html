@@ -34,7 +34,7 @@
 				<div
 					href="#"
 					class="item aspect-square"
-					data-playlist-item="{{genre}}"
+					data-playlist-item="{{track.id}}"
 					data-playlist-action="toggle"
 				>
 					<div data-playlist-action="toggle">
@@ -46,19 +46,43 @@
 								srcset=""
 							/>
 						</div>
+            <div class="flex relative">
+              <input
+                data-playlist-action="seeking"
+                type="range"
+                min="0.0"
+                max="100"
+                value="0.0"
+                step="0.01"
+                class="slider size-5 relative top-0 left-0 w-full"
+              />
+              <div
+                class="absolute flex items-center top-0 left-0 h-full size-full py-1"
+              >
+                <div class="h-1 w-full relative">
+                  <div
+                    class="absolute left-0 top-0 size-full seekbar h-full bg-base-200 bg-opacity-80"
+                  ></div>
+                  <div
+                    class="absolute left-0 top-0 h-full seekbar h-full bg-base-950"
+                    data-playlist-action="progress"
+                  ></div>
+                </div>
+              </div>
+            </div>
 						<div class="hidden">
 							<audio controls>
 								<source
-									src=""
+									src="{{track.preview_url}}"
 									type="audio/ogg"
 								/>
 								<source
-									src=""
+									src="{{track.preview_url}}"
 									type="audio/mpeg"
 								/>
 							</audio>
 						</div>
-						<div class="desc flex gap-2 mt-2 text-base-900">
+						<div class="desc flex gap-2 mt-2 text-base-950">
 							<div class="play-btn text-3xl pt-1 size-8 cursor-pointer">
 								<div data-playlist-action="pause" class="hidden">
 									<i class="fa-regular fa-circle-pause hidden"></i>
@@ -69,7 +93,7 @@
 							</div>
 							<div class="desc flex-1">
 								<div class="name text-xl">{{ track.name }}</div>
-								<div class="name text-sm flex gap-1">
+								<div class="name text-sm  gap-1">
 									<span
 										><a
 											class="text-base-950 hover:underline hover:text-base-500"

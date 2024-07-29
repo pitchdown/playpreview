@@ -50,14 +50,14 @@ body %} {% if not current_user.is_authenticated %}
 				>
 					{% for track in recently_liked_tracks %}
 					<div
-						class="track-item bg-base-100 bg-opacity-50 hover:bg-base-100 hover:bg-opacity- 15 flex w-full border-b-base-50 border-b-2 transition-all p-2"
+						class="track-item bg-base-100 bg-opacity-50 hover:bg-base-100 flex w-full border-b-base-50 border-b-2 transition-all px-2 py-5"
 						data-playlist-item="{{track.id}}"
 						data-playlist-action="toggle"
 					>
-						<div class="id flex pr-5 pl-5 shrink-0 size-28">
+						<div class="id flex py-2 pr-5 pl-5 shrink-0 size-28">
 							<p class="text-5xl m-auto opacity-15">01</p>
 						</div>
-						<div class="desc flex gap-3 flex-1">
+						<div class="desc flex gap-6 flex-1">
 							<div
 								class="image size-28 bg-base-50 rounded-xl transition-all overflow-hidden shrink-0"
 							>
@@ -70,12 +70,29 @@ body %} {% if not current_user.is_authenticated %}
 									class="img size-28 bg-base-200 rounded-xl"
 								/>
 							</div>
-							<div class="info flex flex-col gap-2">
+							<div class="info flex flex-1 flex-col gap-1">
 								<div
-									class="title text-3xl text-wrap"
+									class="title flex items-center text-3xl text-wrap"
 									style="word-wrap: anywhere"
 								>
-									{{ track.name }}
+									<h4>{{ track.name }}</h4>
+									<form class="control pr-4 ml-auto mb-auto">
+										<ul class="flex gap-4">
+											<li>
+												<button type="input" value="Like">
+													<i class="fa-regular fa-heart text-2xl"></i>
+													<span class="hidden">Like</span>
+												</button>
+											</li>
+											<li>
+												<button type="input" value="Like">
+													<i class="fa-solid fa-ellipsis-h text-2xl"></i>
+													<span class="hidden">Options</span>
+												</button>
+											</li>
+											<!-- <li></li> -->
+										</ul>
+									</form>
 								</div>
 								<div class="text-md">
 									<span
@@ -94,33 +111,37 @@ body %} {% if not current_user.is_authenticated %}
 										>
 									</span>
 								</div>
+
 								<div
-									class="player-control flex items-center gap-2 text-3xl text-base-900 text-opacity-50"
+									class="player-control flex flex-1 items-center gap-2 text-3xl text-base-500 text-opacity-50"
 								>
 									<div class="track">
 										<div class="" data-playlist-action="current-duration"></div>
 										<div class="" data-playlist-action="full-duration"></div>
 									</div>
-									<div class="relative" data-playlist-action="toggle">
-										<i data-playlist-action="play" class="w-12 fa-solid fa-play"></i>
+									<div class="relative w-8" data-playlist-action="toggle">
+										<i
+											data-playlist-action="play"
+											class="w-7 fa-solid fa-play"
+										></i>
 										<span data-playlist-action="pause" class="hidden">
-											<i class="fa-solid fa-pause w-12 "></i>
+											<i class="fa-solid fa-pause w-7"></i>
 										</span>
 									</div>
-									<div class="flex relative">
+									<div class="flex flex-1 relative">
 										<input
 											data-playlist-action="seeking"
 											type="range"
 											min="0.0"
 											max="100"
 											value="0.0"
-											step="0.01"
+											step="3"
 											class="slider size-5 relative top-0 left-0 w-full"
 										/>
 										<div
 											class="absolute flex items-center top-0 left-0 h-full size-full py-1"
 										>
-											<div class="h-1 w-full relative">
+											<div class="h-1 hover:h-2 transition-all w-full relative">
 												<div
 													class="absolute left-0 top-0 size-full seekbar h-full bg-base-200 bg-opacity-80"
 												></div>
@@ -131,11 +152,9 @@ body %} {% if not current_user.is_authenticated %}
 											</div>
 										</div>
 									</div>
-									<div class="flex text-lg">
+									<divn data-playlist-item-duration class="flex text-lg">
 										<div>00:00</div>
-										<div>-</div>
-										<div>00:00</div>
-									</div>
+									</divn>
 									<div class="flex">
 										<audio controls style="display: none">
 											<source
@@ -151,23 +170,6 @@ body %} {% if not current_user.is_authenticated %}
 								</div>
 							</div>
 						</div>
-						<form class="control pt-2 pr-4">
-							<ul class="flex gap-4">
-								<li>
-									<button type="input" value="Like">
-										<i class="fa-regular fa-heart text-2xl"></i>
-										<span class="hidden">Like</span>
-									</button>
-								</li>
-								<li>
-									<button type="input" value="Like">
-										<i class="fa-solid fa-ellipsis-h text-2xl"></i>
-										<span class="hidden">Options</span>
-									</button>
-								</li>
-								<!-- <li></li> -->
-							</ul>
-						</form>
 					</div>
 					{% endfor %}
 				</div>
@@ -217,7 +219,7 @@ body %} {% if not current_user.is_authenticated %}
 			<div class="grid grid-cols-4 gap-2">
 				{% for artist in artists %}
 				<a
-					href="/artist/{{ artist.id }}"
+					href="#"
 					class="artist-item aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
 				>
 					<div

@@ -690,12 +690,69 @@ const _initPlaylistPlayer = (targetEl) => {
   console.log('playlistItems', playlistItems.onclick);
 }
 
+function _albumTabSwitch(e) {
+  const el = $(e);
+  let activeTab = null;
+
+  const list = $('#album-tabs-list');
+
+  el.find('[data-album-type]').each((key, tab) => {
+    if (tab.onclick) { return }
+    if (key === 0) {
+      activeTab = $(tab).data('album-type');
+      $(tab).addClass($(tab).data('album-active-class'))
+      console.log('activeTab', activeTab);
+    }
+
+    tab.onclick = function (_e) {
+      const action = $(_e.currentTarget).data('album-type');
+      console.log('----', activeTab, action);
+
+      $('[data-album-type="' + activeTab + '"]').removeClass($(tab).data('album-active-class'))
+      $('[data-album-type="' + action + '"]').addClass($(tab).data('album-active-class'))
+
+      if ($(tab).data('album-active-class') && activeTab == action) {
+      } else {
+        console.log('-else');
+        // $(tab).removeClass($(tab).data('album-active-class'))
+      }
+
+      activeTab = action;
+
+      list.find('[data-album-type]').each((i, e) => {
+        if ($(e).data('album-type') == action) {
+          $(e).show();
+        } else if (action === 'all') {
+          $(e).show()
+        } else {
+          $(e).hide()
+        }
+      })
+
+      switch (action) {
+        case 'all':
+          break;
+        case 'album':
+          break;
+        case 'single':
+          break;
+        default:
+          break;
+      }
+
+    }
+  })
+
+
+}
+
 const scopeQuery = '[data-playlist]';
 
 function initApp(options) {
   $(scopeQuery).each((key, playlist) => {
     initPlaylistPlayer($(playlist));
   });
+  _albumTabSwitch($('#album_tabs'));
 }
 
 /**

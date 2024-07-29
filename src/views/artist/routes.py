@@ -161,7 +161,8 @@ def artist(id):
         }
         albums.append(album_body)
 
-
+    print('albums')
+    print(albums)
     return render_template('artist/artist_page.html', albums=albums, artist=artist_body)
 
 

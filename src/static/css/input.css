@@ -68,7 +68,6 @@ body {
 		inset 0px 115px 140px -100px #d539121a;
 }
 
-
 .theme-shadow.active {
 	--shadow-bg: #f3d6c6;
 	box-shadow: 0px 10px 10px -10px #ef3407, 0px -2px 0px 0px var(--shadow-bg),
@@ -393,4 +392,52 @@ input[type="range"]::-moz-range-thumb {
 .main-player .image img {
 	z-index: 2;
 	position: relative;
+}
+
+.dotted-bg_ {
+	--color-1: hsl(16, 99%, 45%);
+	--color-2: var(--color-1);
+	--size: 1px;
+	--size-total: calc(var(--size) * 3);
+	--offset: calc(var(--size-total) / 2 + var(--size));
+
+	position: relative;
+	> * {
+		position: relative;
+	}
+
+	&::before {
+		/* display: none; */
+		animation: background-anim 20s infinite alternate linear;
+		background-color: #fe4909;
+		background-image: radial-gradient(
+				circle at var(--size) var(--size),
+				var(--color-1) var(--size),
+				transparent 0
+			),
+			radial-gradient(
+				circle at var(--offset) var(--offset),
+				var(--color-2) var(--size),
+				transparent 0
+			);
+		background-size: var(--size-total) var(--size-total);
+		background-repeat: repeat;
+		content: "";
+		opacity: 1;
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		will-change: background-position;
+	}
+
+	&::after {
+		/*       mask-image: var(--image-src);
+      mask-repeat: no-repeat;
+      mask-size: 100% 100%;
+      mix-blend-mode: darken; */
+	}
+}
+
+.theme-tabs .active {
+	@apply bg-base-200 text-base-800;
 }
