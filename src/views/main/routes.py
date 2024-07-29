@@ -235,6 +235,7 @@ def recommendations():
     #         }
     #         tracks.append(track_body)
     #         session['tracks'].append(track_id)
+    print(tracks_list)
     return render_template('main/recommendations.html', tracks=tracks_list)
 
 

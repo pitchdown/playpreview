@@ -463,12 +463,15 @@ const initPlaylistPlayer = (targetEl) => {
   const playListElement = $(targetEl);
   const playListId = playListElement.data('playlist')
 
+  // return;
   const uiEventHandler = function (e) {
     if (e.target instanceof HTMLAnchorElement) {
       return;
     }
+    // e.stopPropagation();
+
+    console.log('e', e);
     // e.preventDefault();
-    e.stopPropagation();
     const eventTarget = $(e.currentTarget);
     const itemElement = eventTarget.data('playlistItem') ? eventTarget : eventTarget.parents('[data-playlist-item]');
     const audioTarget = itemElement.find('audio')[0];
@@ -477,7 +480,7 @@ const initPlaylistPlayer = (targetEl) => {
     // events 
     const eventAction = eventTarget.data('playlistAction');
     // console.log('seeking', $(e));
-    console.log(audioTarget.paused);
+    // console.log(audioTarget.paused);
 
     switch (eventAction) {
       case 'play':
@@ -505,6 +508,7 @@ const initPlaylistPlayer = (targetEl) => {
       default:
         break;
     }
+
   };
 
   playListElement.on('click', '[data-playlist-action]', uiEventHandler);
@@ -531,6 +535,11 @@ const initPlaylistPlayer = (targetEl) => {
           playingItem = _playingItem;
         }
 
+        const _toggleClass = _playlistElement.hasClass('active') ? _playlistElement.removeClass : _playlistElement.addClass;
+
+        if (!_playlistElement.hasClass('active')) {
+          _playlistElement.addClass('active')
+        }
         // console.log($(_playlistElement).find('[data-playlist-action="play"]')[1]);
 
         // !!!!
@@ -557,6 +566,12 @@ const initPlaylistPlayer = (targetEl) => {
           playingItem = _playingItem;
         }
         break;
+      case 'pause':
+
+        if (_playlistElement.hasClass('active')) {
+          _playlistElement.removeClass('active')
+        }
+        break
       case 'seeking':
         if (_playingItem !== playingItem) {
           this.play();
@@ -591,7 +606,7 @@ const initPlaylistPlayer = (targetEl) => {
   }
 
   playListElement.find('[data-playlist-item]').each(function (key, element) {
-    console.log($(this).find('audio'));
+    // console.log($(this).find('audio'));
 
     if ($(this).find('audio')[0]) {
       // console.log($.data, $(this).find('audio')[0].ontimeupdate, $(document.body).data('events'));
@@ -651,11 +666,12 @@ const initPlaylistPlayer = (targetEl) => {
       // audioEl.on("play", audioEventHandler);
       // audioEl.on("seeking", audioEventHandler);
       // audioEl.on("timeupdate", audioEventHandler);
-      console.log('audioEl', audioEl);
+      // console.log('audioEl', audioEl);
       // audioEl[0].onplay = function() {
       //   console.log('play');
       // };
       audioEl[0].onplay = audioEventHandler;
+      audioEl[0].onpause = audioEventHandler;
       audioEl[0].onseeking = audioEventHandler;
       audioEl[0].ontimeupdate = audioEventHandler;
     }
@@ -746,6 +762,38 @@ function _albumTabSwitch(e) {
 
 }
 
+function _initAPICalls() {
+  const likeAPIForm = $('[data-api-form]');
+  likeAPIForm.each((key, item) => {
+    $(item).on('submit', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const _form = $(e.target);
+
+      const arrayToObj = Object.values(_form.serializeArray()).reduce((prev, item, key, arr) => {
+        return { ...prev, ...{ [item.name]: item.value } };
+      }, {});
+
+      const response = $.ajax({
+        url: _form.attr('action'),
+        method: _form.attr('method'),
+        data: arrayToObj,
+        success: function (data) {
+          console.log('Success', data);
+        },
+        error: function (xhr, status, error) {
+          console.error('Error fetching:', error);
+        }
+      });
+  
+      // console.log('item event', arrayToObj, item);
+    })
+  });
+
+  // console.log('likeAPIForm', likeAPIForm);
+}
+
 const scopeQuery = '[data-playlist]';
 
 function initApp(options) {
@@ -753,6 +801,7 @@ function initApp(options) {
     initPlaylistPlayer($(playlist));
   });
   _albumTabSwitch($('#album_tabs'));
+  _initAPICalls();
 }
 
 /**

@@ -16,7 +16,41 @@ endblock %} {% block body %}
 						<p class="text-3xl">{{ artist['name'] }}</p>
 					</div>
 					<div class="mt-1 mr-3 flex gap-2">
-						<button class="btn btn-primary text-2xl">follow</button>
+						<button class="btn btn-primary text-2xl flex">
+							<div class="icon">
+								<?xml version="1.0" encoding="UTF-8"?>
+								<svg
+									width="24"
+									height="24"
+									id="Layer_1"
+									data-name="Layer 1"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 30.33 14.67"
+								>
+									<defs>
+										<style>
+											.cls-1 {
+												fill: none;
+												stroke: #fff;
+												stroke-linecap: round;
+												stroke-linejoin: round;
+												stroke-width: 1.67px;
+											}
+										</style>
+									</defs>
+									<polyline
+										class="cls-1"
+										points=".83 6.17 6.63 6.17 6.63 .83 11.07 .83 11.07 13.83 15.5 13.83 15.5 5.83 29.5 5.83"
+									/>
+								</svg>
+							</div>
+							<div class="name">follow</div>
+						</button>
+						<button
+							class="btn bg-base-200 text-base-950 btn-text text-2xl flex"
+						>
+							<div class="name">unfollow</div>
+						</button>
 						<button class="btn btn-text text-2xl">
 							<i class="fa-solid fa-ellipsis-vertical"></i>
 						</button>

@@ -1,12 +1,11 @@
-{% extends "layout/base.html" %}
-{% block title %}Recommendations{% endblock %}
-
-{% block body %}
-{% set n = namespace(counter = 0) %}
-<div class="grid grid-cols-1 place-items-center">
-    {% for track in tracks %}
-    {% set n.counter = n.counter + 1 %}
-    {% include "_track.html" %}
-    {% endfor %}
+{% extends "layout/base.html" %} {% block title %}Recommendations{% endblock %}
+{% block body %} {% set n = namespace(counter = 0) %}
+<div class="page-body">
+	<div class="page-container pt-14">
+		<div class="grid grid-cols-1 place-items-center gap-0 max-w-[976px] mx-auto" data-playlist="recommendations-list"> 
+			{% for track in tracks %} {% set n.counter = n.counter + 1 %} {% include
+			"_track.html" %} {% endfor %}
+		</div>
+	</div>
 </div>
 {% endblock %}
