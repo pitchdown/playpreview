@@ -1,6 +1,6 @@
 import requests
 from random import choice
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, request
 from flask_login import login_required, current_user
 from collections import Counter
 
@@ -109,14 +109,22 @@ tracks_list = [{'name': 'pyramids', 'id': '4QhWbupniDd44EDtnh2bFJ', 'artists_nam
                 'preview_url': 'https://p.scdn.co/mp3-preview/43bbfb0a4ff1ce6999b044d67d513aac7273e5ee?cid=6e82327445994df88d17de8cd6608f19'}]
 
 
+@main_bp.before_request
+def reset_session_tracks():
+    if request.path != '/recommendations':
+        if 'tracks' in session:
+            del session['tracks']
+
+
 @main_bp.route('/')
 def home():
     tracks_data = db.session.query(user_track).all()
-    recently_liked_tracks = tracks_data[-5:]
-    recently_liked_track_ids = [track[1] for track in reversed(recently_liked_tracks)]
-
     track_ids = [track[1] for track in tracks_data]
+    recently_liked_track_ids = track_ids[-5:]
     tracks = Track.query.filter(Track.id.in_(recently_liked_track_ids)).all()
+    tracks_dict = {track.id: track for track in tracks}
+    ordered_tracks = [tracks_dict[track_id] for track_id in reversed(recently_liked_track_ids)]
+
     tracks_for_genres = Track.query.filter(Track.id.in_(track_ids)).all()
 
     genres_like_count = Counter()
@@ -158,7 +166,7 @@ def home():
             'name': album.name,
             'cover': album.cover,
         })
-    return render_template('main/home.html', recently_liked_tracks=tracks, artists=artists, albums=albums,
+    return render_template('main/home.html', recently_liked_tracks=ordered_tracks, artists=artists, albums=albums,
                            genres=popular_genres)
 
 

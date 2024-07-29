@@ -219,7 +219,7 @@ body %} {% if not current_user.is_authenticated %}
 			<div class="grid grid-cols-4 gap-2">
 				{% for artist in artists %}
 				<a
-					href="#"
+					href="/artist/{{ artist.id }}"
 					class="artist-item aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
 				>
 					<div
@@ -248,7 +248,7 @@ body %} {% if not current_user.is_authenticated %}
 			<div class="grid grid-cols-4 gap-2">
 				{% for album in albums %}
 				<a
-					href="#"
+					href="/album/{{ album.id }}"
 					class="artist-item aspect-square hover:text-base-500 hover:bg-black hover:bg-opacity-5 hover:shadow-sm"
 				>
 					<div
