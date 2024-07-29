@@ -112,8 +112,9 @@ tracks_list = [{'name': 'pyramids', 'id': '4QhWbupniDd44EDtnh2bFJ', 'artists_nam
 @main_bp.before_request
 def reset_session_tracks():
     if request.path != '/recommendations':
-        if 'tracks' in session:
+        if ('tracks' or 'genres_list') in session:
             del session['tracks']
+            del session['genres_list']
 
 
 @main_bp.route('/')
@@ -174,77 +175,75 @@ def home():
 @login_required
 @token_required
 def recommendations():
-    # genres = {}
-    # seed_tracks = []
-    # for track in current_user.tracks:
-    #     track_genres = str(track.genres).split('.')
-    #     for genre in track_genres:
+    genres = {}
+    seed_tracks = []
+    for track in current_user.tracks:
+        track_genres = str(track.genres).split('.')
+        for genre in track_genres:
+            if genre not in genres:
+                genres[genre] = []
+            genres[genre].append(track.id)
+    if 'genres_list' not in session:
+        session['genres_list'] = list(genres.keys())
+    genres_list = session['genres_list']
+    if not genres_list:
+        genres_list = list(genres.keys())
+    for _ in range(len(genres_list[:5])):
+        random_genre = choice(genres_list)
+        genre_songs = genres[random_genre]
+        track_id = choice(genre_songs)
+        seed_tracks.append(track_id)
+        genres_list.remove(random_genre)
+    session['genres_list'] = genres_list
+    # janrebi
+    # example_choice = ['art pop', 'jazz fusion', 'experimental']
+    # for genre in example_choice:
+    #     tracks = Track.query.filter(Track.genres.contains(genre)).all()
+    #     for track in tracks:
     #         if genre not in genres:
     #             genres[genre] = []
-    #         genres[genre].append(track.id)
-    # if 'genres_list' not in session:
-    #     session['genres_list'] = list(genres.keys())
-    # genres_list = session['genres_list']
-    # if not genres_list:
-    #     genres_list = list(genres.keys())
-    # for _ in range(len(genres_list[:5])):
-    #     random_genre = choice(genres_list)
-    #     print(random_genre)
+    #         genres[genre].append(track.name)
+    # for _ in range(len(example_choice)):
+    #     random_genre = choice(example_choice)
     #     genre_songs = genres[random_genre]
     #     track_id = choice(genre_songs)
     #     seed_tracks.append(track_id)
-    #     genres_list.remove(random_genre)
-    # session['genres_list'] = genres_list
-    # # janrebi
-    # # example_choice = ['art pop', 'jazz fusion', 'experimental']
-    # # for genre in example_choice:
-    # #     tracks = Track.query.filter(Track.genres.contains(genre)).all()
-    # #     for track in tracks:
-    # #         if genre not in genres:
-    # #             genres[genre] = []
-    # #         genres[genre].append(track.name)
-    # # for _ in range(len(example_choice)):
-    # #     random_genre = choice(example_choice)
-    # #     genre_songs = genres[random_genre]
-    # #     track_id = choice(genre_songs)
-    # #     seed_tracks.append(track_id)
-    # #     example_choice.remove(random_genre)
-    # # seed_tracks = ','.join(seed_tracks)
-    # # print(seed_tracks)
-    # # -------
-    # headers = {
-    #     "Authorization": f"Bearer {session['access_token']}"
-    # }
-    # params = {
-    #     'limit': 20,
-    #     'market': 'US',
-    #     'seed_tracks': seed_tracks,
-    # }
-    #
-    # response = requests.get(f'https://api.spotify.com/v1/recommendations?', headers=headers, params=params)
-    # if 'tracks' not in session:
-    #     session['tracks'] = []
-    # tracks = []
-    # liked_tracks = {track.id for track in current_user.tracks}
-    # session_tracks = set(session['tracks'])
-    # for n in range(len(response.json()['tracks'])):
-    #     track = response.json()['tracks'][n]
-    #     track_id = track['id']
-    #     if track_id not in liked_tracks and track_id not in session_tracks:
-    #         track_body = {
-    #             'name': track['name'].lower(),
-    #             'id': track_id,
-    #             'artists_name': track['artists'][0]['name'].lower(),
-    #             'artists_id': track['artists'][0]['id'],
-    #             'album_name': track['album']['name'].lower(),
-    #             'album_id': track['album']['id'],
-    #             'album_cover': track['album']['images'][0]['url'],
-    #             'preview_url': track.get('preview_url') or get_preview_url_if_null(track_id),
-    #         }
-    #         tracks.append(track_body)
-    #         session['tracks'].append(track_id)
-    print(tracks_list)
-    return render_template('main/recommendations.html', tracks=tracks_list)
+    #     example_choice.remove(random_genre)
+    # seed_tracks = ','.join(seed_tracks)
+    # print(seed_tracks)
+    # -------
+    headers = {
+        "Authorization": f"Bearer {session['access_token']}"
+    }
+    params = {
+        'limit': 20,
+        'market': 'US',
+        'seed_tracks': seed_tracks,
+    }
+
+    response = requests.get(f'https://api.spotify.com/v1/recommendations?', headers=headers, params=params)
+    if 'tracks' not in session:
+        session['tracks'] = []
+    tracks = []
+    liked_tracks = {track.id for track in current_user.tracks}
+    session_tracks = set(session['tracks'])
+    for n in range(len(response.json()['tracks'])):
+        track = response.json()['tracks'][n]
+        track_id = track['id']
+        if track_id not in liked_tracks and track_id not in session_tracks:
+            track_body = {
+                'name': track['name'].lower(),
+                'id': track_id,
+                'artists_name': track['artists'][0]['name'].lower(),
+                'artists_id': track['artists'][0]['id'],
+                'album_name': track['album']['name'].lower(),
+                'album_id': track['album']['id'],
+                'album_cover': track['album']['images'][0]['url'],
+                'preview_url': track.get('preview_url') or get_preview_url_if_null(track_id),
+            }
+            tracks.append(track_body)
+            session['tracks'].append(track_id)
+    return render_template('main/recommendations.html', tracks=tracks)
 
 
 @main_bp.route('/dlt')

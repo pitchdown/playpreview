@@ -48,7 +48,6 @@
 					>
 						<input type="hidden" name="id" value="{{ track['id'] }}" />
 						<input type="hidden" name="name" value="{{ track['name'] }}" />
-						<input type="hidden" name="album" value="{{ track['album'] }}" />
 						<input
 							type="hidden"
 							name="album_cover"
@@ -69,6 +68,8 @@
 							name="preview_url"
 							value="{{ track['preview_url'] }}"
 						/>
+						<input type="hidden" name="album_name" value="{{ track['album_name'] }}">
+						<input type="hidden" name="album_id" value="{{ track['album_id'] }}">
 						<button type="submit">
 							<img
 								src="{{ url_for('static', filename='img/like.png') }}"
