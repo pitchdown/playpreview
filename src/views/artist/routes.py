@@ -88,6 +88,13 @@ artists_list = [{'name': 'frank ocean', 'id': '2h93pZq0e7k5yf4dywlkpM',
                  'url': 'https://open.spotify.com/artist/2q1lPSowgmgiCLtnSRMNMD'}]
 
 
+@artist_bp.before_request
+def reset_session_tracks():
+    if request.path != '/recommendations':
+        if 'tracks' in session:
+            del session['tracks']
+
+
 @artist_bp.route('/search')
 @login_required
 @token_required

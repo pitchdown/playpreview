@@ -1,4 +1,4 @@
-from flask import Blueprint, session, render_template, jsonify
+from flask import Blueprint, session, render_template, jsonify, request
 from flask_login import current_user, login_required
 from sqlalchemy import exists
 from collections import Counter
@@ -9,6 +9,13 @@ from src.functions import token_required
 
 
 user_bp = Blueprint('user', __name__)
+
+
+@user_bp.before_request
+def reset_session_tracks():
+    if request.path != '/recommendations':
+        if 'tracks' in session:
+            del session['tracks']
 
 
 @user_bp.route('/<username>')

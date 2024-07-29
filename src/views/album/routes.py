@@ -21,10 +21,16 @@ with open('genres.json', 'r') as f:
 album_bp = Blueprint('album', __name__)
 
 
+@album_bp.before_request
+def reset_session_tracks():
+    if request.path != '/recommendations':
+        if 'tracks' in session:
+            del session['tracks']
+
+
 @album_bp.route('/album/<id>')
 @login_required
 @token_required
-# @cache.cached(timeout=120)
 def album(id):
     headers = {
         "Authorization": f"Bearer {session['access_token']}"

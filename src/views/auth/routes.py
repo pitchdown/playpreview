@@ -14,6 +14,13 @@ from src.config import Config
 auth_bp = Blueprint('auth', __name__)
 
 
+@auth_bp.before_request
+def reset_session_tracks():
+    if request.path != '/recommendations':
+        if 'tracks' in session:
+            del session['tracks']
+
+
 @auth_bp.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     form = SignUpForm()
