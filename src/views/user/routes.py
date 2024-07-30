@@ -14,8 +14,9 @@ user_bp = Blueprint('user', __name__)
 @user_bp.before_request
 def reset_session_tracks():
     if request.path != '/recommendations':
-        if 'tracks' in session:
+        if ('tracks' or 'genres_list') in session:
             del session['tracks']
+            del session['genres_list']
 
 
 @user_bp.route('/<username>')

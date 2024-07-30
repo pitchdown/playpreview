@@ -24,8 +24,9 @@ album_bp = Blueprint('album', __name__)
 @album_bp.before_request
 def reset_session_tracks():
     if request.path != '/recommendations':
-        if 'tracks' in session:
+        if ('tracks' or 'genres_list') in session:
             del session['tracks']
+            del session['genres_list']
 
 
 @album_bp.route('/album/<id>')

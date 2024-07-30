@@ -91,8 +91,9 @@ artists_list = [{'name': 'frank ocean', 'id': '2h93pZq0e7k5yf4dywlkpM',
 @artist_bp.before_request
 def reset_session_tracks():
     if request.path != '/recommendations':
-        if 'tracks' in session:
+        if ('tracks' or 'genres_list') in session:
             del session['tracks']
+            del session['genres_list']
 
 
 @artist_bp.route('/search')
