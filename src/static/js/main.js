@@ -351,7 +351,7 @@ $(document).ready(async function () {
             let trackNumber = index + 1;
             let artists = track.artists_name.join('/').toLowerCase();
             let likeImage = track.liked ? '/static/img/like.svg' : '/static/img/like.png';
-            tracksHtml += `<div class="album-track-item"  data-playlist-action="toggle" data-playlist-item="${track.id}">
+            tracksHtml += `<div class="w-full relative"><div class="album-track-item"  data-playlist-action="toggle" data-playlist-item="${track.id}">
                                 <div class="track-num">
                                     ${trackNumber < 10 ? '0' + trackNumber : trackNumber}
                                 </div>
@@ -391,8 +391,11 @@ $(document).ready(async function () {
                                     </button>
                               </form>
                             </div>
-                            <div class="track-progress" data-playlist-progress>
-                              <input
+                            </div>
+                            <div class="track-progress absolute -bottom-2 left-0 w-full" data-playlist-progress>
+                              <div class="w-full"
+                                style="position: relative; z-index: 1;"
+                              ><input
                                 data-playlist-action="seeking"
                                 type="range"
                                 min="0.0"
@@ -400,8 +403,8 @@ $(document).ready(async function () {
                                 value="0.0"
                                 step="0.01"
                                 class="slider"
-                              />
-                            <progress class="seekbar" value="0" max="1" ></progress>
+                              /></div>
+                            <progress class="absolute left-0 top-50% -translate-y-1/2 w-full z-0" class="seekbar" value="0" max="1" ></progress>
                             </div>
                       </div>`;
           });
@@ -465,10 +468,10 @@ const initPlaylistPlayer = (targetEl) => {
 
   // return;
   const uiEventHandler = function (e) {
+    e.stopPropagation();
     if (e.target instanceof HTMLAnchorElement) {
       return;
     }
-    // e.stopPropagation();
 
     console.log('e', e);
     // e.preventDefault();
@@ -491,7 +494,6 @@ const initPlaylistPlayer = (targetEl) => {
         audioTarget.pause();
         break;
       case 'toggle':
-
         if (!audioTarget.paused) {
           audioTarget.pause();
           break;
@@ -502,7 +504,7 @@ const initPlaylistPlayer = (targetEl) => {
       case 'seeking':
         console.log('seeking', $(e));
         // audioTarget.currentTime = (audioTarget.duration / 100) * this.value;
-        // audioTarget.play()
+        if (audioTarget.paused) { audioTarget.play() }
         break;
 
       default:
@@ -615,6 +617,9 @@ const initPlaylistPlayer = (targetEl) => {
       const slideEl = $($(element).find('.slider'));
       const el = $(element).find('audio')[0];
 
+      const seekBar = $(element).find('[data-playlist-action="seeking"]');
+      console.log('seekBar instanceof HTMLInput Element', seekBar instanceof HTMLInputElement, seekBar);
+      // if (seekBar && seekBar[0] instanceof HTMLInputElement) { seekBar.val('0'); }
 
       const progresbarHTML = ` <input
                                     data-playlist-action="seeking"
@@ -631,7 +636,7 @@ const initPlaylistPlayer = (targetEl) => {
               `;
 
       const progressBar = $(element).find('[data-playlist-action="progress"]');
-      const seekBar = $(element).find('[data-playlist-action="seeking"]');
+
 
       // $(progressBar).replaceWith(progresbarHTML)
       // $(seekBar).replaceWith(seekBarHTML)
@@ -650,7 +655,7 @@ const initPlaylistPlayer = (targetEl) => {
         } else {
         }
         _audioEl.currentTime = ($(_playlistElement).find('audio')[0].duration / 100) * this.value;
-        _audioEl.play();
+        // _audioEl.play();
       })
 
       audioEl.on('loadedmetadata', function () {
@@ -786,7 +791,7 @@ function _initAPICalls() {
           console.error('Error fetching:', error);
         }
       });
-  
+
       // console.log('item event', arrayToObj, item);
     })
   });

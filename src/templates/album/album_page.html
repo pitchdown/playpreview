@@ -64,7 +64,7 @@ endblock%} {% block body %} {% set n = namespace(counter = 0) %}
 
 <div class="page-container py-5 min-h-[1000px]">
     <div
-            class="album-tracks grid grid-cols-1 place-items-center w-full gap-4"
+            class="album-tracks grid grid-cols-1 place-items-center w-full gap-0 bg-base-100 bg-opacity-50"
             id="tracks"
             data-album-id="{{ album['id'] }}"
             data-api-url="/albums/tracks/data"
