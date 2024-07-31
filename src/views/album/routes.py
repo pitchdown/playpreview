@@ -74,7 +74,6 @@ def album_tracks(id):
     if not hasattr(g, 'album_details'):
         g.album_details = get_album_data(id, headers)
 
-    print(g.album_details)
     response_album_tracks = requests.get(f'https://api.spotify.com/v1/albums/{id}/tracks', headers=headers,
                                          params=params)
     for track in response_album_tracks.json()['items']:
@@ -89,8 +88,7 @@ def album_tracks(id):
         track_data = {
             'name': track['name'].lower(),
             'id': track['id'],
-            'artists_name': [artist['name'] for artist in track['artists']],
-            'artists_id': [artist['id'] for artist in track['artists']],
+            'artists': [{'name': artist['name'].lower(), 'id': artist['id']} for artist in track['artists']],
             'track_number': track['track_number'],
             'preview_url': track['preview_url'],
             'album_name': g.album_details['name'],

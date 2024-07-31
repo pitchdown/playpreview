@@ -132,7 +132,7 @@ def home():
     for track in tracks_for_genres:
         genres = track.genres.split('.')
         genres_like_count.update(genres)
-    popular_genres = dict(genres_like_count.most_common()[:10])
+    popular_genres = {k:v for k, v in dict(genres_like_count.most_common()[:10]).items() if k}
 
     artists_data = db.session.query(user_artist).all()
     artist_ids = [artist[1] for artist in artists_data]
@@ -234,8 +234,7 @@ def recommendations():
             track_body = {
                 'name': track['name'].lower(),
                 'id': track_id,
-                'artists_name': track['artists'][0]['name'].lower(),
-                'artists_id': track['artists'][0]['id'],
+                'artists': [{'name': artist['name'].lower(), 'id': artist['id']} for artist in track['artists']],
                 'album_name': track['album']['name'].lower(),
                 'album_id': track['album']['id'],
                 'album_cover': track['album']['images'][0]['url'],

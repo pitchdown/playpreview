@@ -23,11 +23,8 @@ def get_preview_url_if_null(id):
     script_tag = soup.find('script', id='__NEXT_DATA__')
     json_data = json.loads(script_tag.string)
 
-    audio_preview = json_data.get('props', {}).get('pageProps', {}).get('state', {}).get('data', {}).get('entity', {}).get('audioPreview', {})
-    url = audio_preview.get('url')
-
-    if url:
-        return url
+    audio_preview = json_data['props']['pageProps']['state']['data']['entity']['audioPreview']['url']
+    return audio_preview
 
 
 def get_album_data(id, headers):
