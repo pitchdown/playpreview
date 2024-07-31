@@ -17,33 +17,44 @@
 		<div class="flex flex-col gap-4 flex-1">
 			<div class="flex">
 				<div class="flex flex-1 gap-4">
-					<div class="cover">
-						<img
-							data-track="{{ track['id'] }}"
-							src="{{ track['album_cover'] }}"
-							class="rounded-lg play-track hover:brightness-50 hover:duration-200"
-							width="112px"
-						/>
+					<div class="cover relative">
+						<div
+							class="theme-drop"
+							style="background-image: url({{track.album_cover}})"
+						></div>
+						<div class="image-area">
+							<img
+								data-track="{{ track['id'] }}"
+								src="{{ track['album_cover'] }}"
+								class="rounded-lg play-track hover:brightness-50 hover:duration-200"
+								width="112px"
+							/>
+						</div>
 					</div>
 					<div class="flex flex-col gap-1 flex-1">
 						<p class="text-3xl text-base-950">{{ track['name'] }}</p>
 						<p class="text-xl text-base-800">
-							<a class="text-base-800 hover:underline hover:text-base-600" href="/artist/{{track['artists_id']}}"
+							<a
+								class="text-base-800 hover:underline hover:text-base-600"
+								href="/artist/{{track['artists_id']}}"
 								>{{ track['artists_name'] }}</a
 							>
 							-
-							<a class="text-base-800 hover:underline hover:text-base-600" href="/album/{{ track['album_id'] }}"
+							<a
+								class="text-base-800 hover:underline hover:text-base-600"
+								href="/album/{{ track['album_id'] }}"
 								>{{ track['album_name'] }}</a
 							>
 						</p>
 					</div>
 				</div>
-				<div class="flex justify-start gap-5 ml-auto">
+				<div class="flex justify-start gap-5 ml-auto text-2xl">
 					<form
 						action="{{ url_for('track.like_track', id=track['id']) }}"
 						method="POST"
 						id="like-form"
 						data-api-form="like-form"
+						data-api-form-state="like"
 					>
 						<input type="hidden" name="id" value="{{ track['id'] }}" />
 						<input type="hidden" name="name" value="{{ track['name'] }}" />
@@ -67,21 +78,33 @@
 							name="preview_url"
 							value="{{ track['preview_url'] }}"
 						/>
-						<input type="hidden" name="album_name" value="{{ track['album_name'] }}">
-						<input type="hidden" name="album_id" value="{{ track['album_id'] }}">
-						<button type="submit">
-							<img
-								src="{{ url_for('static', filename='img/like.png') }}"
-								class="w-7"
-							/>
+						<input
+							type="hidden"
+							name="album_name"
+							value="{{ track['album_name'] }}"
+						/>
+						<input
+							type="hidden"
+							name="album_id"
+							value="{{ track['album_id'] }}"
+						/>
+						<button data-api-form-action="submit" class="like hover:text-base-500" type="submit">
+							<i class="fa-regular fa-heart"></i>
+						</button>
+						<button
+							data-api-form-action="submit"
+							class="unlike hidden hover:text-base-500"
+							type="submit"
+						>
+							<i class="fa-solid fa-heart"></i>
 						</button>
 					</form>
 					<form
 						action="{{ url_for('track.like_track', id=track['id']) }}"
 						method="POST"
 					>
-						<button>
-							<img src="static/img/three-dots.svg" class="w-7" />
+						<button data-api-form-action="submit">
+							<i class="fa-solid fa-ellipsis"></i>
 						</button>
 					</form>
 				</div>
@@ -101,7 +124,7 @@
 				</div>
 				<div class="flex flex-1 relative">
 					<input
-          autocomplete="off"
+						autocomplete="off"
 						data-playlist-action="seeking"
 						type="range"
 						min="0.00"
