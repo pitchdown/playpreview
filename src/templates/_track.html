@@ -3,7 +3,6 @@
         data-playlist-item="{{track['id']}}"
         data-playlist-action="toggle"
 >
-<<<<<<< HEAD
 	<div class="flex pb-0 gap-4 w-full">
 		<div class="flex gap-7 flex-shrink-0">
 			<p class="text-5xl w-16 opacity-15 text-right mt-8">
@@ -37,7 +36,7 @@
 						<p class="text-xl text-base-800">
 							<a
 								class="text-base-800 hover:underline hover:text-base-600"
-								href="/artist/{{track['artists_id']}}"
+								href="/artist/{{ track['artists_id'] }}"
 								>{{ track['artists_name'] }}</a
 							>
 							-
@@ -124,125 +123,6 @@
 				<div class="relative w-8" data-playlist-action="toggle">
 					<i data-playlist-action="play" class="w-7 fa-solid fa-play"></i>
 					<span data-playlist-action="pause" class="hidden">
-=======
-    <div class="flex pb-0 gap-4 w-full">
-        <div class="flex gap-7 flex-shrink-0">
-            <p class="text-5xl w-16 opacity-15 text-right mt-8">
-                {% if n.counter < 10 %} 0{{ n.counter }} {% else %} {{ n.counter }} {% endif %}
-            </p>
-            <audio data-track="{{ track['id'] }}" controls style="display: none">
-                <source src="{{ track['preview_url'] }}" type="audio/ogg"/>
-                <source src="{{ track['preview_url'] }}" type="audio/mpeg"/>
-            </audio>
-        </div>
-        <div class="flex flex-col gap-4 flex-1">
-            <div class="flex">
-                <div class="flex flex-1 gap-4">
-                    <div class="cover relative">
-                        <div
-                                class="theme-drop"
-                                style="background-image: url({{track.album_cover}})"
-                        ></div>
-                        <div class="image-area">
-                            <img
-                                    data-track="{{ track['id'] }}"
-                                    src="{{ track['album_cover'] }}"
-                                    class="rounded-lg play-track hover:brightness-50 hover:duration-200"
-                                    width="112px"
-                            />
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-1 flex-1">
-                        <p class="text-3xl text-base-950">{{ track['name'] }}</p>
-                        <p class="text-xl text-base-800">
-                            <a
-                                    class="text-base-800 hover:underline hover:text-base-600"
-                                    href="/artist/{{ track['artists_id'] }}"
-                            >
-                                {{ track['artists_name'] }}
-                            </a
-                            >
-                            -
-                            <a
-                                    class="text-base-800 hover:underline hover:text-base-600"
-                                    href="/album/{{ track['album_id'] }}"
-                            >{{ track['album_name'] }}</a
-                            >
-                        </p>
-                    </div>
-                </div>
-                <div class="flex justify-start gap-5 ml-auto text-2xl">
-                    <form
-                            action="{{ url_for('track.like_track', id=track['id']) }}"
-                            method="POST"
-                            id="like-form"
-                            data-api-form="like-form"
-                            data-api-form-state="like"
-                    >
-                        <input type="hidden" name="id" value="{{ track['id'] }}"/>
-                        <input type="hidden" name="name" value="{{ track['name'] }}"/>
-                        <input
-                                type="hidden"
-                                name="album_cover"
-                                value="{{ track['album_cover'] }}"
-                        />
-                        <input
-                                type="hidden"
-                                name="artists_name"
-                                value="{{ track['artists_name'] }}"
-                        />
-                        <input
-                                type="hidden"
-                                name="artists_id"
-                                value="{{ track['artists_id'] }}"
-                        />
-                        <input
-                                type="hidden"
-                                name="preview_url"
-                                value="{{ track['preview_url'] }}"
-                        />
-                        <input
-                                type="hidden"
-                                name="album_name"
-                                value="{{ track['album_name'] }}"
-                        />
-                        <input
-                                type="hidden"
-                                name="album_id"
-                                value="{{ track['album_id'] }}"
-                        />
-                        <button data-api-form-action="submit" class="like hover:text-base-500" type="submit">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                        <button
-                                data-api-form-action="submit"
-                                class="unlike hidden hover:text-base-500"
-                                type="submit"
-                        >
-                            <i class="fa-solid fa-heart"></i>
-                        </button>
-                    </form>
-                    <form
-                            action="{{ url_for('track.like_track', id=track['id']) }}"
-                            method="POST"
-                    >
-                        <button data-api-form-action="submit">
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div
-                    class="player-control text-base-950 flex flex-1 items-center gap-2 text-3xl text-opacity-50"
-            >
-                <div class="track">
-                    <div class="" data-playlist-action="current-duration"></div>
-                    <div class="" data-playlist-action="full-duration"></div>
-                </div>
-                <div class="relative w-8" data-playlist-action="toggle">
-                    <i data-playlist-action="play" class="w-7 fa-solid fa-play"></i>
-                    <span data-playlist-action="pause" class="hidden">
->>>>>>> 0954a70 (changes)
 						<i class="fa-solid fa-pause w-7"></i>
 					</span>
                 </div>

@@ -1,5 +1,8 @@
-{% extends "layout/base.html" %} {% block title %}Home{% endblock %} {% block
-body %} {% if not current_user.is_authenticated %}
+{% extends "layout/base.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+{% set n = namespace(counter = 0) %}
+{% if not current_user.is_authenticated %}
 
 <div class="w-full relative h-[370px]">
 	<div
@@ -45,17 +48,18 @@ body %} {% if not current_user.is_authenticated %}
 					recently liked songs
 				</h3>
 				<div
-					class="main-player flex flex-col gap-0 w-full mt-6 mb-6 rounded-[16px] overflow-hidden"
+					class="main-player theme-shadow flex flex-col gap-0 w-full mt-6 mb-6 rounded-[16px] overflow-hidden"
 					data-playlist="recently_liked"
 				>
 					{% for track in recently_liked_tracks %}
+					{% set n.counter = n.counter + 1 %}
 					<div
 						class="track-item bg-base-100 bg-opacity-50 hover:bg-base-100 flex w-full border-b-base-50 border-b-2 transition-all px-2 py-5"
 						data-playlist-item="{{track.id}}"
 						data-playlist-action="toggle"
 					>
 						<div class="id flex py-2 pr-5 pl-5 shrink-0 size-28">
-							<p class="text-5xl m-auto opacity-15">01</p>
+							<p class="text-5xl m-auto opacity-15">0{{ n.counter }}</p>
 						</div>
 						<div class="desc flex gap-6 flex-1">
 							<div
@@ -66,7 +70,7 @@ body %} {% if not current_user.is_authenticated %}
 									style="background-image: url({{track.album_cover}})"
 								></div>
 								<img
-									src="{{ track.album_cover }}"
+									src="{{ track['track'].album_cover }}"
 									class="img size-28 bg-base-200 rounded-xl"
 								/>
 							</div>
@@ -75,72 +79,18 @@ body %} {% if not current_user.is_authenticated %}
 									class="title flex items-center text-3xl text-wrap"
 									style="word-wrap: anywhere"
 								>
-									<h4>{{ track.name }}</h4>
-									<div class="control pr-4 ml-auto mb-auto">
+									<h4>{{ track['track'].name }}</h4>
+									<form class="control pr-4 ml-auto mb-auto">
 										<ul class="flex gap-4">
 											<li>
-												<form
-													action="{{ url_for('track.like_track', id=track['id']) }}"
-													method="POST"
-													id="like-form"
-													data-api-form="like-form"
-													data-api-form-state="{{track['liked']}}"
-												>
-													<input
-														type="hidden"
-														name="id"
-														value="{{ track['id'] }}"
-													/>
-													<input
-														type="hidden"
-														name="name"
-														value="{{ track['name'] }}"
-													/>
-													<input
-														type="hidden"
-														name="album_cover"
-														value="{{ track['album_cover'] }}"
-													/>
-													<input
-														type="hidden"
-														name="artists_name"
-														value="{{ track['artists_name'] }}"
-													/>
-													<input
-														type="hidden"
-														name="artists_id"
-														value="{{ track['artists_id'] }}"
-													/>
-													<input
-														type="hidden"
-														name="preview_url"
-														value="{{ track['preview_url'] }}"
-													/>
-													<input
-														type="hidden"
-														name="album_name"
-														value="{{ track['album_name'] }}"
-													/>
-													<input
-														type="hidden"
-														name="album_id"
-														value="{{ track['album_id'] }}"
-													/>
-													<button
-														data-api-form-action="submit"
-														class="like hover:text-base-500"
-														type="submit"
-													>
-														<i class="fa-regular fa-heart"></i>
-													</button>
-													<button
-														data-api-form-action="submit"
-														class="unlike hidden hover:text-base-500"
-														type="submit"
-													>
-														<i class="fa-solid fa-heart"></i>
-													</button>
-												</form>
+												<button type="input" value="Like">
+													{% if track['liked'] %}
+														<i class="fa-solid fa-heart text-2xl"></i>
+													{% else %}
+														<i class="fa-regular fa-heart text-2xl"></i>
+													{% endif %}
+													<span class="hidden">Like</span>
+												</button>
 											</li>
 											<li>
 												<button type="input" value="Like">
@@ -150,22 +100,22 @@ body %} {% if not current_user.is_authenticated %}
 											</li>
 											<!-- <li></li> -->
 										</ul>
-									</div>
+									</form>
 								</div>
 								<div class="text-md">
 									<span
 										><a
 											class="text-base-900 hover:text-base-600 hover:underline"
-											href="/artist/{{ track.artist_id }}"
-											>{{ track.artist_name }}</a
+											href="/artist/{{ track['track'].artist_id }}"
+											>{{ track['track'].artist_name }}</a
 										>
 									</span>
 									<span>-</span>
 									<span
 										><a
 											class="text-base-900 hover:text-base-600 hover:underline"
-											href="/album/{{ track.album_id }}"
-											>{{ track.album_name }}</a
+											href="/album/{{ track['track'].album_id }}"
+											>{{ track['track'].album_name }}</a
 										>
 									</span>
 								</div>
@@ -190,9 +140,10 @@ body %} {% if not current_user.is_authenticated %}
 										<input
 											data-playlist-action="seeking"
 											type="range"
-											min="0.00"
+											min="0.0"
 											max="100"
-											value="0.00"
+											value="0.0"
+											step="3"
 											class="slider size-5 relative top-0 left-0 w-full"
 										/>
 										<div
@@ -215,11 +166,11 @@ body %} {% if not current_user.is_authenticated %}
 									<div class="flex">
 										<audio controls style="display: none">
 											<source
-												src="{{track['preview_url']}}"
+												src="https://p.scdn.co/mp3-preview/07de30bde8363d9ff78b72339245c151f67af451?cid=6e82327445994df88d17de8cd6608f19"
 												type="audio/ogg"
 											/>
 											<source
-												src="{{track['preview_url']}}"
+												src="https://p.scdn.co/mp3-preview/07de30bde8363d9ff78b72339245c151f67af451?cid=6e82327445994df88d17de8cd6608f19"
 												type="audio/mpeg"
 											/>
 										</audio>
