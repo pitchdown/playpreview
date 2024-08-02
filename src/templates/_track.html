@@ -6,8 +6,7 @@
     <div class="flex pb-0 gap-4 w-full">
         <div class="flex gap-7 flex-shrink-0">
             <p class="text-5xl w-16 opacity-15 text-right mt-8">
-                {% if n.counter < 10 %} 0{{ n.counter }} {% else %} {{ n.counter }} {%
-                endif %}
+                {% if n.counter < 10 %} 0{{ n.counter }} {% else %} {{ n.counter }} {% endif %}
             </p>
             <audio data-track="{{ track['id'] }}" controls style="display: none">
                 <source src="{{ track['preview_url'] }}" type="audio/ogg"/>
