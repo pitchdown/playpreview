@@ -1,7 +1,7 @@
 <div
-	class="recommendation-item flex flex-col w-full px-4 py-4 rounded-xl transition-all relative cursor-pointer"
-	data-playlist-item="{{track['id']}}"
-	data-playlist-action="toggle"
+        class="recommendation-item flex flex-col w-full px-4 py-4 rounded-xl transition-all relative cursor-pointer"
+        data-playlist-item="{{track['id']}}"
+        data-playlist-action="toggle"
 >
 	<div class="flex pb-0 gap-4 w-full">
 		<div class="flex gap-7 flex-shrink-0">
@@ -125,35 +125,35 @@
 					<span data-playlist-action="pause" class="hidden">
 						<i class="fa-solid fa-pause w-7"></i>
 					</span>
-				</div>
-				<div class="flex flex-1 relative">
-					<input
-						autocomplete="off"
-						data-playlist-action="seeking"
-						type="range"
-						min="0.00"
-						max="100"
-						value="0.00"
-						class="slider size-5 relative top-0 left-0 w-full"
-					/>
-					<div
-						class="absolute flex items-center top-0 left-0 h-full size-full py-1"
-					>
-						<div class="h-1 hover:h-2 transition-all w-full relative">
-							<div
-								class="absolute left-0 top-0 size-full seekbar h-full bg-base-200 bg-opacity-80"
-							></div>
-							<div
-								class="absolute left-0 top-0 h-full seekbar h-full bg-base-300"
-								data-playlist-action="progress"
-							></div>
-						</div>
-					</div>
-				</div>
-				<divn data-playlist-item-duration class="flex text-lg">
-					<div>00:00</div>
-				</divn>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class="flex flex-1 relative">
+                    <input
+                            autocomplete="off"
+                            data-playlist-action="seeking"
+                            type="range"
+                            min="0.00"
+                            max="100"
+                            value="0.00"
+                            class="slider size-5 relative top-0 left-0 w-full"
+                    />
+                    <div
+                            class="absolute flex items-center top-0 left-0 h-full size-full py-1"
+                    >
+                        <div class="h-1 hover:h-2 transition-all w-full relative">
+                            <div
+                                    class="absolute left-0 top-0 size-full seekbar h-full bg-base-200 bg-opacity-80"
+                            ></div>
+                            <div
+                                    class="absolute left-0 top-0 h-full seekbar h-full bg-base-300"
+                                    data-playlist-action="progress"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+                <divn data-playlist-item-duration class="flex text-lg">
+                    <div>00:00</div>
+                </divn>
+            </div>
+        </div>
+    </div>
 </div>

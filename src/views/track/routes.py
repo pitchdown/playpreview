@@ -3,6 +3,7 @@ import json
 from flask import Blueprint, jsonify, session, request
 from flask_login import login_required, current_user
 from sqlalchemy import delete
+from bs4 import BeautifulSoup
 
 from src.extensions import db
 from src.models.models import Track, User, user_track
@@ -23,8 +24,8 @@ track_bp = Blueprint('track', __name__)
 @token_required
 def like_track(id):
     name = request.form.get('name')
-    artists_name = request.form.get('artists_name')
-    artists_id = request.form.get('artists_id')
+    artists_name = request.form.get('artists_name').strip()
+    artists_id = request.form.get('artists_id').strip()
     album_name = request.form.get('album_name')
     album_id = request.form.get('album_id')
     album_cover = request.form.get('album_cover')
@@ -35,12 +36,24 @@ def like_track(id):
     track_name_for_genre = name.replace(' ', '+')
     track_tags = requests.get(
         f'http://ws.audioscrobbler.com/2.0/?method=track.gettoptags&artist={artist_name_for_genre}&track={track_name_for_genre}&api_key={Config.LASTFM_KEY}&format=json')
-    for genre in track_tags.json()['toptags']['tag']:
-        genre = genre['name']
-        if 'hip-hop' in genre or 'rnb' in genre:
-            genre = genre.replace('-', ' ').replace('rnb', 'r&b')
-        if not any(char.isdigit() for char in genre):
-            genres_set.add(genre)
+    if track_tags.json()['toptags']['tag']:
+        for genre in track_tags.json()['toptags']['tag']:
+            genre = genre['name']
+            if 'hip-hop' in genre or 'rnb' in genre:
+                genre = genre.replace('-', ' ').replace('rnb', 'r&b')
+            if not any(char.isdigit() for char in genre):
+                genres_set.add(genre)
+    else:
+        url = f'https://www.last.fm/music/{artist_name_for_genre}/_/{track_name_for_genre}'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        tags_section = soup.find("ul", class_="tags-list")
+        tags = [tag.text.strip() for tag in tags_section.find_all("li")]
+        for genre in tags:
+            if 'hip-hop' in genre or 'rnb' in genre:
+                genre = genre.replace('-', ' ').replace('rnb', 'r&b')
+            if not any(char.isdigit() for char in genre):
+                genres_set.add(genre)
     genres = '.'.join(genre for genre in genres_set if genre in genres_in_file)
     genres = '.'.join(genres.split('.')[:3])
     track = Track.query.filter_by(id=id).first()

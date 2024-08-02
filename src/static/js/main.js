@@ -517,7 +517,6 @@ async function fetchAlbumPageAPI() {
 			$("#tracks").html(tracksHtml);
 			initPlaylistPlayer($("#tracks"));
 		} else {
-			const a = $.ajax;
 			$.ajax({
 				url: "/album/" + albumId + "/tracks",
 				method: "GET",
@@ -527,7 +526,6 @@ async function fetchAlbumPageAPI() {
 						// console.log("track", track, index);
 						// return;
 						let trackNumber = index + 1;
-						let artists = track.artists_name.join("/").toLowerCase();
 						let likeImage = track.liked
 							? "/static/img/like.svg"
 							: "/static/img/like.png";
