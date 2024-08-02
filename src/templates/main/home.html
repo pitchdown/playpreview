@@ -106,7 +106,7 @@
 									<span
 										><a
 											class="text-base-900 hover:text-base-600 hover:underline"
-											href="/artist/{{ track.artist_id }}"
+											href="/artist/{{ track['track'].artist_id }}"
 											>{{ track['track'].artist_name }}</a
 										>
 									</span>
@@ -114,7 +114,7 @@
 									<span
 										><a
 											class="text-base-900 hover:text-base-600 hover:underline"
-											href="/album/{{ track.album_id }}"
+											href="/album/{{ track['track'].album_id }}"
 											>{{ track['track'].album_name }}</a
 										>
 									</span>

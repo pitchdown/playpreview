@@ -26,19 +26,19 @@ def home():
     else:
         current_user_tracks = []
     tracks_data = db.session.query(user_track).all()
-    recently_liked_tracks = [track for track in tracks_data[-5:]]
-    track_ids = [track[1] for track in recently_liked_tracks]
-    tracks = Track.query.filter(Track.id.in_(track_ids)).all()
+    recently_liked_tracks = [track for track in tracks_data]
+    recently_liked_track_ids = [track[1] for track in recently_liked_tracks[-5:]]
+    track_ids = {track[1] for track in recently_liked_tracks}
+    tracks = Track.query.filter(Track.id.in_(recently_liked_track_ids)).all()
     liked_tracks_ids = {track.id for track in current_user_tracks}
 
     tracks_dict = {
         track.id: {'track': track, 'liked': track.id in liked_tracks_ids}
         for track in tracks
     }
-    ordered_tracks = [tracks_dict[track_id] for track_id in reversed(track_ids)]
+    ordered_tracks = [tracks_dict[track_id] for track_id in reversed(recently_liked_track_ids)]
 
     tracks_for_genres = Track.query.filter(Track.id.in_(track_ids)).all()
-
     genres_like_count = Counter()
     for track in tracks_for_genres:
         genres = track.genres.split('.')
