@@ -24,8 +24,8 @@ track_bp = Blueprint('track', __name__)
 @token_required
 def like_track(id):
     name = request.form.get('name')
-    artists_name = request.form.get('artists_name').strip()
-    artists_id = request.form.get('artists_id').strip()
+    artists_name = request.form.get('artists_name')
+    artists_id = request.form.get('artists_id')
     album_name = request.form.get('album_name')
     album_id = request.form.get('album_id')
     album_cover = request.form.get('album_cover')

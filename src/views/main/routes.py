@@ -143,7 +143,8 @@ def recommendations():
             track_body = {
                 'name': track['name'].lower(),
                 'id': track_id,
-                'artists': [{'name': artist['name'].lower(), 'id': artist['id']} for artist in track['artists']],
+                'artists_name': '/'.join([artist['name'].lower() for artist in track['artists']]),
+                'artists_id': ','.join([artist['id'] for artist in track['artists']]),
                 'album_name': track['album']['name'].lower(),
                 'album_id': track['album']['id'],
                 'album_cover': track['album']['images'][0]['url'],

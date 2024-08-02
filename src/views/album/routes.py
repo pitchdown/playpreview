@@ -88,7 +88,8 @@ def album_tracks(id):
         track_data = {
             'name': track['name'].lower(),
             'id': track['id'],
-            'artists': [{'name': artist['name'].lower(), 'id': artist['id']} for artist in track['artists']],
+            'artists_name': '/'.join([artist['name'].lower() for artist in track['artists']]),
+            'artists_id': ','.join([artist['id'] for artist in track['artists']]),
             'track_number': track['track_number'],
             'preview_url': track['preview_url'],
             'album_name': g.album_details['name'],
