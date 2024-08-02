@@ -45,7 +45,7 @@ body %} {% if not current_user.is_authenticated %}
 					recently liked songs
 				</h3>
 				<div
-					class="main-player theme-shadow flex flex-col gap-0 w-full mt-6 mb-6 rounded-[16px] overflow-hidden"
+					class="main-player flex flex-col gap-0 w-full mt-6 mb-6 rounded-[16px] overflow-hidden"
 					data-playlist="recently_liked"
 				>
 					{% for track in recently_liked_tracks %}
@@ -76,13 +76,71 @@ body %} {% if not current_user.is_authenticated %}
 									style="word-wrap: anywhere"
 								>
 									<h4>{{ track.name }}</h4>
-									<form class="control pr-4 ml-auto mb-auto">
+									<div class="control pr-4 ml-auto mb-auto">
 										<ul class="flex gap-4">
 											<li>
-												<button type="input" value="Like">
-													<i class="fa-regular fa-heart text-2xl"></i>
-													<span class="hidden">Like</span>
-												</button>
+												<form
+													action="{{ url_for('track.like_track', id=track['id']) }}"
+													method="POST"
+													id="like-form"
+													data-api-form="like-form"
+													data-api-form-state="{{track['liked']}}"
+												>
+													<input
+														type="hidden"
+														name="id"
+														value="{{ track['id'] }}"
+													/>
+													<input
+														type="hidden"
+														name="name"
+														value="{{ track['name'] }}"
+													/>
+													<input
+														type="hidden"
+														name="album_cover"
+														value="{{ track['album_cover'] }}"
+													/>
+													<input
+														type="hidden"
+														name="artists_name"
+														value="{{ track['artists_name'] }}"
+													/>
+													<input
+														type="hidden"
+														name="artists_id"
+														value="{{ track['artists_id'] }}"
+													/>
+													<input
+														type="hidden"
+														name="preview_url"
+														value="{{ track['preview_url'] }}"
+													/>
+													<input
+														type="hidden"
+														name="album_name"
+														value="{{ track['album_name'] }}"
+													/>
+													<input
+														type="hidden"
+														name="album_id"
+														value="{{ track['album_id'] }}"
+													/>
+													<button
+														data-api-form-action="submit"
+														class="like hover:text-base-500"
+														type="submit"
+													>
+														<i class="fa-regular fa-heart"></i>
+													</button>
+													<button
+														data-api-form-action="submit"
+														class="unlike hidden hover:text-base-500"
+														type="submit"
+													>
+														<i class="fa-solid fa-heart"></i>
+													</button>
+												</form>
 											</li>
 											<li>
 												<button type="input" value="Like">
@@ -92,7 +150,7 @@ body %} {% if not current_user.is_authenticated %}
 											</li>
 											<!-- <li></li> -->
 										</ul>
-									</form>
+									</div>
 								</div>
 								<div class="text-md">
 									<span
@@ -132,10 +190,9 @@ body %} {% if not current_user.is_authenticated %}
 										<input
 											data-playlist-action="seeking"
 											type="range"
-											min="0.0"
+											min="0.00"
 											max="100"
-											value="0.0"
-											step="3"
+											value="0.00"
 											class="slider size-5 relative top-0 left-0 w-full"
 										/>
 										<div
@@ -158,11 +215,11 @@ body %} {% if not current_user.is_authenticated %}
 									<div class="flex">
 										<audio controls style="display: none">
 											<source
-												src="https://p.scdn.co/mp3-preview/07de30bde8363d9ff78b72339245c151f67af451?cid=6e82327445994df88d17de8cd6608f19"
+												src="{{track['preview_url']}}"
 												type="audio/ogg"
 											/>
 											<source
-												src="https://p.scdn.co/mp3-preview/07de30bde8363d9ff78b72339245c151f67af451?cid=6e82327445994df88d17de8cd6608f19"
+												src="{{track['preview_url']}}"
 												type="audio/mpeg"
 											/>
 										</audio>

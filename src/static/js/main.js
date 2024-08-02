@@ -260,11 +260,12 @@ function sleep(ms = 100) {
 }
 
 const _exampleHTML = function (track, index) {
+	console.log("track", track);
 	let trackNumber = index + 1;
-	let artists = track.artists_name.length ? track.artists_name.toString() : "";
+	let artists = track.artists_name ? track.artists_name.toString() : "";
 	let likeImage = track.liked ? "/static/img/like.svg" : "/static/img/like.png";
 	// console.log(track);
-	return `
+	let returnEl = `
         <div
 			class="flex flex-col relative w-full transition-all cursor-pointer "
 			data-playlist-item="${track.id}"
@@ -325,9 +326,13 @@ const _exampleHTML = function (track, index) {
 						</div>
 						<div class="flex justify-start gap-5 ml-auto">
 							<div class="track-form">
-								<form action="" 
+								<form action="${
+									track.liked
+										? "/unlike-track/" + track.id
+										: "/like-track/" + track.id
+								}" 
                 data-api-form="like-form"
-						data-api-form-state="like"
+						data-api-form-state="${track.liked ? "unlike" : "like"}"
              id="like-form" method="POST">
 									<input
 										type="hidden"
@@ -411,6 +416,10 @@ const _exampleHTML = function (track, index) {
 			</div>
 		</div>
     `;
+
+	const _el = $(returnEl);
+
+	return _el.prop("outerHTML");
 };
 let testCase = !true;
 
@@ -495,16 +504,15 @@ async function fetchAlbumPageAPI() {
 	if (window.location.pathname.startsWith("/album/")) {
 		// return
 		var albumId = $("#tracks").data("album-id");
-		var tracksHtml;
+		var tracksHtml = "";
 		if (testCase) {
 			await sleep(2000);
 			sampleData.forEach(function (track, index) {
-				let trackNumber = index + 1;
-				let artists = "track.artists_name.toString()";
-				let likeImage = track.liked
-					? "/static/img/like.svg"
-					: "/static/img/like.png";
-				tracksHtml += _exampleHTML(track, index);
+				const el = $(_exampleHTML(track, index));
+				dataApiForm(el, {});
+				console.log("tracksHtml", el, $(el));
+
+				tracksHtml += el.html();
 			});
 			$("#tracks").html(tracksHtml);
 			initPlaylistPlayer($("#tracks"));
@@ -515,7 +523,6 @@ async function fetchAlbumPageAPI() {
 				method: "GET",
 				success: function (data) {
 					let tracksHtml = "";
-					console.log(data);
 					data.forEach(function (track, index) {
 						// console.log("track", track, index);
 						// return;
@@ -524,35 +531,45 @@ async function fetchAlbumPageAPI() {
 						let likeImage = track.liked
 							? "/static/img/like.svg"
 							: "/static/img/like.png";
-						tracksHtml += _exampleHTML(track, index);
+						const template = _exampleHTML(track, index);
+						tracksHtml += template;
+					});
+
+					$(tracksHtml).each((key, item) => {
+						// const target = dataApiForm($(item), {});
 					});
 
 					$("#tracks").html(tracksHtml);
+					$("#tracks")
+						.find(apiFormQuery)
+						.each((key, item) => {
+							const target = dataApiForm($(item), {});
+						});
 					initPlaylistPlayer($("#tracks"));
-					$(".like-button").click(function (e) {
-						e.stopPropagation();
-						let icon = $(this).find(".icon");
-						let formData = $(this).closest("form").serialize();
-						let trackId = $(this)
-							.closest("form")
-							.find('input[name="id"]')
-							.val();
-						if (icon.attr("src") === "/static/img/like.png") {
-							icon.attr("src", "/static/img/like.svg");
-							$.ajax({
-								url: "/like-track/" + trackId,
-								type: "POST",
-								data: formData,
-							});
-						} else {
-							icon.attr("src", "/static/img/like.png");
-							$.ajax({
-								url: "/unlike-track/" + trackId,
-								type: "POST",
-								data: formData,
-							});
-						}
-					});
+					// $(".like-button").click(function (e) {
+					// 	e.stopPropagation();
+					// 	let icon = $(this).find(".icon");
+					// 	let formData = $(this).closest("form").serialize();
+					// 	let trackId = $(this)
+					// 		.closest("form")
+					// 		.find('input[name="id"]')
+					// 		.val();
+					// 	if (icon.attr("src") === "/static/img/like.png") {
+					// 		icon.attr("src", "/static/img/like.svg");
+					// 		$.ajax({
+					// 			url: "/like-track/" + trackId,
+					// 			type: "POST",
+					// 			data: formData,
+					// 		});
+					// 	} else {
+					// 		icon.attr("src", "/static/img/like.png");
+					// 		$.ajax({
+					// 			url: "/unlike-track/" + trackId,
+					// 			type: "POST",
+					// 			data: formData,
+					// 		});
+					// 	}
+					// });
 				},
 				error: function (xhr, status, error) {
 					console.error("Error fetching tracks:", error);
@@ -932,15 +949,16 @@ function _likeAPIFormUIActions(e, data) {
 		_form.attr("data-api-form-state", "unlike");
 		_form.attr(
 			"action",
-			"/unlike-track/" + _form.find('input[name="id"]').val()
+			"/like-track/" + _form.find('input[name="id"]').val()
 		);
-		_form.find(".like").hide();
-		_form.find(".unlike").show();
-	} else if (_form.attr("data-api-form-state") === "unlike") {
-		_form.attr("data-api-form-state", "like");
-		_form.attr("action", "/like-track/" + _form.find('input[name="id"]').val());
 		_form.find(".like").show();
 		_form.find(".unlike").hide();
+		console.log("--------------------------");
+	} else if (_form.attr("data-api-form-state") === "unlike") {
+		_form.attr("data-api-form-state", "like");
+		_form.attr("action", "/unlike-track/" + _form.find('input[name="id"]').val());
+		_form.find(".like").hide();
+		_form.find(".unlike").show();
 	}
 }
 
@@ -965,10 +983,15 @@ function dataApiForm(el, opt) {
 	// 		};
 	// 	});
 
+  _likeAPIFormUIActions(target, {});
+	target.find(apiFormQuery).each((k, item) => {
+	});
+  
 	target.on("submit", function (e) {
 		e.preventDefault();
 		e.stopPropagation();
 
+    console.log('--------------------');
 		const _form = $(e.target);
 
 		const arrayToObj = Object.values(_form.serializeArray()).reduce(
