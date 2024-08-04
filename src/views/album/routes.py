@@ -6,7 +6,7 @@ from flask_login import login_required, current_user
 from sqlalchemy import exists, delete
 
 from src.extensions import cache, db
-from src.functions import get_preview_url_if_null, token_required, get_album_data
+from src.functions import get_preview_url_if_null, token_required, get_album_data, get_track_genres
 from src.models.models import Track, user_track, Album, user_album
 from src.config import Config
 
@@ -33,9 +33,7 @@ def reset_session_tracks():
 @login_required
 @token_required
 def album(id):
-    headers = {
-        "Authorization": f"Bearer {session['access_token']}"
-    }
+    album = Album.query.filter_by(id=id).first()
     check = exists(user_album).where(
         db.and_(
             user_album.c.user_id == current_user.id,
@@ -43,12 +41,41 @@ def album(id):
         )
     )
     result = db.session.query(check).scalar()
-    album_data = get_album_data(id, headers)
-    album_data['liked'] = result
-    g.album_details = album_data
-    artist_name = album_data['artist'][0].replace(' ', '+')
-    album_name = album_data['name'].replace(' ', '+')
-    response_genres = requests.get(f'http://ws.audioscrobbler.com/2.0/?method=album.gettoptags&artist={artist_name}&album={album_name}&api_key={Config.LASTFM_KEY}&format=json')
+    if album:
+        artists = [album.artists_name]
+        album_data = {
+            'name': album.name,
+            'id': album.id,
+            'artist': artists,
+            'artist_id': album.artists_id,
+            'cover': album.cover,
+            'type': album.type,
+            'total_tracks': album.total_tracks,
+            'release_date': album.release_date,
+        }
+        album_data['liked'] = result
+        artist_name = album.artists_name.replace(' ', '+')
+        album_name = album_data['name'].replace(' ', '+')
+    else:
+        headers = {
+            "Authorization": f"Bearer {session['access_token']}"
+        }
+        album_data = get_album_data(id, headers)
+        album_data['liked'] = result
+        g.album_details = album_data
+        artist_name = album_data['artist'][0].replace(' ', '+')
+        album_name = album_data['name'].replace(' ', '+')
+        print(album_data)
+        album_exists = Album.query.get(album_data['id']) is not None
+        artists_name = '/'.join(artist for artist in album_data['artist'])
+        artists_id = ','.join(id for id in album_data['artist_id'])
+        if not album_exists:
+            album_create = Album(id=album_data['id'], name=album_data['name'], cover=album_data['cover'], type=album_data['type'], total_tracks=album_data['total_tracks'], release_date=album_data['release_date'], artists_name=artists_name, artists_id=artists_id)
+            album_create.create()
+
+    response_genres = requests.get(
+        f'http://ws.audioscrobbler.com/2.0/?method=album.gettoptags&artist={artist_name}&album={album_name}&api_key={Config.LASTFM_KEY}&format=json')
+
     genres = []
     if not 'error' in response_genres.json():
         for genre in response_genres.json()['toptags']['tag']:
@@ -100,7 +127,13 @@ def album_tracks(id):
         if not track_data['preview_url']:
             track_data['preview_url'] = get_preview_url_if_null(track_data['id'])
         tracks.append(track_data)
-
+        # track_exists = Track.query.get(track_data['id']) is not None
+        # artist_name = track_data['artists_name'].replace('/', '+')
+        # track_name = track_data['name'].replace(' ', '+')
+        # genres = get_track_genres(artist_name, track_name)
+        # if not track_exists:
+        #     track_create = Track(id=track_data['id'], name=track_data['name'], album_cover=track_data['album_cover'], preview_url=track_data['preview_url'], genres=genres, artist_name=track_data['artists_name'], artist_id=track_data['artists_id'], album_name=track_data['album_name'], album_id=track_data['album_id'])
+        #     track_create.create()
     return jsonify(tracks)
 
 
