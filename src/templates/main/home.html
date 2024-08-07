@@ -1,8 +1,6 @@
-{% extends "layout/base.html" %}
-{% block title %}Home{% endblock %}
-{% block body %}
-{% set n = namespace(counter = 0) %}
-{% if not current_user.is_authenticated %}
+{% extends "layout/base.html" %} {% block title %}Home{% endblock %} {% block
+body %} {% set n = namespace(counter = 0) %} {% if not
+current_user.is_authenticated %}
 
 <div class="w-full relative h-[370px]">
 	<div
@@ -51,11 +49,11 @@
 					class="main-player theme-shadow flex flex-col gap-0 w-full mt-6 mb-6 rounded-[16px] overflow-hidden"
 					data-playlist="recently_liked"
 				>
-					{% for track in recently_liked_tracks %}
-					{% set n.counter = n.counter + 1 %}
+					{% for track in recently_liked_tracks %} {% set n.counter = n.counter
+					+ 1 %}
 					<div
 						class="track-item bg-base-100 bg-opacity-50 hover:bg-base-100 flex w-full border-b-base-50 border-b-2 transition-all px-2 py-5"
-						data-playlist-item="{{track.id}}"
+						data-playlist-item="{{track['track'].id}}"
 						data-playlist-action="toggle"
 					>
 						<div class="id flex py-2 pr-5 pl-5 shrink-0 size-28">
@@ -85,9 +83,9 @@
 											<li>
 												<button type="input" value="Like">
 													{% if track['liked'] %}
-														<i class="fa-solid fa-heart text-2xl"></i>
+													<i class="fa-solid fa-heart text-2xl"></i>
 													{% else %}
-														<i class="fa-regular fa-heart text-2xl"></i>
+													<i class="fa-regular fa-heart text-2xl"></i>
 													{% endif %}
 													<span class="hidden">Like</span>
 												</button>
@@ -138,12 +136,12 @@
 									</div>
 									<div class="flex flex-1 relative">
 										<input
+											autocomplete="off"
 											data-playlist-action="seeking"
 											type="range"
-											min="0.0"
+											min="0.00"
 											max="100"
-											value="0.0"
-											step="3"
+											value="0.00"
 											class="slider size-5 relative top-0 left-0 w-full"
 										/>
 										<div
@@ -166,11 +164,11 @@
 									<div class="flex">
 										<audio controls style="display: none">
 											<source
-												src="https://p.scdn.co/mp3-preview/07de30bde8363d9ff78b72339245c151f67af451?cid=6e82327445994df88d17de8cd6608f19"
+												src="{{track['track'].preview_url}}"
 												type="audio/ogg"
 											/>
 											<source
-												src="https://p.scdn.co/mp3-preview/07de30bde8363d9ff78b72339245c151f67af451?cid=6e82327445994df88d17de8cd6608f19"
+												src="{{track['track'].preview_url}}"
 												type="audio/mpeg"
 											/>
 										</audio>

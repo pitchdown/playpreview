@@ -78,6 +78,7 @@ def home():
             'name': album.name,
             'cover': album.cover,
         })
+    print(ordered_tracks)
     return render_template('main/home.html', recently_liked_tracks=ordered_tracks, artists=artists, albums=albums, genres=popular_genres)
 
 @main_bp.route('/recommendations')

@@ -265,6 +265,16 @@ const _exampleHTML = function (track, index) {
 	let artists = track.artists_name ? track.artists_name.toString() : "";
 	let likeImage = track.liked ? "/static/img/like.svg" : "/static/img/like.png";
 	// console.log(track);
+	const artistsNames = track.artists_id
+		? track.artists_id.split(",").map((i, k) => {
+				return `<a
+										class="text-base-800 hover:underline hover:text-base-600"
+										href="${"/artist/" + i}"
+                    data-playlist-action=""
+										><span>${track.artists_name.split("/")[k]}</span></a
+									>`;
+		  })
+		: "";
 	let returnEl = `
         <div
 			class="flex flex-col relative w-full transition-all cursor-pointer "
@@ -309,11 +319,7 @@ const _exampleHTML = function (track, index) {
 							<div class="flex flex-col gap-1 flex-1">
 								<p class="text-3xl text-base-950">${track.name}</p>
 								<span class="text-md">
-									<a
-										class="text-base-800 hover:underline hover:text-base-600"
-										href="${"/artist/" + track["artists_id"]}"
-										>${artists}</a
-									>
+									${artistsNames}
 									-
 									<span
 										>${track["album_name"]}</span
@@ -359,7 +365,7 @@ const _exampleHTML = function (track, index) {
 										name="album_cover"
 										value="${track.album_cover}"
 									/>
-									<input type="hidden" name="artists_name" value="${artists}" />
+									<input type="hidden" name="artists_name" value="${track.artists_name}" />
 									<input
 										type="hidden"
 										name="artists_id"
@@ -945,16 +951,16 @@ function _likeAPIFormUIActions(e, data) {
 
 	if (_form.attr("data-api-form-state") === "like") {
 		_form.attr("data-api-form-state", "unlike");
-		_form.attr(
-			"action",
-			"/like-track/" + _form.find('input[name="id"]').val()
-		);
+		_form.attr("action", "/like-track/" + _form.find('input[name="id"]').val());
 		_form.find(".like").show();
 		_form.find(".unlike").hide();
 		console.log("--------------------------");
 	} else if (_form.attr("data-api-form-state") === "unlike") {
 		_form.attr("data-api-form-state", "like");
-		_form.attr("action", "/unlike-track/" + _form.find('input[name="id"]').val());
+		_form.attr(
+			"action",
+			"/unlike-track/" + _form.find('input[name="id"]').val()
+		);
 		_form.find(".like").hide();
 		_form.find(".unlike").show();
 	}
@@ -981,15 +987,14 @@ function dataApiForm(el, opt) {
 	// 		};
 	// 	});
 
-  _likeAPIFormUIActions(target, {});
-	target.find(apiFormQuery).each((k, item) => {
-	});
-  
+	_likeAPIFormUIActions(target, {});
+	target.find(apiFormQuery).each((k, item) => {});
+
 	target.on("submit", function (e) {
 		e.preventDefault();
 		e.stopPropagation();
 
-    console.log('--------------------');
+		console.log("--------------------");
 		const _form = $(e.target);
 
 		const arrayToObj = Object.values(_form.serializeArray()).reduce(
@@ -1000,6 +1005,8 @@ function dataApiForm(el, opt) {
 		);
 
 		target.find('button[type="submit"]').attr("disabled", true);
+
+		console.log("arrayToObj", arrayToObj);
 
 		const response = $.ajax({
 			url: _form.attr("action"),
