@@ -106,7 +106,8 @@ class Album(Base):
 
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String)
-    artist_id = db.Column(db.String)
+    artists_name = db.Column(db.String)
+    artists_id = db.Column(db.String)
     cover = db.Column(db.String)
     type = db.Column(db.String)
     total_tracks = db.Column(db.Integer)

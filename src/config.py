@@ -12,4 +12,4 @@ class Config:
     TOKEN_URL = 'https://accounts.spotify.com/api/token'
     CACHE_TYPE = 'SimpleCache'
     SESSION_TYPE = 'redis'
-    SESSION_REDIS = Redis(host='localhost', port=6379)
+    SESSION_REDIS = Redis(host='localhost', port=6379, db=0)

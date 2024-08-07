@@ -14,6 +14,13 @@ from src.config import Config
 context = ssl.create_default_context(cafile=certifi.where())
 
 
+genres_in_file = set()
+with open('genres.json', 'r') as f:
+    data = json.load(f)
+    for genre in data:
+        genres_in_file.add(genre['genre'])
+
+
 def get_preview_url_if_null(id):
     url = f'https://open.spotify.com/embed/track/{id}'
     page = urlopen(url, context=context)
@@ -42,6 +49,35 @@ def get_album_data(id, headers):
         'release_date': album_data['release_date'],
         'url': album_data['external_urls']['spotify'],
     }
+
+
+def get_track_genres(artist_name, track_name):
+    genres_set = set()
+    print(artist_name, track_name, '<---- functions.py')
+    track_tags = requests.get(
+        f'http://ws.audioscrobbler.com/2.0/?method=track.gettoptags&artist={artist_name}&track={track_name}&api_key={Config.LASTFM_KEY}&format=json')
+    if track_tags.json()['toptags']['tag']:
+        for genre in track_tags.json()['toptags']['tag']:
+            genre = genre['name']
+            if 'hip-hop' in genre or 'rnb' in genre:
+                genre = genre.replace('-', ' ').replace('rnb', 'r&b')
+            if not any(char.isdigit() for char in genre):
+                genres_set.add(genre)
+    else:
+        url = f'https://www.last.fm/music/{artist_name_for_genre}/_/{track_name_for_genre}'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        tags_section = soup.find("ul", class_="tags-list")
+        if tags_section:
+            tags = [tag.text.strip() for tag in tags_section.find_all("li")]
+            for genre in tags:
+                if 'hip-hop' in genre or 'rnb' in genre:
+                    genre = genre.replace('-', ' ').replace('rnb', 'r&b')
+                if not any(char.isdigit() for char in genre):
+                    genres_set.add(genre)
+    genres = '.'.join(genre for genre in genres_set if genre in genres_in_file)
+    genres = '.'.join(genres.split('.')[:3])
+    return genres
 
 
 def token_required(f):

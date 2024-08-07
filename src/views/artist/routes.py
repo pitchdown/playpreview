@@ -5,7 +5,7 @@ from flask_login import login_required, current_user
 from sqlalchemy import delete, exists
 
 from src.extensions import cache, db
-from src.models.models import Artist, user_artist
+from src.models.models import Artist, Album, user_artist
 from src.functions import token_required
 
 
@@ -128,49 +128,76 @@ def search_artist():
                 }
                 artist_body['followed'] = result
                 artists.append(artist_body)
-
-
     return render_template('artist/search.html', artists=artists, title=artist_name)
 
 
 @artist_bp.route('/artist/<id>')
 @login_required
 @token_required
-# @cache.cached(timeout=120)
 def artist(id):
     albums = []
-    headers = {
-        "Authorization": f"Bearer {session['access_token']}"
-    }
-    params = {
-        'limit': 50,
-        'include_groups': 'album,single'
-    }
-    response_album = requests.get(f'https://api.spotify.com/v1/artists/{id}/albums', headers=headers, params=params)
-    response_artist = requests.get(f'https://api.spotify.com/v1/artists/{id}', headers=headers)
-
-    artist_body = {
-        'name': response_artist.json()['name'].lower(),
-        'id': response_artist.json()['id'],
-        'genres': response_artist.json()['genres'],
-        'image': response_artist.json()['images'][0]['url'],
-        'url': response_artist.json()['external_urls']['spotify']
-    }
-
-    for album in response_album.json()['items']:
-        album_body = {
-            'name': album['name'].lower(),
-            'id': album['id'],
-            'cover': album['images'][0]['url'],
-            'release_date': album['release_date'],
-            'artists': [artist['name'].lower() for artist in album['artists']],
-            'type': album['album_group'],
-            'url': album['external_urls']['spotify']
+    artist = Artist.query.filter_by(id=id).first()
+    if artist:
+        artist_albums = Album.query.filter(Album.artists_id.like(f'%{artist.id}%')).all()
+        genres = artist.genres.split('.')
+        artist_body = {
+            'name': artist.name,
+            'id': artist.id,
+            'genres': genres,
+            'image': artist.image,
         }
-        albums.append(album_body)
+        for album in artist_albums:
+            albums_body = {
+                'name': album.name,
+                'id': album.id,
+                'cover': album.cover,
+                'release_date': album.release_date,
+                'artists_name': album.artists_name,
+                'artists_id': album.artists_id,
+                'type': album.type,
+                'total_tracks': album.total_tracks
+            }
+            albums.append(albums_body)
+    else:
+        headers = {
+            "Authorization": f"Bearer {session['access_token']}"
+        }
+        params = {
+            'limit': 50,
+            'include_groups': 'album,single'
+        }
+        response_album = requests.get(f'https://api.spotify.com/v1/artists/{id}/albums', headers=headers, params=params)
+        response_artist = requests.get(f'https://api.spotify.com/v1/artists/{id}', headers=headers)
 
-    print('albums')
-    print(albums)
+        artist_body = {
+            'name': response_artist.json()['name'].lower(),
+            'id': response_artist.json()['id'],
+            'genres': response_artist.json()['genres'],
+            'image': response_artist.json()['images'][0]['url'],
+            'url': response_artist.json()['external_urls']['spotify']
+        }
+        genres = '.'.join(map(str, artist_body['genres']))
+        artist_exists = Artist.query.get(artist_body['id']) is not None
+        if not artist_exists:
+            artist_create = Artist(id=artist_body['id'], name=artist_body['name'], image=artist_body['image'], genres=genres)
+            artist_create.create()
+
+        for album in response_album.json()['items']:
+            album_body = {
+                'name': album['name'].lower(),
+                'id': album['id'],
+                'cover': album['images'][0]['url'],
+                'release_date': album['release_date'],
+                'artists_name': '/'.join([artist['name'].lower() for artist in album['artists']]),
+                'artists_id': ','.join([artist['id'] for artist in album['artists']]),
+                'type': album['album_group'],
+                'total_tracks': album['total_tracks']
+            }
+            albums.append(album_body)
+            album_exists = Album.query.get(album_body['id']) is not None
+            if not album_exists:
+                album_create = Album(id=album_body['id'], name=album_body['name'], artists_name=album_body['artists_name'], artists_id=album_body['artists_id'], cover=album_body['cover'], type=album_body['type'], total_tracks=album_body['total_tracks'], release_date=album_body['release_date'])
+                album_create.create()
     return render_template('artist/artist_page.html', albums=albums, artist=artist_body)
 
 
