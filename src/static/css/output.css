@@ -604,8 +604,16 @@ video {
   bottom: 0px;
 }
 
+.-bottom-12 {
+  bottom: -3rem;
+}
+
 .-bottom-\[18px\] {
   bottom: -18px;
+}
+
+.-right-12 {
+  right: -3rem;
 }
 
 .-top-\[320px\] {
@@ -900,6 +908,10 @@ video {
   height: 500px;
 }
 
+.h-auto {
+  height: auto;
+}
+
 .h-full {
   height: 100%;
 }
@@ -1054,6 +1066,16 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.-translate-y-5 {
+  --tw-translate-y: -1.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-y-4 {
+  --tw-translate-y: -1rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
@@ -1198,6 +1220,10 @@ video {
   border-radius: 16px;
 }
 
+.rounded-\[inherit\] {
+  border-radius: inherit;
+}
+
 .rounded-full {
   border-radius: 9999px;
 }
@@ -1293,11 +1319,6 @@ video {
 .bg-base-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(198 35 8 / var(--tw-bg-opacity));
-}
-
-.bg-base-950 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(68 10 6 / var(--tw-bg-opacity));
 }
 
 .bg-black {
@@ -2497,6 +2518,24 @@ form {
 
 .hover\:duration-200:hover {
   transition-duration: 200ms;
+}
+
+.group.active .group-\[\.active\]\:translate-y-0 {
+  --tw-translate-y: 0px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.group.active .group-\[\.active\]\:px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.group.active .group-\[\.active\]\:pt-3 {
+  padding-top: 0.75rem;
+}
+
+.group.active .group-\[\.active\]\:opacity-100 {
+  opacity: 1;
 }
 
 @media (min-width: 640px) {
