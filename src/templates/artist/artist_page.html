@@ -19,7 +19,7 @@ endblock %} {% block body %}
 						<div class="mt-1 mr-3 flex gap-2">
               {% if artist['followed'] %}
 							<button
-								class="follow-btn"
+								class="btn btn-primary text-2xl flex"
 								data-action="follow"
 							>
 								<div class="icon">
@@ -54,7 +54,7 @@ endblock %} {% block body %}
               {% else %}
 							<button
 								data-action="unfollow"
-								class="unfollow-btn"
+								class="btn bg-base-200 text-base-950 btn-text text-2xl flex"
 							>
 								<div class="name">unfollow</div>
 							</button>

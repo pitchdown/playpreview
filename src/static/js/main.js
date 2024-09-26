@@ -1128,33 +1128,33 @@ const API_URLS = {
   unfollow: '/unfollow-artist/<id>',
 }
 
-console.log("followButton", followButton);
+// console.log("followButton", followButton);
 
-followButton.each(function (i, e) {
-	$(e).on("submit", function (_e) {
-		_e.preventDefault();
-		_e.stopPropagation();
-		const arrayToObj = Object.values($(e).serializeArray()).reduce(
-			(prev, item, key, arr) => {
-				return { ...prev, ...{ [item.name]: item.value } };
-			},
-			{}
-		);
+// followButton.each(function (i, e) {
+// 	$(e).on("submit", function (_e) {
+// 		_e.preventDefault();
+// 		_e.stopPropagation();
+// 		const arrayToObj = Object.values($(e).serializeArray()).reduce(
+// 			(prev, item, key, arr) => {
+// 				return { ...prev, ...{ [item.name]: item.value } };
+// 			},
+// 			{}
+// 		);
 
-		const _form = $(e.target);
-		const response = $.ajax({
-			url: "/like-album/" + $(e).data("album-id"),
-			method: _form.attr("method"),
-			data: arrayToObj,
-			success: function (data) {
-				target.find('button[type="submit"]').attr("disabled", false);
-				// console.log("Success", data);
-				_likeAPIFormUIActions($(e.target), data);
-			},
-			error: function (xhr, status, error) {
-				target.find('button[type="submit"]').attr("disabled", false);
-				console.error("Error fetching:", error);
-			},
-		});
-	});
-});
+// 		const _form = $(e.target);
+// 		const response = $.ajax({
+// 			url: "/like-album/" + $(e).data("album-id"),
+// 			method: _form.attr("method"),
+// 			data: arrayToObj,
+// 			success: function (data) {
+// 				target.find('button[type="submit"]').attr("disabled", false);
+// 				// console.log("Success", data);
+// 				_likeAPIFormUIActions($(e.target), data);
+// 			},
+// 			error: function (xhr, status, error) {
+// 				target.find('button[type="submit"]').attr("disabled", false);
+// 				console.error("Error fetching:", error);
+// 			},
+// 		});
+// 	});
+// });
