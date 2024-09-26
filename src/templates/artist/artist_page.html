@@ -139,7 +139,9 @@ endblock %} {% block body %}
 				<!-- {{ album['liked'] }} -->
 				<form
 					action="{{ url_for('album.unlike_album', id=album['id']) if album['liked'] else url_for('album.like_album', id=album['id']) }}"
-					id="like-album"
+					class="like-album"
+          data-album-state="{{album['liked']}}"
+          data-album-id="{{album.id}}"
 					method="POST"
 				>
 					<input type="hidden" name="id" value="${album.id}" />
@@ -194,13 +196,13 @@ endblock %} {% block body %}
 					<div class="text-lg">
 						<span>{{ album['name'] }}</span>
 					</div>
-					<div class="flex items-center gap-1 mt-1">
-						<div class="text-sm uppercase text-[gray]">type:</div>
-						<div class="text-[12px]">{{ album['type'] }}</div>
+					<div class="flex items-stretch gap-1 mt-1">
+						<div class="text-[12px] uppercase text-[gray]">type:</div>
+						<div class="text-[14px]">{{ album['type'] }}</div>
 					</div>
-					<div class="flex items-center gap-1">
-						<div class="text-sm uppercase text-[gray]">Release date:</div>
-						<div class="text-[12px]">{{ album['release_date'] }}</div>
+					<div class="flex items-items-stretch gap-1">
+						<div class="text-[12px] uppercase text-[gray]">Release date:</div>
+						<div class="text-[14px]">{{ album['release_date'] }}</div>
 					</div>
 				</div>
 			</div>
