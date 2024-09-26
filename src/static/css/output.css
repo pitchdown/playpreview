@@ -1286,6 +1286,11 @@ video {
   border-bottom-color: rgb(255 244 237 / var(--tw-border-opacity));
 }
 
+.\!bg-base-200 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(255 202 168 / var(--tw-bg-opacity)) !important;
+}
+
 .bg-base-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(255 231 212 / var(--tw-bg-opacity));
@@ -1593,8 +1598,8 @@ video {
   line-height: 1;
 }
 
-.text-\[16px\] {
-  font-size: 16px;
+.text-\[12px\] {
+  font-size: 12px;
 }
 
 .text-lg {

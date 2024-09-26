@@ -1066,3 +1066,18 @@ function initApp(props) {
 		});
 	});
 })($);
+
+
+/**
+ * api calls
+ */
+
+const albumLikeQuery = 'like-album';
+const albumLikeButton = $('#like-album');
+
+albumLikeButton.on('submit', function(e) {
+  e.preventDefault();
+  e.stopPropagination();
+  console.log('----Like Album');
+  
+})
