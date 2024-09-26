@@ -1067,17 +1067,41 @@ function initApp(props) {
 	});
 })($);
 
-
 /**
  * api calls
  */
 
-const albumLikeQuery = 'like-album';
-const albumLikeButton = $('#like-album');
+const albumLikeQuery = "like-album";
+const albumLikeButton = $(".like-album");
 
-albumLikeButton.on('submit', function(e) {
-  e.preventDefault();
-  e.stopPropagination();
-  console.log('----Like Album');
-  
-})
+console.log("valbumLikeButton", albumLikeButton);
+
+albumLikeButton.each(function (i, e) {
+	$(e).on("submit", function (_e) {
+		_e.preventDefault();
+		_e.stopPropagation();
+		const arrayToObj = Object.values($(e).serializeArray()).reduce(
+			(prev, item, key, arr) => {
+				return { ...prev, ...{ [item.name]: item.value } };
+			},
+			{}
+		);
+		console.log(
+			"----Like Album",
+			$(e).data('album-id')
+		);
+
+    const likeState = $(e).data('album-state');
+
+		$.ajax({
+			url: "/like-album/" + $(e).data('album-id'),
+			method: "POST",
+			success: function (data) {
+        console.log('------- success', data);
+      },
+      error: function(data) {
+        console.log('---- error', data);
+      }
+		});
+	});
+});
