@@ -947,7 +947,7 @@ function _likeAPIFormUIActions(e, data) {
 	const _form = e;
 	const _formData = e.data();
 
-	console.log("formData", _form.attr("action"), _form.data("api-form-state"));
+	console.log("formData", _form.attr("data-api-form-state"), _form.data("api-form-state"));
 
 	if (_form.attr("data-api-form-state") === "like") {
 		_form.attr("data-api-form-state", "unlike");
@@ -987,7 +987,7 @@ function dataApiForm(el, opt) {
 	// 		};
 	// 	});
 
-	// _likeAPIFormUIActions(target, {});
+	_likeAPIFormUIActions(target, {});
 	target.find(apiFormQuery).each((k, item) => {});
 
 	target.on("submit", function (e) {
@@ -1074,13 +1074,7 @@ function initApp(props) {
 const albumLikeQuery = "like-album";
 const albumLikeButton = $(".like-album");
 
-const ALBUM_API_URLS = {
-  like: '/follow-artist/<id>',
-  unlike: '/unfollow-artist/<id>',
-}
-
-
-// console.log("valbumLikeButton", albumLikeButton);
+console.log("valbumLikeButton", albumLikeButton);
 
 albumLikeButton.each(function (i, e) {
 	$(e).on("submit", function (_e) {
@@ -1126,41 +1120,41 @@ albumLikeButton.each(function (i, e) {
 
 
 
-// const followSelector = "follow-btn";
-// const followButton = $(".follow-btn");
+const followSelector = "follow-btn";
+const followButton = $(".follow-btn");
 
-// const API_URLS = {
-//   follow: '/follow-artist/<id>',
-//   unfollow: '/unfollow-artist/<id>',
-// }
+const API_URLS = {
+  follow: '/follow-artist/<id>',
+  unfollow: '/unfollow-artist/<id>',
+}
 
-// console.log("followButton", followButton);
+console.log("followButton", followButton);
 
-// followButton.each(function (i, e) {
-// 	$(e).on("submit", function (_e) {
-// 		_e.preventDefault();
-// 		_e.stopPropagation();
-// 		const arrayToObj = Object.values($(e).serializeArray()).reduce(
-// 			(prev, item, key, arr) => {
-// 				return { ...prev, ...{ [item.name]: item.value } };
-// 			},
-// 			{}
-// 		);
+followButton.each(function (i, e) {
+	$(e).on("submit", function (_e) {
+		_e.preventDefault();
+		_e.stopPropagation();
+		const arrayToObj = Object.values($(e).serializeArray()).reduce(
+			(prev, item, key, arr) => {
+				return { ...prev, ...{ [item.name]: item.value } };
+			},
+			{}
+		);
 
-// 		const _form = $(e.target);
-// 		const response = $.ajax({
-// 			url: "/like-album/" + $(e).data("album-id"),
-// 			method: _form.attr("method"),
-// 			data: arrayToObj,
-// 			success: function (data) {
-// 				target.find('button[type="submit"]').attr("disabled", false);
-// 				// console.log("Success", data);
-// 				_likeAPIFormUIActions($(e.target), data);
-// 			},
-// 			error: function (xhr, status, error) {
-// 				target.find('button[type="submit"]').attr("disabled", false);
-// 				console.error("Error fetching:", error);
-// 			},
-// 		});
-// 	});
-// });
+		const _form = $(e.target);
+		const response = $.ajax({
+			url: "/like-album/" + $(e).data("album-id"),
+			method: _form.attr("method"),
+			data: arrayToObj,
+			success: function (data) {
+				target.find('button[type="submit"]').attr("disabled", false);
+				// console.log("Success", data);
+				_likeAPIFormUIActions($(e.target), data);
+			},
+			error: function (xhr, status, error) {
+				target.find('button[type="submit"]').attr("disabled", false);
+				console.error("Error fetching:", error);
+			},
+		});
+	});
+});
