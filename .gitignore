@@ -10,3 +10,5 @@ htmlcov/
 docs/_build/
 .DS_Store
 src/views/.DS_Store
+/node_modules/
+/node_modules/*

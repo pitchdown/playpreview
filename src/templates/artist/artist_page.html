@@ -112,28 +112,101 @@ endblock %} {% block body %}
 <div class="page-container-">
 	<div
 		id="album-tabs-list"
-		class="grid grid-cols-2 p-4 md:grid-cols-4 lg:grid-cols-6 justify-center gap-5"
+		class="grid grid-cols-2 p-4 md:grid-cols-4 lg:grid-cols-6 justify-center gap-3"
 	>
 		{% for album in albums %}
-		<div
-			data-album-type="{{album.type}}"
-			class="relative aspect-square rounded-lg overflow-hidden bg-black bg-opacity-15"
-		>
-			<a
-				class="w-full h-full"
-				href="{{ url_for('album.album', id=album['id']) }}"
-			>
-				<img
-					class="hover:brightness-50 transition duration-300 m-auto bg-base-100"
-					src="{{ album['cover'] }}"
-				/>
-				<div
-					class="flex justify-center items-center p-2 h-full w-full hover:bg-opacity-80 hover:bg-black text-white absolute opacity-0 hover:opacity-100 inset-x-0 inset-y-0 transition duration-300 text-3xl"
-				>
-					<span class="text-center"> {{ album['name'] }} </span>
-				</div>
-			</a>
-		</div>
+		<div data-album-type="{{album.type}}" class="px-1">
+      <div
+        
+        class="_hover:bg-base-100 rounded-lg "
+      >
+        <div
+          class="relative aspect-square rounded-lg overflow-hidden bg-black bg-opacity-15"
+        >
+          <a
+            class="w-full h-full"
+            href="{{ url_for('album.album', id=album['id']) }}"
+          >
+            <img
+              class="_hover:brightness-50 transition duration-300 m-auto bg-base-100"
+              src="{{ album['cover'] }}"
+            />
+            <!-- <div
+              class="flex flex-col justify-center items-center p-2 h-full w-full hover:bg-opacity-80 hover:bg-black text-white absolute opacity-0 hover:opacity-100 inset-x-0 inset-y-0 transition duration-300 text-3xl"
+            >
+              <div class="text-center">{{ album['name'] }}</div>
+              <button class="btn btn-white">Like</button>
+            </div> -->
+          </a>
+        </div>
+        <!-- {{ album['liked'] }} -->
+        <div class="pt-2">
+          <div class="text-lg">{{ album['name'] }}</div>
+          <div class="flex gap-1 items-center">
+            <div class="text-sm uppercase text-[gray]">type:</div>
+            <div class="text-[16px]">{{ album['type'] }}</div>
+          </div>
+          
+          <form action="${
+            album['id']
+              ? "/unlike-album/" + album.id
+              : "/like-album/" + album.id
+          }" 
+          data-api-form="like-form"
+      data-api-form-state="${album.liked ? "unlike" : "like"}"
+       id="like-form" method="POST">
+            <input
+              type="hidden"
+              name="id"
+              value="${album.id}"
+            />
+            <input
+              type="hidden"
+              name="name"
+              value="${album.name}"
+            />
+            <input
+              type="hidden"
+              name="album_name"
+              value="${album.album_name}"
+            />
+            <input
+              type="hidden"
+              name="album_id"
+              value="${album.album_id}"
+            />
+            <input
+              type="hidden"
+              name="album_cover"
+              value="${album.album_cover}"
+            />
+            <input type="hidden" name="artists_name" value="${artists}" />
+            <input
+              type="hidden"
+              name="artists_id"
+              value="${album.artists_id}"
+            />
+            <input
+              type="hidden"
+              name="preview_url"
+              value="${album.preview_url}"
+            />
+              <!-- <button data-api-form-action="submit" class="like hover:text-base-500" type="submit">
+        <i class="fa-regular fa-heart"></i>
+      </button> -->
+
+      <button
+        data-api-form-action="submit"
+        class="unlike hidden hover:text-base-500 btn btn-primary !bg-base-200 mt-2"
+        type="submit"
+      >
+      Like
+      </button>
+          </form>
+        
+        </div>
+      </div>
+    </div>
 		{% endfor %}
 	</div>
 </div>

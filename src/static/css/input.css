@@ -482,7 +482,7 @@ input[type="range"]::-moz-range-thumb {
 		transform: translate(-50%, -50%);
 		border-radius: 24px;
 		transition: width 0.2s ease-in, height 0.8s ease-out,
-			opacity 0.1s ease-in-out, box-shadow 0.15s  ease-in-out;
+			opacity 0.1s ease-in-out, box-shadow 0.15s ease-in-out;
 		z-index: -1;
 		opacity: 0;
 	}
@@ -499,8 +499,7 @@ input[type="range"]::-moz-range-thumb {
 ._album-player-item {
 	@apply flex flex-col relative;
 }
-
-.album-page [data-album-id] > *:last-child .item {
+.album-page [data-album-id]:only-child .item {
 	border-radius: 0 0 12px 12px;
 	overflow: hidden;
 }
@@ -519,24 +518,64 @@ input[type="range"]::-moz-range-thumb {
 }
 .album-page [data-album-id] > * .player-progress-bar {
 	height: 2px !important;
-  transition: height .2s ease-in-out;
+	transition: height 0.2s ease-in-out;
 }
 
 .album-page [data-album-id] > *.active .player-progress-bar {
-  height: 4px !important;
+	height: 4px !important;
 }
 
 .album-page [data-album-id] > * input[type="range"]::-moz-range-thumb {
-  transform: scale(0);
-  transition: transform .2s ease-in;
+	transform: scale(0);
+	transition: transform 0.2s ease-in;
 }
 
 .album-page [data-album-id] > *.active input[type="range"]::-moz-range-thumb {
-  transform: scale(1);
-  transition: transform .2s ease-out;
+	transform: scale(1);
+	transition: transform 0.2s ease-out;
 }
 
 form {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
+}
+
+/* 
+  Skeleton
+*/
+
+.loading-frame {
+	position: relative;
+  overflow: hidden;
+	&::before {
+		content: "";
+		display: block;
+		animation: shine-lines 1.6s infinite linear;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+
+		/* transform: translateX(-100%); */
+		background: linear-gradient(
+			90deg,
+			transparent,
+			rgba(254, 73, 9, 0.05),
+			transparent
+		);
+		-webkit-animation: shine-lines 1.5s infinite;
+    /* background-color: lightgray; */
+	}
+}
+
+@keyframes shine-lines {
+	0% {
+		/* background-position: 100%; */
+		transform: translateX(-100%);
+	}
+	100% {
+		/* background-position: -100%; */
+		transform: translateX(150%);
+	}
 }
