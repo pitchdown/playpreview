@@ -78,27 +78,60 @@ current_user.is_authenticated %}
 									style="word-wrap: anywhere"
 								>
 									<h4>{{ track['track'].name }}</h4>
-									<form class="control pr-4 ml-auto mb-auto">
-										<ul class="flex gap-4">
-											<li>
-												<button type="input" value="Like">
-													{% if track['liked'] %}
-													<i class="fa-solid fa-heart text-2xl"></i>
-													{% else %}
-													<i class="fa-regular fa-heart text-2xl"></i>
-													{% endif %}
-													<span class="hidden">Like</span>
-												</button>
-											</li>
-											<li>
-												<button type="input" value="Like">
-													<i class="fa-solid fa-ellipsis-h text-2xl"></i>
-													<span class="hidden">Options</span>
-												</button>
-											</li>
-											<!-- <li></li> -->
-										</ul>
-									</form>
+									<form
+						action="{{ url_for('track.like_track', id=track['id']) }}"
+						method="POST"
+						id="like-form"
+						data-api-form="like-form"
+						data-api-form-state="like"
+					>
+						<input type="hidden" name="id" value="{{ track['id'] }}" />
+						<input type="hidden" name="name" value="{{ track['name'] }}" />
+						<input
+							type="hidden"
+							name="album_cover"
+							value="{{ track['album_cover'] }}"
+						/>
+						<input
+							type="hidden"
+							name="artists_name"
+							value="{{ track['artists_name'] }}"
+						/>
+						<input
+							type="hidden"
+							name="artists_id"
+							value="{{ track['artists_id'] }}"
+						/>
+						<input
+							type="hidden"
+							name="preview_url"
+							value="{{ track['preview_url'] }}"
+						/>
+						<input
+							type="hidden"
+							name="album_name"
+							value="{{ track['album_name'] }}"
+						/>
+						<input
+							type="hidden"
+							name="album_id"
+							value="{{ track['album_id'] }}"
+						/>
+						<button
+							data-api-form-action="submit"
+							class="like hover:text-base-500"
+							type="submit"
+						>
+							<i class="fa-regular fa-heart"></i>
+						</button>
+						<button
+							data-api-form-action="submit"
+							class="unlike hidden hover:text-base-500"
+							type="submit"
+						>
+							<i class="fa-solid fa-heart"></i>
+						</button>
+					</form>
 								</div>
 								<div class="text-md">
 									<span
