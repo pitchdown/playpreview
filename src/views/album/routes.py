@@ -118,7 +118,8 @@ def album_tracks(id):
             'artists_name': '/'.join([artist['name'].lower() for artist in track['artists']]),
             'artists_id': ','.join([artist['id'] for artist in track['artists']]),
             'track_number': track['track_number'],
-            'preview_url': track['preview_url'],
+            'preview_url': track.get('preview_url', None) if track.get('preview_url') else get_preview_url_if_null(
+                track['id']),
             'album_name': g.album_details['name'],
             'album_id': g.album_details['id'],
             'album_cover': g.album_details['cover'],

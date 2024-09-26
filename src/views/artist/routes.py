@@ -131,6 +131,7 @@ def search_artist():
     return render_template('artist/search.html', artists=artists, title=artist_name)
 
 
+
 @artist_bp.route('/artist/<id>')
 @login_required
 @token_required
@@ -138,6 +139,7 @@ def artist(id):
     albums = []
     artist = Artist.query.filter_by(id=id).first()
     if artist:
+        print('if')
         artist_albums = Album.query.filter(Album.artists_id.like(f'%{artist.id}%')).all()
         genres = artist.genres.split('.')
         artist_body = {
@@ -159,6 +161,7 @@ def artist(id):
             }
             albums.append(albums_body)
     else:
+        print('else')
         headers = {
             "Authorization": f"Bearer {session['access_token']}"
         }
