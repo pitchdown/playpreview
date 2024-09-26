@@ -581,12 +581,12 @@ form {
 		transform: translateX(150%);
 	}
 }
-
-.follow-btn {
+/* 
+.follow {
 	@apply btn btn-primary text-2xl flex;
 
 }
 
 .unfollow-btn {
 	@apply btn bg-base-200 text-base-950 btn-text text-2xl flex;
-}
+} */

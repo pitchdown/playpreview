@@ -1074,7 +1074,13 @@ function initApp(props) {
 const albumLikeQuery = "like-album";
 const albumLikeButton = $(".like-album");
 
-console.log("valbumLikeButton", albumLikeButton);
+const ALBUM_API_URLS = {
+  like: '/follow-artist/<id>',
+  unlike: '/unfollow-artist/<id>',
+}
+
+
+// console.log("valbumLikeButton", albumLikeButton);
 
 albumLikeButton.each(function (i, e) {
 	$(e).on("submit", function (_e) {
@@ -1120,13 +1126,13 @@ albumLikeButton.each(function (i, e) {
 
 
 
-const followSelector = "follow-btn";
-const followButton = $(".follow-btn");
+// const followSelector = "follow-btn";
+// const followButton = $(".follow-btn");
 
-const API_URLS = {
-  follow: '/follow-artist/<id>',
-  unfollow: '/unfollow-artist/<id>',
-}
+// const API_URLS = {
+//   follow: '/follow-artist/<id>',
+//   unfollow: '/unfollow-artist/<id>',
+// }
 
 // console.log("followButton", followButton);
 
