@@ -5,7 +5,7 @@ from flask_login import login_required, current_user
 from sqlalchemy import delete, exists
 
 from src.extensions import cache, db
-from src.models.models import Artist, Album, user_artist
+from src.models.models import Artist, Album, user_artist, user_album
 from src.functions import token_required
 
 
@@ -149,6 +149,14 @@ def artist(id):
             'image': artist.image,
         }
         for album in artist_albums:
+            check = exists().where(
+                db.and_(
+                    user_album.c.user_id == current_user.id,
+                    user_album.c.album_id == album.id
+                )
+            )
+
+            result = db.session.query(check).scalar()
             albums_body = {
                 'name': album.name,
                 'id': album.id,
@@ -159,7 +167,9 @@ def artist(id):
                 'type': album.type,
                 'total_tracks': album.total_tracks
             }
+            albums_body['liked'] = result
             albums.append(albums_body)
+            print(albums_body)
     else:
         print('else')
         headers = {
@@ -186,6 +196,15 @@ def artist(id):
             artist_create.create()
 
         for album in response_album.json()['items']:
+            check = exists().where(
+                db.and_(
+                    user_album.c.user_id == current_user.id,
+                    user_album.c.album_id == album['id']
+                )
+            )
+
+            result = db.session.query(check).scalar()
+
             album_body = {
                 'name': album['name'].lower(),
                 'id': album['id'],
@@ -196,6 +215,8 @@ def artist(id):
                 'type': album['album_group'],
                 'total_tracks': album['total_tracks']
             }
+            album_body['liked'] = result
+            print(album_body)
             albums.append(album_body)
             album_exists = Album.query.get(album_body['id']) is not None
             if not album_exists:

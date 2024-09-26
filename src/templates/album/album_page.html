@@ -1,59 +1,59 @@
 {% extends "layout/base.html" %} {% block title %}{{ album['name'] }}{%
 endblock%} {% block body %} {% set n = namespace(counter = 0) %}
 <div class="page-body">
-	<div class="page-container">
-		<div class="flex flex-col sm:flex-row gap-8 pt-10">
-			<div
-				class="avatar relative aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg"
-			>
-				<div
-					class="theme-drop"
-					style="background-image: url({{album.cover}});"
-				></div>
-				<div class="img size-full">
-          <img
-            src="{{ album['cover'] }}"
-            class="img w-full bg-base-200 rounded-xl"
-          />
-        </div>
-			</div>
-			<div class="desc flex-1">
-				<div
-					class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
-				>
-					<div>
-						{% for artist in album['artist'] %}
-						<p class="text-2xl">{{ artist }}</p>
-						{% endfor %}
-						<p class="mb-2">{{ album['type'] }}</p>
-						<p class="text-5xl">{{ album['name'] }}</p>
-						<p>release date: {{ album['release_date'] }}</p>
-						<p>total songs: {{ album['total_tracks'] }}</p>
-						<div>
-							<p class="text-sm text-opacity-90 text-center sm:text-start">
-								genres
-							</p>
-							<div
-								class="flex flex-wrap justify-center sm:justify-start gap-3 pt-3"
-							>
-								{% for genre in genres %}
-								<span class="px-3 py-2 text-lg bg-base-100 text-base-950"
-									>{{ genre }}</span
-								>
-								{% endfor %}
-							</div>
-						</div>
-					</div>
-					<!-- <div class="mt-1 mr-3 flex gap-2">
+    <div class="page-container">
+        <div class="flex flex-col sm:flex-row gap-8 pt-10">
+            <div
+                    class="avatar relative aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg"
+            >
+                <div
+                        class="theme-drop"
+                        style="background-image: url({{album.cover}});"
+                ></div>
+                <div class="img size-full">
+                    <img
+                            src="{{ album['cover'] }}"
+                            class="img w-full bg-base-200 rounded-xl"
+                    />
+                </div>
+            </div>
+            <div class="desc flex-1">
+                <div
+                        class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
+                >
+                    <div>
+                        {% for artist in album['artist'] %}
+                        <p class="text-2xl">{{ artist }}</p>
+                        {% endfor %}
+                        <p class="mb-2">{{ album['type'] }}</p>
+                        <p class="text-5xl">{{ album['name'] }}</p>
+                        <p>release date: {{ album['release_date'] }}</p>
+                        <p>total songs: {{ album['total_tracks'] }}</p>
+                        <div>
+                            <p class="text-sm text-opacity-90 text-center sm:text-start">
+                                genres
+                            </p>
+                            <div
+                                    class="flex flex-wrap justify-center sm:justify-start gap-3 pt-3"
+                            >
+                                {% for genre in genres %}
+                                <span class="px-3 py-2 text-lg bg-base-100 text-base-950"
+                                >{{ genre }}</span
+                                >
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="mt-1 mr-3 flex gap-2">
             <button class="btn btn-primary text-2xl">follow</button>
             <button class="btn btn-text text-2xl">
               <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
           </div> -->
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- <div class="flex justify-center items-center gap-16 mt-10">
@@ -72,190 +72,189 @@ endblock%} {% block body %} {% set n = namespace(counter = 0) %}
 </div> -->
 
 <div class="album-page page-container py-5 min-h-[1000px]">
-	<div
-		class="album-tracks grid grid-cols-1 place-items-center w-full gap-0 bg-base-100 bg-opacity-50 rounded-xl"
-		id="tracks"
-		data-album-id="{{ album['id'] }}"
-		data-api-url="/albums/tracks/data"
-		data-load-template="example"
-	>
-		<div data-api-on="loading" hidden>Loading</div>
-		<div data-api-on="success" hidden></div>
-		<div data-api-on="error" hidden>Error</div>
     <div
-    data-template="true"
-    class="album-track-itemx w-full rounded-[inherit]"
-    data-playlist="main-2"
-    data-playlist-action="toggle"
-    data-playlist-item="${track.id}"
-    data-album-id="{{ album['id'] }}"
-  >
-    
-  <div
-  class="flex flex-col relative w-full transition-all cursor-pointer rounded-[inherit] loading-frame"
-  data-playlist-item="${track.id}"
-  data-playlist-action="toggle"
->
-  <div class="item hover:bg-base-200 hover:bg-opacity-25 flex gap-4 w-full py-4 px-5 relative">
+            class="album-tracks grid grid-cols-1 place-items-center w-full gap-0 bg-base-100 bg-opacity-50 rounded-xl"
+            id="tracks"
+            data-album-id="{{ album['id'] }}"
+            data-api-url="/albums/tracks/data"
+            data-load-template="example"
+    >
+        <div data-api-on="loading" hidden>Loading</div>
+        <div data-api-on="success" hidden></div>
+        <div data-api-on="error" hidden>Error</div>
+        <div
+                data-template="true"
+                class="album-track-itemx w-full rounded-[inherit]"
+                data-playlist="main-2"
+                data-playlist-action="toggle"
+                data-playlist-item="${track.id}"
+                data-album-id="{{ album['id'] }}"
+        >
 
-  <div class="h-1 hover:h-2 transition-all w-full absolute bottom-0 left-0">
-          <div
-            class="player-progress-bar absolute left-0 bottom-0 size-full seekbar h-full bg-base-200 bg-opacity-50"
-          ></div>
-          <div
-            class="player-progress absolute left-0 bottom-0 seekbar h-full bg-base-300"
-            data-playlist-action="progress"
-          ></div>
-        </div>
-  
-    <div class="flex gap-7 flex-shrink-0 ">
-      <p class="text-5xl w-16 opacity-15 text-right mt-2">
-        0
-      </p>
-      <audio data-track="{ track['id'] }" controls style="display: none">
-        <source src="${track.preview_url}" type="audio/ogg" />
-        <source src="${track.preview_url}" type="audio/mpeg" />
-      </audio>
-    </div>
-    <div class="flex flex-col gap-4 flex-1">
-      <div class="flex">
-        <div class="flex flex-1 gap-4">
-          <div class="control mt-1">
-            <div class="relative text-3xl" data-playlist-action="toggle">
-              <i
-                data-playlist-action="play"
-                class="w-7 fa-solid fa-play"
-              ></i>
-              <span data-playlist-action="pause" class="hidden">
+            <div
+                    class="flex flex-col relative w-full transition-all cursor-pointer rounded-[inherit] loading-frame"
+                    data-playlist-item="${track.id}"
+                    data-playlist-action="toggle"
+            >
+                <div class="item hover:bg-base-200 hover:bg-opacity-25 flex gap-4 w-full py-4 px-5 relative">
+
+                    <div class="h-1 hover:h-2 transition-all w-full absolute bottom-0 left-0">
+                        <div
+                                class="player-progress-bar absolute left-0 bottom-0 size-full seekbar h-full bg-base-200 bg-opacity-50"
+                        ></div>
+                        <div
+                                class="player-progress absolute left-0 bottom-0 seekbar h-full bg-base-300"
+                                data-playlist-action="progress"
+                        ></div>
+                    </div>
+
+                    <div class="flex gap-7 flex-shrink-0 ">
+                        <p class="text-5xl w-16 opacity-15 text-right mt-2">
+                            0
+                        </p>
+                        <audio data-track="{ track['id'] }" controls style="display: none">
+                            <source src="${track.preview_url}" type="audio/ogg"/>
+                            <source src="${track.preview_url}" type="audio/mpeg"/>
+                        </audio>
+                    </div>
+                    <div class="flex flex-col gap-4 flex-1">
+                        <div class="flex">
+                            <div class="flex flex-1 gap-4">
+                                <div class="control mt-1">
+                                    <div class="relative text-3xl" data-playlist-action="toggle">
+                                        <i
+                                                data-playlist-action="play"
+                                                class="w-7 fa-solid fa-play"
+                                        ></i>
+                                        <span data-playlist-action="pause" class="hidden">
                 <i class="fa-solid fa-pause w-7"></i>
               </span>
-            </div>
-          </div>
-          <div class="flex flex-col gap-1 flex-1">
-            <div class="title flex ">
-              <div class="bg-base-100 loading-frame rounded-xl overflow-hidden">
-                <p class="text-3xl text-base-950 opacity-0">${track.name}</p>
-              </div>
-            </div>
-            <div class="desc flex">
-              <div class="bg-base-100 loading-frame rounded-xl overflow-hidden">
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 flex-1">
+                                    <div class="title flex ">
+                                        <div class="bg-base-100 loading-frame rounded-xl overflow-hidden">
+                                            <p class="text-3xl text-base-950 opacity-0">${track.name}</p>
+                                        </div>
+                                    </div>
+                                    <div class="desc flex">
+                                        <div class="bg-base-100 loading-frame rounded-xl overflow-hidden">
                 <span class="text-md opacity-0">
                   <a
-                    class="text-base-800 hover:underline hover:text-base-600"
-                    href="${"/artist/" + track["artists_id"]}"
+                          class="text-base-800 hover:underline hover:text-base-600"
+                          href="${"/artist/" + track["artists_id"]}"
                     >${artists}</a
-                  >
-                  -
+                        >
+                    -
                   <span
-                    >${track["album_name"]}</span
+                  >${track["album_name"]}</span
                   >
                 </span>
-              </div>
-            </div>
-            <div class="desc flex">
-              <div class="bg-base-100 loading-frame rounded-xl">
-                <div class="track opacity-0" data-playlist-item-duration>
-                    00:00
+                                        </div>
+                                    </div>
+                                    <div class="desc flex">
+                                        <div class="bg-base-100 loading-frame rounded-xl">
+                                            <div class="track opacity-0" data-playlist-item-duration>
+                                                00:00
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-start gap-5 ml-auto">
+                                <div class="track-form">
+                                    <form action="{{ url_for('unlike_track', track_id=track['id']) if track['liked'] else url_for('like_track', track_id=track['id']) }}"
+                                          data-api-form="like-form"
+                                          data-api-form-state="{{ 'unlike' if track['liked'] else 'like' }}"
+                                          id="like-form"
+                                          method="POST">
+                                    </form>
+                                    <input
+                                            type="hidden"
+                                            name="id"
+                                            value="${track.id}"
+                                    />
+                                    <input
+                                            type="hidden"
+                                            name="name"
+                                            value="${track.name}"
+                                    />
+                                    <input
+                                            type="hidden"
+                                            name="album_name"
+                                            value="${track.album_name}"
+                                    />
+                                    <input
+                                            type="hidden"
+                                            name="album_id"
+                                            value="${track.album_id}"
+                                    />
+                                    <input
+                                            type="hidden"
+                                            name="album_cover"
+                                            value="${track.album_cover}"
+                                    />
+                                    <input type="hidden" name="artists_name" value="${artists}"/>
+                                    <input
+                                            type="hidden"
+                                            name="artists_id"
+                                            value="${track.artists_id}"
+                                    />
+                                    <input
+                                            type="hidden"
+                                            name="preview_url"
+                                            value="${track.preview_url}"
+                                    />
+                                    <button data-api-form-action="submit" class="like hover:text-base-500"
+                                            type="submit">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    <button
+                                            data-api-form-action="submit"
+                                            class="unlike hidden hover:text-base-500"
+                                            type="submit"
+                                    >
+                                        <i class="fa-solid fa-heart"></i>
+                                    </button>
+                                    </form>
+                                </div>
+                                <form
+                                        action="{ url_for('track.like_track', id=track['id']) }"
+                                        method="POST"
+                                >
+                                    <button data-api-form-action="submit">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <div
+                        class="absolute -bottom-[18px] left-0 w-full player-control text-base-950 flex flex-1 items-center gap-2 text-3xl text-opacity-50"
+                >
+                    <div class="flex flex-1 relative">
+                        <input
+                                autocomplete="off"
+                                data-playlist-action="seeking"
+                                type="range"
+                                min="0.00"
+                                max="100"
+                                value="0.00"
+                                class="slider size-5 relative top-0 left-0 w-full"
+                        />
+                        <div
+                                class="absolute flex items-center top-0 left-0 h-full size-full py-1"
+                        >
+
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="flex justify-start gap-5 ml-auto">
-          <div class="track-form">
-            <form action="{{
-              track.liked
-                ? "/unlike-track/" + track.id
-                : "/like-track/" + track.id
-            }}" 
-            data-api-form="like-form"
-        data-api-form-state="${track.liked ? "unlike" : "like"}"
-         id="like-form" method="POST">
-              <input
-                type="hidden"
-                name="id"
-                value="${track.id}"
-              />
-              <input
-                type="hidden"
-                name="name"
-                value="${track.name}"
-              />
-              <input
-                type="hidden"
-                name="album_name"
-                value="${track.album_name}"
-              />
-              <input
-                type="hidden"
-                name="album_id"
-                value="${track.album_id}"
-              />
-              <input
-                type="hidden"
-                name="album_cover"
-                value="${track.album_cover}"
-              />
-              <input type="hidden" name="artists_name" value="${artists}" />
-              <input
-                type="hidden"
-                name="artists_id"
-                value="${track.artists_id}"
-              />
-              <input
-                type="hidden"
-                name="preview_url"
-                value="${track.preview_url}"
-              />
-                <button data-api-form-action="submit" class="like hover:text-base-500" type="submit">
-          <i class="fa-regular fa-heart"></i>
-        </button>
-        <button
-          data-api-form-action="submit"
-          class="unlike hidden hover:text-base-500"
-          type="submit"
-        >
-          <i class="fa-solid fa-heart"></i>
-        </button>
-            </form>
-          </div>
-          <form
-            action="{ url_for('track.like_track', id=track['id']) }"
-            method="POST"
-          >
-            <button data-api-form-action="submit">
-          <i class="fa-solid fa-ellipsis"></i>
-        </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="absolute -bottom-[18px] left-0 w-full player-control text-base-950 flex flex-1 items-center gap-2 text-3xl text-opacity-50"
-  >
-    <div class="flex flex-1 relative">
-      <input
-        autocomplete="off"
-        data-playlist-action="seeking"
-        type="range"
-        min="0.00"
-        max="100"
-        value="0.00"
-        class="slider size-5 relative top-0 left-0 w-full"
-      />
-      <div
-        class="absolute flex items-center top-0 left-0 h-full size-full py-1"
-      >
-        
-      </div>
-    </div>
-  </div>
-</div>
 
 
-  </div>
-	</div>
+        </div>
+    </div>
 </div>
 <!-- <input type="hidden" id="albumId"  /> -->
 {% endblock %}
