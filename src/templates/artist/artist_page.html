@@ -15,9 +15,13 @@ endblock %} {% block body %}
 					<div>
 						<p class="text-3xl">{{ artist['name'] }}</p>
 					</div>
-					<form action="">
+					<form action="/" class="follow-btn">
 						<div class="mt-1 mr-3 flex gap-2">
-							<button class="btn btn-primary text-2xl flex">
+              {% if artist['followed'] %}
+							<button
+								class="follow-btn"
+								data-action="follow"
+							>
 								<div class="icon">
 									<?xml version="1.0" encoding="UTF-8"?>
 									<svg
@@ -47,11 +51,14 @@ endblock %} {% block body %}
 								</div>
 								<div class="name">follow</div>
 							</button>
+              {% else %}
 							<button
-								class="btn bg-base-200 text-base-950 btn-text text-2xl flex"
+								data-action="unfollow"
+								class="unfollow-btn"
 							>
 								<div class="name">unfollow</div>
 							</button>
+              {% endif %}
 							<button class="btn btn-text text-2xl">
 								<i class="fa-solid fa-ellipsis-vertical"></i>
 							</button>

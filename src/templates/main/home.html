@@ -79,59 +79,85 @@ current_user.is_authenticated %}
 								>
 									<h4>{{ track['track'].name }}</h4>
 									<form
-						action="{{ url_for('track.like_track', id=track['id']) }}"
-						method="POST"
-						id="like-form"
-						data-api-form="like-form"
-						data-api-form-state="like"
-					>
-						<input type="hidden" name="id" value="{{ track['id'] }}" />
-						<input type="hidden" name="name" value="{{ track['name'] }}" />
-						<input
-							type="hidden"
-							name="album_cover"
-							value="{{ track['album_cover'] }}"
-						/>
-						<input
-							type="hidden"
-							name="artists_name"
-							value="{{ track['artists_name'] }}"
-						/>
-						<input
-							type="hidden"
-							name="artists_id"
-							value="{{ track['artists_id'] }}"
-						/>
-						<input
-							type="hidden"
-							name="preview_url"
-							value="{{ track['preview_url'] }}"
-						/>
-						<input
-							type="hidden"
-							name="album_name"
-							value="{{ track['album_name'] }}"
-						/>
-						<input
-							type="hidden"
-							name="album_id"
-							value="{{ track['album_id'] }}"
-						/>
-						<button
-							data-api-form-action="submit"
-							class="like hover:text-base-500"
-							type="submit"
-						>
-							<i class="fa-regular fa-heart"></i>
-						</button>
-						<button
-							data-api-form-action="submit"
-							class="unlike hidden hover:text-base-500"
-							type="submit"
-						>
-							<i class="fa-solid fa-heart"></i>
-						</button>
-					</form>
+										action="{{ url_for('track.unlike_track', id=track.track['id']) if track.track['liked'] else url_for('track.like_track', id=track.track['id']) }}"
+										method="POST"
+										id="like-form"
+										data-api-form="like-form"
+										data-api-form-state="{{'like' if track.track['liked'] else 'unlike'}}"
+										class="control pr-4 ml-auto mb-auto"
+									>
+										<input
+											type="hidden"
+											name="id"
+											value="{{ track.track['id'] }}"
+										/>
+										<input
+											type="hidden"
+											name="name"
+											value="{{ track.track['name'] }}"
+										/>
+										<input
+											type="hidden"
+											name="album_cover"
+											value="{{ track.track['album_cover'] }}"
+										/>
+										<input
+											type="hidden"
+											name="artists_name"
+											value="{{ track.track['artist_name'] }}"
+										/>
+										<input
+											type="hidden"
+											name="artists_id"
+											value="{{track['track'].artist_id}}"
+										/>
+										<input
+											type="hidden"
+											name="preview_url"
+											value="{{ track.track['preview_url'] }}"
+										/>
+										<input
+											type="hidden"
+											name="album_name"
+											value="{{ track.track['album_name'] }}"
+										/>
+										<input
+											type="hidden"
+											name="album_id"
+											value="{{ track.track['album_id'] }}"
+										/>
+										<ul class="flex gap-4">
+											<li>
+												<button
+													data-api-form-action="submit"
+													class="like hover:text-base-500 text-2xl {{'hidden' if track.track['liked'] else ''}}"
+													type="submit"
+												>
+													<i class="fa-regular fa-heart"></i>
+												</button>
+												<button
+													data-api-form-action="submit"
+													class="unlike hover:text-base-500 text-2xl {{'' if track.track['liked'] else 'hidden'}}"
+													type="submit"
+												>
+													<i class="fa-solid fa-heart"></i>
+												</button>
+												<!-- <button
+													data-api-form-action="submit"
+													class="unlike hidden hover:text-base-500 text-2xl"
+													type="submit"
+												>
+												</button> -->
+											</li>
+											<li>
+												<button type="input" value="Like">
+													<i class="fa-solid fa-ellipsis-h text-2xl"></i>
+													<span class="hidden">Options</span>
+												</button>
+											</li>
+											<!-- <li></li> -->
+										</ul>
+									</form>
 								</div>
 								<div class="text-md">
 									<span
