@@ -54,13 +54,14 @@ def home():
     artist_dict = {artist.id: artist for artist in artists}
 
     artist_data_list = []
-    for artist_id in popular_artists:
-        artist = artist_dict[artist_id]
-        artist_data_list.append({
-            'id': artist_id,
-            'name': artist.name,
-            'image': artist.image,
-        })
+    if popular_artists:
+        for artist_id in popular_artists:
+            artist = artist_dict[artist_id]
+            artist_data_list.append({
+                'id': artist_id,
+                'name': artist.name,
+                'image': artist.image,
+            })
 
     albums_data = db.session.query(user_album).all()
     album_ids = [album[1] for album in albums_data]
@@ -78,7 +79,6 @@ def home():
             'name': album.name,
             'cover': album.cover,
         })
-    print(artists)
     return render_template('main/home.html', recently_liked_tracks=ordered_tracks, artists=artists, albums=albums, genres=popular_genres)
 
 @main_bp.route('/recommendations')
