@@ -1,271 +1,212 @@
 {% extends "layout/base.html" %} {% block title %}{{ artist['name'] }}{%
-endblock %}
-{% block body %}
+endblock %} {% block body %}
 <div class="page-body">
-    <div class="page-container">
-        <div class="flex flex-col sm:flex-row gap-8 pt-10">
-            <div
-                    class="avatar aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg overflow-hidden bg-base-100"
-            >
-                <img src="{{ artist['image'] }}" class="h-full m-auto"/>
-            </div>
-            <div class="desc flex-1">
-                <div
-                        class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
-                >
-                    <div>
-                        <p class="text-3xl">{{ artist['name'] }}</p>
-                    </div>
-                    <div class="mt-1 mr-3 flex gap-2">
-                        <button class="btn btn-primary text-2xl flex">
-                            <div class="icon">
-                                <?xml version="1.0" encoding="UTF-8"?>
-                                <svg
-                                        width="24"
-                                        height="24"
-                                        id="Layer_1"
-                                        data-name="Layer 1"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 30.33 14.67"
-                                >
-                                    <defs>
-                                        <style>
-                                            .cls-1 {
-                                                fill: none;
-                                                stroke: #fff;
-                                                stroke-linecap: round;
-                                                stroke-linejoin: round;
-                                                stroke-width: 1.67px;
-                                            }
-                                        </style>
-                                    </defs>
-                                    <polyline
-                                            class="cls-1"
-                                            points=".83 6.17 6.63 6.17 6.63 .83 11.07 .83 11.07 13.83 15.5 13.83 15.5 5.83 29.5 5.83"
-                                    />
-                                </svg>
-                            </div>
-                            <div class="name">follow</div>
-                        </button>
-                        <button
-                                class="btn bg-base-200 text-base-950 btn-text text-2xl flex"
-                        >
-                            <div class="name">unfollow</div>
-                        </button>
-                        <button class="btn btn-text text-2xl">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                        </button>
-                    </div>
-                </div>
-                <div>
-                    <p class="text-sm text-opacity-90 text-center sm:text-start">
-                        genres
-                    </p>
-                    <div
-                            class="flex flex-wrap justify-center sm:justify-start gap-3 pt-3"
-                    >
-                        {% for genre in artist['genres'] %}
-                        <span class="px-3 py-2 text-lg bg-base-100 text-base-950"
-                        >{{ genre }}</span
-                        >
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="page-container">
+		<div class="flex flex-col sm:flex-row gap-8 pt-10">
+			<div
+				class="avatar aspect-square mx-auto mb-auto max-w-36 w-full sm:max-w-36 md:max-w-64 rounded-lg overflow-hidden bg-base-100"
+			>
+				<img src="{{ artist['image'] }}" class="h-full m-auto" />
+			</div>
+			<div class="desc flex-1">
+				<div
+					class="flex gap-4 justify-center flex-col items-center sm:items-start sm:justify-start sm:flex-row mb-5"
+				>
+					<div>
+						<p class="text-3xl">{{ artist['name'] }}</p>
+					</div>
+					<div class="mt-1 mr-3 flex gap-2">
+						<button class="btn btn-primary text-2xl flex">
+							<div class="icon">
+								<?xml version="1.0" encoding="UTF-8"?>
+								<svg
+									width="24"
+									height="24"
+									id="Layer_1"
+									data-name="Layer 1"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 30.33 14.67"
+								>
+									<defs>
+										<style>
+											.cls-1 {
+												fill: none;
+												stroke: #fff;
+												stroke-linecap: round;
+												stroke-linejoin: round;
+												stroke-width: 1.67px;
+											}
+										</style>
+									</defs>
+									<polyline
+										class="cls-1"
+										points=".83 6.17 6.63 6.17 6.63 .83 11.07 .83 11.07 13.83 15.5 13.83 15.5 5.83 29.5 5.83"
+									/>
+								</svg>
+							</div>
+							<div class="name">follow</div>
+						</button>
+						<button
+							class="btn bg-base-200 text-base-950 btn-text text-2xl flex"
+						>
+							<div class="name">unfollow</div>
+						</button>
+						<button class="btn btn-text text-2xl">
+							<i class="fa-solid fa-ellipsis-vertical"></i>
+						</button>
+					</div>
+				</div>
+				<div>
+					<p class="text-sm text-opacity-90 text-center sm:text-start">
+						genres
+					</p>
+					<div
+						class="flex flex-wrap justify-center sm:justify-start gap-3 pt-3"
+					>
+						{% for genre in artist['genres'] %}
+						<span class="px-3 py-2 text-lg bg-base-100 text-base-950"
+							>{{ genre }}</span
+						>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- <div class="page-container"> -->
 
 <div class="page-container">
-    <div
-            class="flex gap-5 flex-col border-b-2 border-base-100 justify-center items-center mt-10 mb-15"
-    >
-        <h1 class="text-5xl">discography</h1>
-        <div
-                id="album_tabs"
-                class="theme-tabs -mb-[2px] tabs flex pb-4 gap-4 justify-center items-center gap-0 text-xl px-3"
-        >
-            <div
-                    data-album-type="all"
-                    data-album-active-class="active"
-                    class="tab cursor-pointer hover:bg-base-100 text-base-700 text-opacity-50 hover:text-opacity-100 rounded-xl hover:border-base-400 py-2 px-4"
-            >
-                all
-            </div>
-            <div
-                    data-album-type="album"
-                    data-album-active-class="active"
-                    class="tab cursor-pointer hover:bg-base-100 text-base-700 text-opacity-50 hover:text-opacity-100 rounded-xl hover:border-base-400 py-2 px-4"
-            >
-                albums
-            </div>
-            <div
-                    data-album-type="single"
-                    data-album-active-class="active"
-                    class="tab cursor-pointer hover:bg-base-100 text-base-700 text-opacity-50 hover:text-opacity-100 rounded-xl hover:border-base-400 py-2 px-4"
-            >
-                singles
-            </div>
-        </div>
-    </div>
+	<div
+		class="flex gap-5 flex-col border-b-2 border-base-100 justify-center items-center mt-10 mb-15"
+	>
+		<h1 class="text-5xl">discography</h1>
+		<div
+			id="album_tabs"
+			class="theme-tabs -mb-[2px] tabs flex pb-4 gap-4 justify-center items-center gap-0 text-xl px-3"
+		>
+			<div
+				data-album-type="all"
+				data-album-active-class="active"
+				class="tab cursor-pointer hover:bg-base-100 text-base-700 text-opacity-50 hover:text-opacity-100 rounded-xl hover:border-base-400 py-2 px-4"
+			>
+				all
+			</div>
+			<div
+				data-album-type="album"
+				data-album-active-class="active"
+				class="tab cursor-pointer hover:bg-base-100 text-base-700 text-opacity-50 hover:text-opacity-100 rounded-xl hover:border-base-400 py-2 px-4"
+			>
+				albums
+			</div>
+			<div
+				data-album-type="single"
+				data-album-active-class="active"
+				class="tab cursor-pointer hover:bg-base-100 text-base-700 text-opacity-50 hover:text-opacity-100 rounded-xl hover:border-base-400 py-2 px-4"
+			>
+				singles
+			</div>
+		</div>
+	</div>
 </div>
 <div class="page-container-">
-    <div
-            id="album-tabs-list"
-            class="grid grid-cols-2 p-4 md:grid-cols-4 lg:grid-cols-6 justify-center gap-3"
-    >
-        {% for album in albums %}
-        <div data-album-type="{{album.type}}" class="px-1">
-            <div class="_hover:bg-base-100 rounded-lg">
-                <div
-                        class="relative aspect-square rounded-lg overflow-hidden bg-black bg-opacity-15"
-                >
-                    <a
-                            class="w-full h-full"
-                            href="{{ url_for('album.album', id=album['id']) }}"
-                    >
-                        <img
-                                class="_hover:brightness-50 transition duration-300 m-auto bg-base-100"
-                                src="{{ album['cover'] }}"
-                        />
-                        <!-- <div
+	<div
+		id="album-tabs-list"
+		class="grid grid-cols-2 p-4 md:grid-cols-4 lg:grid-cols-6 justify-center gap-3"
+	>
+		{% for album in albums %}
+		<div data-album-type="{{album.type}}" class="px-1">
+			<div class="_hover:bg-base-100 rounded-lg">
+				<div
+					class="relative aspect-square rounded-lg overflow-hidden bg-black bg-opacity-15"
+				>
+					<a
+						class="w-full h-full"
+						href="{{ url_for('album.album', id=album['id']) }}"
+					>
+						<img
+							class="_hover:brightness-50 transition duration-300 m-auto bg-base-100"
+							src="{{ album['cover'] }}"
+						/>
+						<!-- <div
                           class="flex flex-col justify-center items-center p-2 h-full w-full hover:bg-opacity-80 hover:bg-black text-white absolute opacity-0 hover:opacity-100 inset-x-0 inset-y-0 transition duration-300 text-3xl"
                         >
                           <div class="text-center">{{ album['name'] }}</div>
                           <button class="btn btn-white">Like</button>
                         </div> -->
-                    </a>
-                </div>
-                <!-- {{ album['liked'] }} -->
-                <form
-                        action="{{ url_for('album.unlike_album', id=album['id']) if album['liked'] else url_for('album.like_album', id=album['id']) }}"
-                        id="like-album"
-                        method="POST"
-                >
-                    <input type="hidden" name="id" value="${album.id}"/>
-                    <input type="hidden" name="name" value="${album.name}"/>
-                    <input type="hidden" name="album_name" value="${album.album_name}"/>
-                    <input type="hidden" name="album_id" value="${album.album_id}"/>
-                    <input
-                            type="hidden"
-                            name="album_cover"
-                            value="${album.album_cover}"
-                    />
-                    <input type="hidden" name="artists_name" value="${artists}"/>
-                    <input type="hidden" name="artists_id" value="${album.artists_id}"/>
-                    <input
-                            type="hidden"
-                            name="preview_url"
-                            value="${album.preview_url}"
-                    />
-                    <!-- <button data-api-form-action="submit" class="like hover:text-base-500" type="submit">
+					</a>
+				</div>
+				<!-- {{ album['liked'] }} -->
+				<form
+					action="{{ url_for('album.unlike_album', id=album['id']) if album['liked'] else url_for('album.like_album', id=album['id']) }}"
+					id="like-album"
+					method="POST"
+				>
+					<input type="hidden" name="id" value="${album.id}" />
+					<input type="hidden" name="name" value="${album.name}" />
+					<input type="hidden" name="album_name" value="${album.album_name}" />
+					<input type="hidden" name="album_id" value="${album.album_id}" />
+					<input
+						type="hidden"
+						name="album_cover"
+						value="${album.album_cover}"
+					/>
+					<input type="hidden" name="artists_name" value="${artists}" />
+					<input type="hidden" name="artists_id" value="${album.artists_id}" />
+					<input
+						type="hidden"
+						name="preview_url"
+						value="${album.preview_url}"
+					/>
+					<!-- <button data-api-form-action="submit" class="like hover:text-base-500" type="submit">
         <i class="fa-regular fa-heart"></i>
       </button> -->
 
-                    <div class="flex gap-2">
-                        <button
-                                data-api-form-action="submit"
-                                class="unlike hover:text-base-500 text-lg mt-2"
-                                type="submit"
-                        >
-                            {% if album.liked %}
-                            <i class="fa-solid fa-heart"></i>
-                            {% else %}
-                            <i class="fa-regular fa-heart"></i>
-                            {% endif %}
-                        </button>
-                        <button
-                                data-api-form-action="submit"
-                                class="unlike hover:text-base-500 text-lg mt-2"
-                                type="submit"
-                        >
-                            <i class="fa-solid fa-share-nodes"></i>
-                        </button>
-                        <button
-                                data-api-form-action="submit"
-                                class="unlike hover:text-base-500 text-lg mt-2"
-                                type="submit"
-                        >
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                        </button>
-                    </div>
-                </form>
-                <div class="pt-2">
-                    <div class="text-lg">
-                        <span>{{ album['name'] }}</span>
-                    </div>
-                    <div class="flex items-center gap-1 mt-1">
-                        <div class="text-sm uppercase text-[gray]">type:</div>
-                        <div class="text-[12px]">{{ album['type'] }}</div>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <div class="text-sm uppercase text-[gray]">Release date:</div>
-                        <div class="text-[12px]">{{ album['release_date'] }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    <form action="{{ url_for('album.unlike_album', id=album['id']) if album['liked'] else url_for('album.like_album', id=album['id']) }}"
-          data-api-form="like-form"
-          data-api-form-state="{{ 'unlike' if album['liked'] else 'like' }}"
-          id="like-form" method="POST">
-    </form>
-    <input
-            type="hidden"
-            name="id"
-            value="${album.id}"
-    />
-    <input
-            type="hidden"
-            name="name"
-            value="${album.name}"
-    />
-    <input
-            type="hidden"
-            name="album_name"
-            value="${album.album_name}"
-    />
-    <input
-            type="hidden"
-            name="album_id"
-            value="${album.album_id}"
-    />
-    <input
-            type="hidden"
-            name="album_cover"
-            value="${album.album_cover}"
-    />
-    <input type="hidden" name="artists_name" value="${artists}"/>
-    <input
-            type="hidden"
-            name="artists_id"
-            value="${album.artists_id}"
-    />
-    <input
-            type="hidden"
-            name="preview_url"
-            value="${album.preview_url}"
-    />
-    <!-- <button data-api-form-action="submit" class="like hover:text-base-500" type="submit">
-<i class="fa-regular fa-heart"></i>
-</button> -->
-
-    <button
-            data-api-form-action="submit"
-            class="unlike hidden hover:text-base-500 btn btn-primary !bg-base-200 mt-2"
-            type="submit"
-    >
-        Like
-    </button>
-    </form>
-
-</div>
-</div>
-</div>
-</div>
+					<div class="flex gap-2">
+						<button
+							data-api-form-action="submit"
+							class="unlike hover:text-base-500 text-lg mt-2"
+							type="submit"
+						>
+							{% if album.liked %}
+							<i class="fa-solid fa-heart"></i>
+							{% else %}
+							<i class="fa-regular fa-heart"></i>
+							{% endif %}
+						</button>
+						<button
+							data-api-form-action="submit"
+							class="unlike hover:text-base-500 text-lg mt-2"
+							type="submit"
+						>
+							<i class="fa-solid fa-share-nodes"></i>
+						</button>
+						<button
+							data-api-form-action="submit"
+							class="unlike hover:text-base-500 text-lg mt-2"
+							type="submit"
+						>
+							<i class="fa-solid fa-ellipsis-vertical"></i>
+						</button>
+					</div>
+				</form>
+				<div class="pt-2">
+					<div class="text-lg">
+						<span>{{ album['name'] }}</span>
+					</div>
+					<div class="flex items-center gap-1 mt-1">
+						<div class="text-sm uppercase text-[gray]">type:</div>
+						<div class="text-[12px]">{{ album['type'] }}</div>
+					</div>
+					<div class="flex items-center gap-1">
+						<div class="text-sm uppercase text-[gray]">Release date:</div>
+						<div class="text-[12px]">{{ album['release_date'] }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
 </div>
 <!-- </div> -->
 {% endblock %}

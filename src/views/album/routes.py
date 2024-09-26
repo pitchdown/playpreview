@@ -169,8 +169,6 @@ def unlike_album(id):
             user_album.c.album_id == id
         )
     )
-    album = Album.query.filter_by(id=id).first()
-    album.delete()
     db.session.execute(delete_stmt)
     db.session.commit()
     return jsonify({'message': 'You unliked album.'})
