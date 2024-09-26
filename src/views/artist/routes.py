@@ -139,6 +139,13 @@ def artist(id):
     albums = []
     artist = Artist.query.filter_by(id=id).first()
     if artist:
+        check = exists().where(
+            db.and_(
+                user_artist.c.user_id == current_user.id,
+                user_artist.c.artist_id == artist.id
+            )
+        )
+        result = db.session.query(check).scalar()
         print('if')
         artist_albums = Album.query.filter(Album.artists_id.like(f'%{artist.id}%')).all()
         genres = artist.genres.split('.')
@@ -148,6 +155,7 @@ def artist(id):
             'genres': genres,
             'image': artist.image,
         }
+        artist_body['followed'] = result
         for album in artist_albums:
             check = exists().where(
                 db.and_(
@@ -172,6 +180,13 @@ def artist(id):
             print(albums_body)
     else:
         print('else')
+        check = exists().where(
+            db.and_(
+                user_artist.c.user_id == current_user.id,
+                user_artist.c.artist_id == artist.id
+            )
+        )
+        result = db.session.query(check).scalar()
         headers = {
             "Authorization": f"Bearer {session['access_token']}"
         }
@@ -182,6 +197,8 @@ def artist(id):
         response_album = requests.get(f'https://api.spotify.com/v1/artists/{id}/albums', headers=headers, params=params)
         response_artist = requests.get(f'https://api.spotify.com/v1/artists/{id}', headers=headers)
 
+
+
         artist_body = {
             'name': response_artist.json()['name'].lower(),
             'id': response_artist.json()['id'],
@@ -189,6 +206,7 @@ def artist(id):
             'image': response_artist.json()['images'][0]['url'],
             'url': response_artist.json()['external_urls']['spotify']
         }
+        artist_body['followed'] = result
         genres = '.'.join(map(str, artist_body['genres']))
         artist_exists = Artist.query.get(artist_body['id']) is not None
         if not artist_exists:
