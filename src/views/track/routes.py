@@ -50,8 +50,6 @@ def unlike_track(id):
             user_track.c.track_id == id
         )
     )
-    track = Track.query.filter_by(id=id).first()
-    track.delete()
     db.session.execute(delete_stmt)
     db.session.commit()
     return jsonify({'message': 'You unliked song.'})
