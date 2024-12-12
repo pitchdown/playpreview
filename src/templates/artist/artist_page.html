@@ -146,57 +146,7 @@ endblock %} {% block body %}
 					</a>
 				</div>
 				<!-- {{ album['liked'] }} -->
-				<form
-					action="{{ url_for('album.unlike_album', id=album['id']) }}"
-					method="POST"
-				>
-					<input type="hidden" name="id" value="{{ album['id'] }}" />
-					<input type="hidden" name="name" value="{{ album['name'] }}" />
-					<input
-						type="hidden"
-						name="album_cover"
-						value="{{ album['album_cover'] }}"
-					/>
-					<input
-						type="hidden"
-						name="artists_name"
-						value="{{ album['artists_name'] }}"
-					/>
-					<input
-						type="hidden"
-						name="artists_id"
-						value="{{ album['artists_id'] }}"
-					/>
-					<input
-						type="hidden"
-						name="preview_url"
-						value="{{ album['preview_url'] }}"
-					/>
-					<input
-						type="hidden"
-						name="album_name"
-						value="{{ album['album_name'] }}"
-					/>
-					<input
-						type="hidden"
-						name="album_id"
-						value="{{ album['album_id'] }}"
-					/>
-					<button
-						data-api-form-action="submit"
-						class="like hover:text-base-500"
-						type="submit"
-					>
-						<i class="fa-regular fa-heart"></i>
-					</button>
-					<button
-						data-api-form-action="submit"
-						class="unlike hidden hover:text-base-500"
-						type="submit"
-					>
-						<i class="fa-solid fa-heart"></i>
-					</button>
-				</form>
+				
 				<form
 					action="{{ url_for('album.unlike_album', id=album['id']) if album['liked'] else url_for('album.like_album', id=album['id']) }}"
 					class="like-album"

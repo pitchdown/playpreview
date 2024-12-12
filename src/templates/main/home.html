@@ -83,7 +83,7 @@ current_user.is_authenticated %}
 										method="POST"
 										id="like-form"
 										data-api-form="like-form"
-										data-api-form-state="{{'like' if track.track['liked'] else 'unlike'}}"
+										data-api-form-state="{{'unlike' if track.track['liked'] else 'like'}}"
 										class="control pr-4 ml-auto mb-auto"
 									>
 										<input
